@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.youngit.office.api.estimate.mapper.EstimateMapper">
+
+    <select id="getListEstimate" resultType="EstimateModel">
+        SELECT *
+        FROM o_estimate
+        ORDER BY estimate_id DESC
+
+    </select>
+
+    <insert id="registerEstimate" parameterType="EstimateModel">
+insert into o_estimate (estimate_uniq_no, client_code, client_uniq_id, client_name, estimate_main,
+                        estimate_main_etc, estimate_name, estimate_method, estimate_code, estimate_quantity,
+                        estimate_date, opening_date, approximate_date, due_date, estimate_amount,
+                        contract_uniq_no, estimate_note, created_at, created_by_member_uniq_id, updated_at,
+                        updated_by_member_uniq_id, is_used)
+values (#{estimateUniqNo}, #{clientCode}, #{clientUniqId}, #{clientName}, #{estimateMain},
+        #{estimateMainEtc}, #{estimateName}, #{estimateMethod}, #{estimateCode}, #{estimateQuantity},
+        #{estimateDate}, #{openingDate}, #{approximateDate}, #{dueDate}, #{estimateAmount},
+        #{contractUniqNo}, #{estimateNote}, CURRENT_TIMESTAMP(3), #{createdByUserId}, CURRENT_TIMESTAMP(3),
+        #{updatedByUserId}, 'Y')
+
+
+    </insert>
+
+    <update id="updateEstimate" parameterType="EstimateModel">
+        UPDATE o_estimate
+        SET
+            <if test="estimate_name != null and estimate_name !=''">
+                estimate_name = #{estimate_name}
+            </if>
+
+    WHERE
+            estimate_id = #{estimate_id}
+    </update>
+
+    <delete id="deleteEstimate" parameterType="String">
+        UPDATE o_estimate
+        SET is_used = 'N'
+        WHERE estimate_id = #{estimate_id}
+    </delete>
+
+
+
+</mapper>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.youngit.office.api.client.mapper.ClientMapper">
+
+    <select id="getListClient" resultType="ClientModel">
+        SELECT *
+        FROM o_client
+        where is_used = 'Y'
+    </select>
+
+    <select id="getClientDetail" resultType="ClientModel">
+        SELECT *
+        FROM o_client
+        where client_uniq_id = #{clientUniqId}
+    </select>
+
+    <insert id="registerClient" parameterType="ClientModel">
+        INSERT INTO o_client (client_uniq_id, client_type_code, business_registration_number, client_name, representative_name,
+                              address, business_type, business_category, phone_number, fax_number,
+                              email, item, water_supply_code, bank_name, account_holder,
+                              account_number, note, created_at, created_by_member_uniq_id, updated_at,
+                              updated_by_member_uniq_id, is_used)
+        VALUES (#{clientUniqId}, #{clientTypeCode}, #{businessRegistrationNumber}, #{clientName}, #{representativeName},
+                #{address}, #{businessType}, #{businessCategory}, #{phoneNumber}, #{faxNumber},
+                #{email}, #{item}, #{waterSupplyCode}, #{bankName}, #{accountHolder},
+                #{accountNumber}, #{note}, CURRENT_TIMESTAMP(3), #{createdByMemberUniqId}, CURRENT_TIMESTAMP(3),
+                #{updatedByMemberUniqId}, 'Y')
+    </insert>
+
+
+    <update id="updateClient" parameterType="ClientModel">
+        UPDATE o_client
+
+        <set>
+        <if test="clientTypeCode != null and clientTypeCode !=''">
+            client_type_code = #{clientTypeCode},
+        </if>
+        <if test="businessRegistrationNumber != null and businessRegistrationNumber !=''">
+            business_registration_number = #{businessRegistrationNumber},
+        </if>
+        <if test="clientName != null and clientName !=''">
+            client_name = #{clientName},
+        </if>
+        <if test="representativeName != null and representativeName !=''">
+            representative_name = #{representativeName},
+        </if>
+        <if test="address != null and address !=''">
+            address = #{address},
+        </if>
+        <if test="businessType != null and businessType !=''">
+            business_type = #{businessType},
+        </if>
+        <if test="businessCategory != null and businessCategory !=''">
+            business_category = #{businessCategory},
+        </if>
+        <if test="phoneNumber != null and phoneNumber !=''">
+            phone_number = #{phoneNumber},
+        </if>
+        <if test="faxNumber != null and faxNumber !=''">
+            fax_number = #{faxNumber},
+        </if>
+        <if test="email != null and email !=''">
+            email = #{email},
+        </if>
+        <if test="item != null and item !=''">
+            item = #{item},
+        </if>
+        <if test="waterSupplyCode != null and waterSupplyCode !=''">
+            water_supply_code = #{waterSupplyCode},
+        </if>
+        <if test="bankName != null and bankName !=''">
+            bank_name = #{bankName},
+        </if>
+        <if test="accountHolder != null and accountHolder !=''">
+            account_holder = #{accountHolder},
+        </if>
+        <if test="accountNumber != null and accountNumber !=''">
+            account_number = #{accountNumber},
+        </if>
+        <if test="note != null and note !=''">
+            note = #{note},
+        </if>
+        <if test="updatedByMemberUniqId != null and updatedByMemberUniqId !=''">
+            updated_by_member_uniq_id = #{updatedByMemberUniqId},
+        </if>
+        updated_at = CURRENT_TIMESTAMP(3)
+        </set>
+    </update>
+
+    <insert id="registerClientManager" parameterType="ClientManagerModel">
+        INSERT INTO o_client_manager (client_uniq_id, manager_no, manager_name, manager_department, manager_position, manager_phone_number, manager_email)
+        VALUES (#{clientUniqId}, #{managerNo}, #{managerName}, #{managerDepartment}, #{managerPosition}, #{managerPhoneNumber}, #{managerEmail})
+    </insert>
+
+
+    <update id="updateClientManager" parameterType="ClientManagerModel">
+        UPDATE o_client_manager
+        SET
+        <if test="managerName != null and managerName !=''">
+            manager_name = #{managerName}
+        </if>
+        <if test="managerDepartment != null and managerDepartment !=''">
+            manager_department = #{managerDepartment}
+        </if>
+        <if test="managerPosition != null and managerPosition !=''">
+            manager_position = #{managerPosition}
+        </if>
+        <if test="managerPhoneNumber != null and managerPhoneNumber !=''">
+            manager_phone_number = #{managerPhoneNumber}
+        </if>
+        <if test="managerEmail != null and managerEmail !=''">
+            manager_email = #{managerEmail}
+        </if>
+        WHERE client_uniq_id = #{clientUniqId}
+    </update>
+
+    <update id="deleteClient" parameterType="String"> --delete지만 실제로 삭제는 x, is_used를 N으로 변경
+        UPDATE o_client
+        set is_used = 'N'
+        WHERE client_uniq_id = #{clientUniqId}
+    </update>
+
+
+
+    <select id="getLastClientUniqId" resultType="String">
+    SELECT MAX(client_uniq_id)
+    FROM o_client
+    </select>
+
+    <select id="checkBizNumber" parameterType="String" resultType="boolean">
+    select count(*)>0
+    from o_client
+    where business_registration_number = #{businessRegistrationNumber}
+    </select>
+</mapper>

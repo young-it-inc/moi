@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.youngit.office.api.office.mapper.OfficeMapper">
+
+    <select id="getListOffice" resultType="OfficeModel">
+        SELECT office_id, office_major_code, office_minor_code, office_name, sort_no, is_used
+        FROM o_office
+        ORDER BY sort_no
+    </select>
+
+    <select id="isExistOfficeId" parameterType="string" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM o_office
+        WHERE office_id = #{officeId}
+    </select>
+
+    <insert id="registerOffice" parameterType="OfficeModel">
+        insert into o_office (office_id, office_major_code, office_minor_code, office_name, sort_no, is_used)
+        values (#{officeId}, #{officeMajorCode}, #{officeMinorCode}, #{officeName}, #{sortNo}, #{isUsed})
+
+    </insert>
+
+</mapper>

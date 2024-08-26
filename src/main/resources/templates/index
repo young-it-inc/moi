@@ -1,0 +1,4 @@
+삭제시 is_used(Y/N)로 관리하는 테이블
+: client(거래처)
+contract(계약)
+

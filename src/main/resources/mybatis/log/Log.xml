@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.youngit.office.api.log.mapper.LogMapper">
+
+    <insert id="insertLog" parameterType="LogModel">
+        INSERT INTO o_log(
+            log_type,
+            method,
+            url,
+            client_id,
+            client_ip,
+            info,
+            created_at
+        )
+        VALUES
+            (
+                #{logType},
+                #{method},
+                #{url},
+                #{clientId},
+                #{clientIp},
+                #{info},
+                CURRENT_TIMESTAMP(3)
+            )
+    </insert>
+</mapper>

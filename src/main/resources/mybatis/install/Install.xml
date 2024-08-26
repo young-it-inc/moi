@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.youngit.office.api.install.mapper.InstallMapper">
+
+    <select id="getLastInstallUniqId" resultType="InstallModel">
+        SELECT MAX(install_uniq_id)
+        FROM o_install
+        where is_used = 'Y' --우야지?
+    </select>
+
+    <insert id="registerInstall" parameterType="InstallModel">
+        INSERT INTO o_install(install_uniq_id, contract_uniq_no, client_uniq_id, sub_client_uniq_id, install_contract_no,
+                              client_builder_id, office_id, customer_number, customer_name, customer_address,
+                              customer_phone_number, meter_number, meter_caliber, install_receipt_date, install_date,
+                              install_complete_date, install_state_code, is_impossiblem, install_impossible_date, install_impossible_code,
+                              install_impossible_reason, meter_reading_serial_number, meter_reading_version, meter_reading_location, terminal_box_serial_number,
+                              terminal_box_location, close_field_date, old_customer_number, install_environment_code, cable_status_code,
+                              cable_length, external_indicator_serial_number, is_external_indicator_installed, is_enclosure_installed, etc,
+                              worker_member_id, worker_name, latitude, longitude, install_signature_path,
+                              install_guildeline_path, install_environment_path, install_meter_path, install_meter_reading_path, install_terminal_box_path,
+                              install_cable_path, install_impossible_path, install_pole_path, number_of_correction, meterman_name,
+                              meterman_phone_number, as_count, install_agree_date, created_at, created_by_member_uniq_id,
+                              updated_at, updated_by_member_uniq_id, product_production_date, install_division_code, is_deducted,
+                              deduction_year_month, deduction_amount, dedction_reason, inspection_date, is_used)
+
+        values ( #{installUniqId}, #{contractUniqNo}, #{clientUniqId}, #{subClientUniqId}, #{installContractNo},
+                #{clientBuilderId}, #{officeId}, #{customerNumber}, #{customerName}, #{customerAddress},
+                #{customerPhoneNumber}, #{meterNumber}, #{meterCaliber}, #{installReceiptDate}, #{installDate},
+                #{installCompleteDate}, #{installStateCode}, #{isImpossible}, #{installImpossibleDate}, #{installImpossibleCode},
+                #{installImpossibleReason}, #{meterReadingSerialNumber}, #{meterReadingVersion}, #{meterReadingLocation}, #{terminalBoxSerialNumber},
+                #{terminalBoxLocation}, #{closeFieldDate}, #{oldCustomerNumber}, #{installEnvironmentCode}, #{cableStatusCode},
+                #{cableLength}, #{externalIndicatorSerialNumber}, #{isExternalIndicatorInstalled}, #{isEnclosureInstalled}, #{etc},
+                #{workerMemberId}, #{workerName}, #{latitude}, #{longitude}, #{installSignaturePath},
+                #{installGuildelinePath}, #{installEnvironmentPath}, #{installMeterPath}, #{installMeterReadingPath}, #{installTerminalBoxPath},
+                #{installCablePath}, #{installImpossiblePath}, #{installPolePath}, #{numberOfCorrection}, #{metermanName},
+                #{metermanPhoneNumber}, #{asCount}, #{installAgreeDate}, CURRENT_TIMESTAMP(3), #{createdById},
+                CURRENT_TIMESTAMP(3), #{updatedById}, #{productProductionDate}, #{installDivisionCode}, #{isDeducted},
+                #{deductionYearMonth}, #{deductionAmount}, #{dedctionReason}, #{inspectionDate}, #{isUsed})
+    </insert>
+
+    <update id="updateInstall" parameterType="InstallModel">
+        UPDATE o_install
+        SET
+        contract_uniq_no = #{contractUniqNo}
+
+    </update>
+
+
+</mapper>

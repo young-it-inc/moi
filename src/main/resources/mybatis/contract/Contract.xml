@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.youngit.office.api.contract.mapper.ContractMapper">
+
+    <select id="getGeneralContractList" resultType="ContractModel">
+        SELECT contract_id, contract_name, contract_type, contract_status, contract_start_date, contract_end_date, contract_amount, contract_currency, contract_payment_method
+        FROM o_contract
+    </select>
+
+    <select id="getLastContractNo" resultType="String">
+        SELECT MAX(contract_uniq_no)
+        FROM o_contract
+        where contract_uniq_no like CONCAT(#{todayDate}, '%')
+
+    </select>
+    <insert id="registerContract" parameterType="ContractModel">
+        INSERT INTO o_contract (contract_id, contract_name, contract_type, contract_status, contract_start_date,
+                                contract_end_date, contract_amount, contract_currency, contract_payment_method)
+        values (#{contractId}, #{contractName}, #{contractType}, #{contractStatus}, #{contractStartDate},
+                #{contractEndDate}, #{contractAmount}, #{contractCurrency}, #{contractPaymentMethod})
+
+    </insert>
+
+
+    <update id="updateGeneralContract" parameterType="ContractModel">
+        UPDATE o_contract
+        <trim prefix="SET" suffixOverrides=",">
+        <if test="contractName != null and contractName !=''">
+            contract_name = #{contractName},
+        </if>
+        <if test="contractType != null and contractType !=''">
+            contract_type = #{contractType},
+        </if>
+        <if test="contractStatus != null and contractStatus !=''">
+            contract_status = #{contractStatus},
+        </if>
+        <if test="contractStartDate != null and contractStartDate !=''">
+            contract_start_date = #{contractStartDate},
+        </if>
+        <if test="contractEndDate != null and contractEndDate !=''">
+            contract_end_date = #{contractEndDate},
+        </if>
+        <if test="contractAmount != null and contractAmount !=''">
+            contract_amount = #{contractAmount},
+        </if>
+        <if test="contractCurrency != null and contractCurrency !=''">
+            contract_currency = #{contractCurrency},
+        </if>
+        <if test="contractPaymentMethod != null and contractPaymentMethod !=''">
+            contract_payment_method = #{contractPaymentMethod},
+        </if>
+        </trim>
+            where
+    </update>
+
+
+
+</mapper>

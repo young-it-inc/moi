@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.youngit.office.api.member.mapper.MemberMapper">
+
+
+    <select id="getMember" parameterType="MemberDto" resultType="MemberModel">
+    select *
+    from o_member
+   where 1=1
+        <if test ="memberId != null and memberId !=''">
+            and member_id = #{memberId}
+        </if>
+        <if test ="name != null and name !=''">
+            and name = #{name}
+    </if>
+    <if test ="email != null and email !=''">
+        and email = #{email}
+    </if>
+    <if test ="phoneNumber != null and phoneNumber !=''">
+        and phone_number = #{phoneNumber}
+    </if>
+
+    </select>
+
+
+    <insert id="registerMember" parameterType="MemberModel">
+        INSERT INTO o_member (member_id,password, name,email,phone_number,status, authority_code, position_code, department_code, task_code, type_code, member_uniq_id, sign_up_at)
+        values (#{memberId},#{password},#{name},#{email},#{phoneNumber},#{status}, #{authorityCode}, #{positionCode}, #{departmentCode}, #{taskCode}, #{typeCode}, #{memberUniqId}, #{signUpAt})
+    </insert>
+
+    <update id="updateMember" parameterType="MemberModel">
+        UPDATE o_member
+        set
+        <if test="name != null and name !=''">
+            name = #{name},
+        </if>
+        <if test="email != null and email !=''">
+            email = #{email},
+        </if>
+        <if test="password != null and password !=''">
+            password = #{password},
+        </if>
+        <if test="phoneNumber != null and phoneNumber !=''">
+            phone_number = #{phoneNumber},
+        </if>
+        <if test="status != null and status !=''">
+            status = #{status},
+        </if>
+        <if test="authorityCode != null and authorityCode !=''">
+            authority_code = #{authorityCode},
+        </if>
+        <if test="positionCode != null and positionCode !=''">
+            position_code = #{positionCode},
+        </if>
+        <if test="departmentCode != null and departmentCode !=''">
+            department_code = #{departmentCode},
+        </if>
+        <if test="taskCode != null and taskCode !=''">
+            task_code = #{taskCode},
+        </if>
+        <if test="typeCode != null and typeCode !=''">
+            type_code = #{typeCode},
+        </if>
+        <if test="memberUniqId != null and memberUniqId !=''">
+            member_uniq_id = #{memberUniqId},
+        </if>
+        update_at = CURRENT_TIMESTAMP(3)
+        where member_id = #{memberId}
+    </update>
+
+    <update id="updatePassword" parameterType="MemberModel">
+        UPDATE o_member
+        set
+            password = #{password}
+        where member_id = #{memberId}
+    </update>
+
+    <delete id="deleteMember" parameterType="String">
+        DELETE FROM o_member where member_id = #{memberId}
+    </delete>
+
+    <select id="ListMember" parameterType="memberDto" resultType="MemberModel">
+        SELECT  member_id as memberId,
+        name as name,
+        email as email,
+        phone_number as phoneNumber,
+        status as status,
+        authority_code as authorityCode,
+        sign_up_at as signUpAt,
+        position_code as positionCode,
+        department_code as departmentCode,
+        task_code as taskCode,
+        type_code as typeCode,
+        member_uniq_id as memberUniqId
+        from o_member
+        <where>
+            <if test="sqlQuery !=''">
+                AND ${sqlQuery}
+            </if>
+        </where>
+    </select>
+
+    <select id="findExistMemberId" parameterType="String" resultType="boolean">
+        select count(*) > 0
+        from o_member
+        where member_id = #{memberId}
+    </select>
+
+
+    <select id="login" parameterType="MemberModel" resultType="MemberModel">
+        select member_id as memberId,
+               name as name,
+               email as email,
+               phone_number as phoneNumber,
+               status as status,
+               authority_code as authorityCode,
+               sign_up_at as signUpAt,
+               position_code as positionCode,
+               department_code as departmentCode,
+               task_code as taskCode,
+               type_code as typeCode,
+               member_uniq_id as memberUniqId
+        from o_member
+        where member_id = #{memberId} and password = #{password}
+    </select>
+
+    <select id="getLastMemberUniqId" resultType="String">
+        SELECT MAX(member_id)
+        FROM o_member
+    </select>
+
+</mapper>

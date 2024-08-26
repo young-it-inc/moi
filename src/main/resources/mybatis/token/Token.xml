@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.youngit.office.api.token.mapper.TokenMapper">
+
+    <insert id="insertToken" parameterType="TokenModel">
+        INSERT INTO o_token (
+            id,
+            email,
+            token,
+            expired_at,
+            created_at,
+            updated_at
+        ) VALUES (
+                     #{id},
+                     #{email},
+                     #{token},
+                     #{expiredAtToken},
+                     current_timestamp(0),
+                     current_timestamp(0)
+                 )
+    </insert>
+
+    <update id="updateToken" parameterType="TokenModel">
+        UPDATE o_token
+        set updated_at = current_timestamp(0),
+            token = #{token},
+            expired_at = #{expiredAtToken}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteToken" parameterType="String">
+        DELETE FROM o_token where id = #{id}
+    </delete>
+
+    <select id="isTokenExist" parameterType="String" resultType="Boolean">
+        select count(*) >= 1
+        from o_token
+        where id = #{id}
+    </select>
+
+
+    <select id="validToken" parameterType="String" resultType="TokenModel">
+        select *
+        from o_token
+        where token = #{token} and expired_at >= current_timestamp
+    </select>
+
+</mapper>
