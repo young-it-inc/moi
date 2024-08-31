@@ -17,6 +17,15 @@ public class ClientService {
         //사용여부 N은 출력x
         return clientMapper.getListClient();
     }
+
+    public ClientModel getOneClient(String clientUniqId) {
+        ClientModel clientModel = clientMapper.getOneClient(clientUniqId);
+        System.out.println("clientModel : " + clientModel);
+        System.out.println("clientModel.getClientManagerModelList() : " + clientModel.getClientManagerModelList());
+        clientModel.setClientManagerModelList(clientMapper.getListClientManager(clientUniqId));
+        return clientMapper.getOneClient(clientUniqId);
+
+    }
     public int registerClient(ClientModel clientModel) {
 
         //clientUniqId: 고유번호(BCNC_15자리) 등록하기 위해 가장 최근의 고유번호를 가져옴
@@ -68,10 +77,10 @@ public class ClientService {
                 {
                     clientManagerModel.setClientUniqId(clientModel.getClientUniqId());
                 }
-                clientMapper.registerClientManager(clientManagerModel);
+                result += clientMapper.updateClientManager(clientManagerModel);
             }
         }
-        return clientMapper.updateClient(clientModel);
+        return result;
     }
 
     public int deleteClient(String clientUniqId) {

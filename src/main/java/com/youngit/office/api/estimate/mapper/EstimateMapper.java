@@ -10,6 +10,9 @@ import java.util.List;
 public interface EstimateMapper {
 
     List<EstimateModel> getListEstimate();
+    int getCountListEstimate();
+    EstimateModel getOneEstimate(String estimateUniqNo);
+
 
     String getLastEstimateUniqNo(String todayDate);
 

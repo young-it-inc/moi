@@ -6,8 +6,18 @@
     <select id="getListEstimate" resultType="EstimateModel">
         SELECT *
         FROM o_estimate
-        ORDER BY estimate_id DESC
+        ORDER BY estimate_uniq_no DESC
+    </select>
 
+    <select id="getCountListEstimate" resultType="int">
+        SELECT count(*)
+        FROM o_estimate
+    </select>
+
+    <select id="getOneEstimate" resultType="EstimateModel">
+        SELECT *
+        FROM o_estimate
+        WHERE estimate_uniq_no = #{estimateUniqNo}
     </select>
 
     <insert id="registerEstimate" parameterType="EstimateModel">
@@ -21,9 +31,8 @@ values (#{estimateUniqNo}, #{clientCode}, #{clientUniqId}, #{clientName}, #{esti
         #{estimateDate}, #{openingDate}, #{approximateDate}, #{dueDate}, #{estimateAmount},
         #{contractUniqNo}, #{estimateNote}, CURRENT_TIMESTAMP(3), #{createdByUserId}, CURRENT_TIMESTAMP(3),
         #{updatedByUserId}, 'Y')
-
-
     </insert>
+
 
     <update id="updateEstimate" parameterType="EstimateModel">
         UPDATE o_estimate

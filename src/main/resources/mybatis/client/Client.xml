@@ -9,11 +9,26 @@
         where is_used = 'Y'
     </select>
 
-    <select id="getClientDetail" resultType="ClientModel">
+    <select id="getCountListClient" resultType="int">
+        SELECT count(*)
+        FROM o_client
+        where is_used = 'Y'
+    </select>
+
+
+    <select id="getOneClient" resultType="ClientModel">
         SELECT *
         FROM o_client
         where client_uniq_id = #{clientUniqId}
     </select>
+
+    <select id="getListClientManager" resultType="ClientManagerModel">
+        SELECT *
+        FROM o_client_manager
+        where client_uniq_id = #{clientUniqId}
+    </select>
+
+
 
     <insert id="registerClient" parameterType="ClientModel">
         INSERT INTO o_client (client_uniq_id, client_type_code, business_registration_number, client_name, representative_name,
@@ -120,6 +135,8 @@
         set is_used = 'N'
         WHERE client_uniq_id = #{clientUniqId}
     </update>
+
+
 
 
 

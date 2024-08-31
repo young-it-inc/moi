@@ -1,15 +1,14 @@
-package com.youngit.office.api.contract.model;
+package com.youngit.office.api.contract.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
+import com.youngit.office.api.contract.model.ContractDetailModel;
+import com.youngit.office.api.contract.model.ContractProductModel;
 
 import java.sql.Timestamp;
 import java.util.List;
 
-@Data
-@Schema(description = "계약 정보. 계약번호는 지자체/일반 같이 사용(견적번호는 따로 사용)")
-public class ContractModel {
+public class ContractDto {
+
 
     //조회시 보여져야하는 것들: 진행상태 / 사업팀 / 거래처명 / 계약분류 / 계약방법/ 계약번호/계약명/모델분류/계약수량/설치수량/잔여수량/계약일/완료예정일/검수요청일/계약금액/수정/삭제/청구서/청구여부/미청구금액/합계수량?
     //검색 필터: 팀별로 계약, 제품 조회, YIT관리자로 조회(본인관리지역만)
@@ -76,7 +75,6 @@ public class ContractModel {
     String contractManager; //계약별 관리자 (진척상황 관리 필요)
     ContractStatus contractStatus; //진행상태 : 공란/설치중/준공임박/설치완료/검수요청/최종완료
     String team; //사업팀: 사업1팀, 사업2팀, 사업3팀...
-
 }
 
 enum ContractStatus {

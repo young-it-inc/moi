@@ -18,6 +18,13 @@ public class EstimateService {
 
         return estimateMapper.getListEstimate();
     }
+    public int getCountListEstimate() {
+        return estimateMapper.getCountListEstimate();
+    }
+
+    public EstimateModel getOneEstimate(String estimateUniqNo) {
+        return estimateMapper.getOneEstimate(estimateUniqNo);
+    }
 
     public String getNewEstimateUniqNo()
     {

@@ -18,7 +18,6 @@
     <insert id="registerOffice" parameterType="OfficeModel">
         insert into o_office (office_id, office_major_code, office_minor_code, office_name, sort_no, is_used)
         values (#{officeId}, #{officeMajorCode}, #{officeMinorCode}, #{officeName}, #{sortNo}, #{isUsed})
-
     </insert>
 
 </mapper>

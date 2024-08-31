@@ -9,6 +9,7 @@ public class ClientManagerModel {
 
     String	clientUniqId; //거래처고유ID
     int	managerNo; //담당자순번 >>자동부여
+
     String	managerName; //담당자명
     String	managerDepartment; //담당자부서
     String	managerPosition; //담당자직책

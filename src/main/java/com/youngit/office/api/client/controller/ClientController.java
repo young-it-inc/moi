@@ -31,6 +31,13 @@ public class ClientController {
         return new ApiResponse<>(result, 0, "거래처 목록 조회 성공");
     }
 
+    @Operation(summary = "거래처 개별 조회")
+    @GetMapping("/client/{clientUniqId}")
+    public ApiResponse<ClientModel> getOneClient(@PathVariable String clientUniqId) {
+        logger.info("거래처 개별 조회");
+        ClientModel result = clientService.getOneClient(clientUniqId);
+        return new ApiResponse<>(result, 0, "거래처 개별 조회 성공");
+    }
     @Operation(summary = "거래처 등록", description = "필수입력: 거래처명, 구분코드, 대표자명,")
     @PostMapping("/client")
     public ApiResponse<String> registerClient(@RequestBody ClientModel clientModel) {
@@ -75,5 +82,12 @@ public class ClientController {
         else
             return new ApiResponse<>("거래처 삭제 실패");
     }
+
+    //엑셀
+    @Operation(summary = "거래처 리스트 엑셀 다운로드")
+    public ApiResponse<String> excelDownloadClient() {
+        return new ApiResponse<>("엑셀 출력 성공");
+    }
+
 
 }

@@ -14,9 +14,7 @@ import org.mybatis.spring.annotation.MapperScan;
 public class OfficeApplication {
 
     public static void main(String[] args) {
-        System.out.println("여기가1일테고");
         SpringApplication.run(OfficeApplication.class, args);
-        System.out.println("여기가2");
     }
 
 }

@@ -25,10 +25,10 @@ public class AsModel {
     String	asProcessDate; //A/S처리일 : 20240703(8자리)
     String	asCompleteDate; //A/S완료일 : 20240703(8자리)
     String	asContent; //A/S접수내용
-    String	asProcessStatusCode; //A/S처리상태코드 : STT01(접수)/02(배정)/03(검수대기)/04(시정조치)/05(시정완료)/06(최종완료)
+    String	asStateCode; //A/S처리상태코드 : STT01(접수)/02(배정)/03(검수대기)/04(시정조치)/05(시정완료)/06(최종완료)
     String	asCauseCode; //A/S원인코드(48개) : 1001/1002/1003/1004/1005/1006/1007/1008/1009/1010 // 1011/1012/1013/1014/1015/1016/1017/1018/1019/1020 // 1021/1022/1023/1024/1025/1026/1027/1028/1029/1030
     // 1031/1032/1033/1034/1035/1036/1037/1038/1039/1040 // 2001/2002/2003/2004/2005/2006 / 7777/ 9999
-    String	asCuase_sub_code; //A/S원인세부코드
+    String	asCuaseSubCode; //A/S원인세부코드
     String	asMemberId; //A/S직원고유ID (주로 설치팀ID)
     String	asResult; //A/S결과
     String	asMemo; //A/S메모
@@ -59,8 +59,8 @@ public class AsModel {
     String	asAfterMeterPath; //A/S후_계량기사진경로
     String	asBeforeMeterReadingPath; //A/S전_검침기사진경로
     String	asAfterMeterReadingPath; //A/S후_검침기사진경로
-    String	asBefore_terminalBox_path; //A/S전_단자함사진경로
-    String	asAfter_terminalBox_path; //A/S후_단자함사진경로
+    String	asBeforeTerminalBoxPath; //A/S전_단자함사진경로
+    String	asAfterTerminalBoxPath; //A/S후_단자함사진경로
     String	asBeforeCablePath; //A/S전_통신선사진경로
     String	asAfterCablePath; //A/S후_통신선사진경로
     int	correct_count; //시정횟수

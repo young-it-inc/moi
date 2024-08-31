@@ -1,0 +1,169 @@
+
+INSERT INTO "o_as" ("as_uniq_id", "install_uniq_id", "client_builder_id", "assign_number", "office_id", "customer_number", "customer_name", "customer_address", "customer_phone_number", "as_year_month", "as_week", "as_receipt_date", "as_request_date", "as_process_date", "as_complete_date", "as_content", "as_state_code", "as_cause_code", "as_cuase_sub_code", "as_member_id", "as_result", "as_memo", "is_replaced", "meter_number", "meter_caliber",  "meter_reading_serial_number", "meter_reading_version", "meter_reading_location", "terminal_box_serial_number", "terminal_box_location", "external_indicator_serial_number", "old_customer_number", "install_environment_code", "cable_status_code", "before_meter_reading_serial_number", "before_terminal_box_serial_number", "before_external_indicator_serial_number", "cable_length", "as_etc", "is_external_indicator_installed", "is_enclosure_installed", "as_signature_path", "as_before_path", "as_after_path", "as_environment_path", "as_before_meter_path", "as_after_meter_path", "as_before_meter_reading_path", "as_after_meter_reading_path", "as_before_terminal_box_path", "as_after_terminal_box_path", "as_before_cable_path", "as_after_cable_path", "correct_count", "meterman_name", "meterman_phone_number", "is_deducted", "deduction_id", "deduction_reason", "pay_apply_date", "created_at", "created_by_member_uniq_id", "updated_at", "updated_by_member_uniq_id", "is_used", "receipt_number", "temp_production_date", "as_code", "customer_phone_number_2", "deduction_year_month", "deduction_amount", "before_install_uniq_id", "inspection_date")
+INSERT INTO "o_as_assign" ("assign_number", "contract_uniq_no", "client_uniq_id", "office_id", "as_request_quantity", "as_process_quantity", "complete_request_date", "client_builder_id", "as_input_date", "as_complete_date", "as_year_month", "field_complete_request_date", "delivery_uniq_id", "is_calculated", "calculate_date", "created_at", "created_by_member_uniq_id", "updated_at", "updated_by_member_uniq_id", "is_used")
+INSERT INTO "o_as_assign_material_list" ("assign_material_uniq_no", "assign_number", "material_uniq_id", "product_quantity", "product_unit_price")
+INSERT INTO "o_as_excel" ("customer_number", "register_id", "assign_number", "office_id", "customer_name", "customer_address", "customer_phone_number", "client_uniq_id", "sub_client_uniq_id", "as_year_month", "as_week", "as_receipt_code", "as_receipt_reason", "as_receipt_date", "as_request_date", "meterman_name", "meterman_phone_number", "meter_number", "meter_caliber", "etc", "created_at", "customer_phone_number2", "old_customer_number")
+INSERT INTO "o_as_result" ("as_uniq_id", "result_order", "result_code")
+INSERT INTO "o_as_cuase_code" ("as_cause_code", "as_sub_cause_code", "code_name", "sort_number", "is_used")
+
+INSERT INTO "o_bad_state" ("return_uniq_id", "product_serial_number", "status_no", "bad_status_code")
+INSERT INTO "o_bill" ("client_uniq_id", "work_month", "work_order", "work_start_date", "work_end_date", "work_code", "work_name", "work_sub_code", "work_sub_name", "efos_price", "efos_count", "efos_amount", "omr_price", "omr_count", "omr_amount", "efos_deduction_amount", "omr_deduction_amount", "deduction_amount", "warranty_amount", "support_amount", "total_amount", "payment_date", "payment_amount")
+INSERT INTO "o_bill_detail" ("client_uniq_id", "work_month", "as_bill_id", "office_id", "work_code", "work_sub_code", "work_start_date", "work_end_date", "efos_price", "efos_count", "efos_amount", "omr_price", "omr_count", "omr_amount", "efos_deduction_amount", "omr_deduction_amount")
+INSERT INTO "o_board_comment" ("post_id", "board_id", "reply_id", "poster_id", "poster_name", "comment", "is_used", "password", "comment_order", "comment_number", "comment_parrent_id", "comment_location", "recommend_count", "unrecommend_count", "created_at", "created_by_member_uniq_id", "updated_at", "updated_by_member_uniq_id")
+
+INSERT INTO "o_client" ("client_uniq_id", "client_type_code", "business_registration_number", "client_name", "representative_name", "address", "business_type", "business_category", "phone_number", "fax_number", "email", "item", "water_supply_code", "manager_name", "manager_department", "manager_position", "manager_phone_number", "manager_email", "bank_name", "account_holder", "account_number", "note", "created_at", "created_by_member_uniq_id", "updated_at", "updated_by_member_uniq_id", "is_used")
+INSERT INTO "o_client_manager" ("client_uniq_id", "manager_no", "manager_name", "manager_department", "manager_position", "manager_phone_number", "manager_email")
+INSERT INTO "o_complaint_code" ("complaint_majoir_code", "complaint_minor_code", "code_type", "code_name", "sort_number", "is_used")
+
+INSERT INTO "o_contract" ("contract_uniq_no", "client_uniq_id", "contract_main", "ordering_contract_no", "contract_name", "contract_method", "contract_code", "contract_quantity", "contract_date", "opening_date", "approximate_date", "due_date", "contract_amount", "created_at", "created_by_member_uniq_id", "updated_at", "updated_by_member_uniq_id", "is_used", "contract_main_etc", "incoming_date", "delivery_date", "delivery_request_date", "tracking_no", "billing_date", "is_billed", "first_billing_date", "first_billing_amount", "second_billing_date", "second_billing_amount", "third_billing_date", "third_billing_amount", "fourth_billing_date", "fourth_billing_amount", "is_guaranted", "guaranty_date", "is_warranted", "warranty_date", "tax_invoice_date_1", "tax_invoice_date_2", "tax_invoice_date_3", "tax_invoice_date_4", "bond_issue_date_1", "bond_issue_date_2", "bond_issue_date_3", "bond_issue_date_4", "etc")
+INSERT INTO "o_contract_detail" ("contract_uniq_no", "client_uniq_id", "contract_detail_code_no", "contract_detail_code", "contract_detail_quantity")
+INSERT INTO "o_contract_product" ("product_uniq_no", "contract_uniq_no", "delivery_code", "office_id", "client_uniq_id", "material_uniq_id", "product_quantity", "product_unit_price")
+
+INSERT INTO "o_delivery" ("delivery_uniq_id" ,"contract_uniq_no", "client_uniq_id", "client_builder_id", "delivery_code", "delivery_date", "delivery_memo", "delivery_request_date", "delivery_request_user_uniq_id", "delivery_user_uniq_id")
+INSERT INTO "o_delivered_product" ("delivery_uniq_id", "product_serial_number")
+INSERT INTO "o_delivered_material" ("delivery_uniq_id", "material_uniq_id", "material_quantity", "delivery_unit_price")
+
+INSERT INTO "o_estimate" ("estimate_uniq_no", "client_code", "client_uniq_id", "client_name", "estimate_main", "estimate_main_etc", "estimate_name", "estimate_method", "estimate_code", "estimate_quantity", "estimate_date", "opening_date", "approximate_date", "due_date", "estimate_amount", "contract_uniq_no", "estimate_note", "created_at", "created_by_member_uniq_id", "updated_at", "updated_by_member_uniq_id", "is_used")
+INSERT INTO "o_estimate_product" ("estimate_product_uniq_order", "estimate_uniq_no", "delivery_code", "office_id", "client_uniq_id", "material_uniq_id", "product_quantity", "product_unit_price")
+
+INSERT INTO "o_install_contract" ("contract_uniq_no", "client_uniq_id", "install_contract_no", "client_builder_id", "office_id", "install_contract_date", "install_complete_date", "team_contract_quantity", "install_complete_scheduled_date", "created_at", "created_by_member_uniq_id", "updated_at", "updated_by_member_uniq_id", "is_used")
+INSERT INTO "o_install_contract_detail" ("contract_uniq_no", "client_uniq_id", "install_contract_no", "install_contract_order_no", "contract_detail_code", "contract_detail_quantity")
+INSERT INTO "o_install_contract_product_list" ("install_product_uniq_no", "contract_uniq_no", "client_uniq_id", "install_contract_no", "client_builder_id", "material_uniq_id", "product_quantity", "product_unit_price")
+INSERT INTO "o_install_excel" ("register_id", "customer_number", "office_id", "customer_name", "customer_address", "customer_phone_number", "meter_caliber", "meter_number", "meter_reading_location", "terminal_box_location", "meterman_name", "meterman_phone_number", "etc", "install_agree_date", "registered_at")
+INSERT INTO "o_install" ("install_uniq_id", "contract_uniq_no", "client_uniq_id", "sub_client_uniq_id", "install_contract_no", "client_builder_id", "office_id", "customer_number", "customer_name", "customer_address", "customer_phone_number", "meter_number", "meter_caliber", "install_receipt_date", "install_date", "install_complete_date", "install_state_code", "is_impossible", "install_impossible_date", "install_impossible_code",  "install_impossible_reason", "meter_reading_serial_number", "meter_reading_version", "meter_reading_location", "terminal_box_serial_number", "terminal_box_location", "close_field_date", "old_customer_number", "install_environment_code", "cable_status_code", "cable_length", "external_indicator_serial_number", "is_external_indicator_installed", "is_enclosure_installed", "etc", "worker_member_id", "worker_name", "latitude", "longitude", "install_signature_path", "install_guildeline_path", "install_environment_path", "install_meter_path", "install_meter_reading_path", "install_terminal_box_path", "install_cable_path", "install_impossible_path", "install_pole_path", "number_of_correction", "meterman_name", "meterman_phone_number", "as_count", "install_agree_date", "created_at", "created_by_member_uniq_id", "updated_at", "updated_by_member_uniq_id", "is_used", "product_production_date", "install_division_code", "is_deducted", "deduction_year_month", "deduction_amount", "dedction_reason", "inspection_date")
+
+INSERT INTO "o_material_code" ("asset_sort_code", "product_sort_code", "material_name", "sort_number", "is_used")
+INSERT INTO "o_material" ("material_uniq_id", "asset_sort_code", "product_sort_code", "material_name", "material_standard", "material_unit", "material_unit_price", "created_at", "created_by_member_uniq_id", "updated_at", "updated_by_member_uniq_id", "is_used")
+
+INSERT INTO "o_office_assign" ("member_id, "office_id")
+INSERT INTO "o_office" ("office_id", "office_major_code", "office_minor_code", "office_name", "sort_no", "is_used")
+INSERT INTO "o_product" ("product_serial_number", "product_date", "material_uniq_id", "product_state_code", "delivery_unit_price", "disuse_date", "client_builder_id", "chaged_status_date", "office_id", "is_state_used", "as_uniq_id")
+
+INSERT INTO "o_unit_price_code" ("unit_price_code", "product_sort", "price_code_name", "unit_price", "is_used")
+
+
+#PRIMARY KEY
+-
+
+#INDEX KEY
+CREATE INDEX o_as_idx_key  ON o_as (install_uniq_id, client_builder_id, assign_number, customer_number, as_year_month, as_week, as_receipt_date, as_process_status_code, meter_reading_serial_number, terminal_box_serial_number, external_indicator_serial_number, before_meter_reading_serial_number, before_terminal_box_serial_number, before_external_indicator_serial_number);
+CREATE INDEX o_as_assign_idx_key  ON o_as_assign (contract_uniq_no, client_uniq_id);
+CREATE INDEX o_as_assign_material_list_idx_key  ON o_as_assign_material_list (assign_number);
+CREATE INDEX o_authority_role_relationship_idx_key  ON o_authority_role_relationship (role_code);
+CREATE INDEX o_board_idx_key  ON o_board (board_id, category_id, sort_order, post_start_date, post_end_date, poster_id, created_by_member_uniq_id);
+CREATE INDEX o_board_comment_idx_key  ON o_board_comment (poster_id);
+CREATE INDEX o_board_master_idx_key  ON o_board_master (category_master_id);
+CREATE INDEX o_client_idx_key  ON o_client (business_registration_number);
+CREATE INDEX o_common_code_idx_key  ON o_common_code (classified_code);
+CREATE INDEX o_common_detail_code_idx_key  ON o_common_detail_code (code);
+CREATE INDEX o_complaint_idx_key  ON o_complaint (complaint_code, complaint_major_code, complaint_minor_code);
+CREATE INDEX o_contract_idx_key  ON o_contract (client_uniq_id, ordering_contract_no, contract_date);
+CREATE INDEX o_contract_product_idx_key  ON o_contract_product (contract_uniq_no, client_uniq_id, material_uniq_id);
+CREATE INDEX o_delivered_material_idx_key  ON o_delivered_material (material_uniq_id);
+CREATE INDEX o_delivered_product_idx_key  ON o_delivered_product (product_serial_number);
+CREATE INDEX o_delivery_idx_key  ON o_delivery (contract_uniq_no, client_uniq_id, client_builder_id, delivery_code, delivery_date);
+CREATE INDEX o_estimate_product_idx_key  ON o_estimate_product (material_uniq_id);
+CREATE INDEX o_install_idx_key  ON o_install (contract_uniq_no, client_uniq_id, install_contract_no, client_builder_id, install_receipt_date, install_state_code, meter_reading_serial_number, terminal_box_serial_number, external_indicator_serial_number, worker_member_id);
+CREATE INDEX o_install_contract_idx_key  ON o_install_contract (client_builder_id, install_contract_date, install_complete_date);
+CREATE INDEX o_install_contract_product_list_idx_key  ON o_install_contract_product_list (contract_uniq_no, client_uniq_id, install_contract_no);
+CREATE INDEX o_install_log_idx_key  ON o_install_log (customer_number);
+CREATE INDEX o_material_idx_key  ON o_material (asset_sort_code, product_sort_code);
+CREATE INDEX o_member_idx_key  ON o_member (group_id, authority_code);
+CREATE INDEX o_office_assign_idx_key  ON o_office_assign (member_id);
+CREATE INDEX o_product_idx_key  ON o_product (product_date, material_uniq_id, product_state_code, disuse_date, client_builder_id);
+CREATE INDEX o_product_status_history_idx_key  ON o_product_status_history (product_serial_number, client_uniq_id);
+CREATE INDEX o_return_idx_key  ON o_return (return_date, client_uniq_id);
+CREATE INDEX o_returned_product_idx_key  ON o_returned_product (product_serial_number);
+CREATE INDEX o_token_idx_key  ON o_token (member_id);
+
+
+
+#UNIQUE KEY
+ALTER TABLE o_office ADD CONSTRAINT o_office_uniq_key UNIQUE (office_major_code, office_minor_code);
+ALTER TABLE o_member ADD CONSTRAINT o_member_uniq_key UNIQUE (member_uniq_id);
+ALTER TABLE o_install_contract ADD CONSTRAINT o_install_contract_uniq_key UNIQUE (install_contract_no);
+ALTER TABLE o_install ADD CONSTRAINT o_install_uniq_key UNIQUE (office_id, customer_number);
+ALTER TABLE o_estimate ADD CONSTRAINT o_estimate_uniq_key UNIQUE (estimate_uniq_no);
+ALTER TABLE o_contract ADD CONSTRAINT o_contract_uniq_key UNIQUE (contract_uniq_no);
+
+
+
+#FOREIGN KEY
+ALTER TABLE o_as ADD CONSTRAINT fk_o_as_1 FOREIGN KEY (install_uniq_id) REFERENCES o_install (install_uniq_id);
+ALTER TABLE o_as ADD CONSTRAINT fk_o_as_2 FOREIGN KEY (client_builder_id) REFERENCES o_client(client_uniq_id);
+ALTER TABLE o_as_assign ADD CONSTRAINT fk_o_as_assign_1 FOREIGN KEY (contract_uniq_no) REFERENCES o_contract(contract_uniq_no);
+ALTER TABLE o_as_assign ADD CONSTRAINT fk_o_as_assign_2 FOREIGN KEY (client_uniq_id) REFERENCES o_client(client_uniq_id);
+ALTER TABLE o_as_assign_material_list ADD CONSTRAINT fk_o_as_assign_material_list FOREIGN KEY (assign_number) REFERENCES o_as_assign(assign_number);
+ALTER TABLE o_as_result ADD CONSTRAINT fk_o_as_result FOREIGN KEY (as_uniq_id) REFERENCES o_as(as_uniq_id);
+ALTER TABLE o_authority_role_relationship ADD CONSTRAINT fk_o_authority_role_relationship_1 FOREIGN KEY (authority_code) REFERENCES o_authority_info(authority_code);
+ALTER TABLE o_authority_role_relationship ADD CONSTRAINT fk_o_authority_role_relationship_2 FOREIGN KEY (role_code) REFERENCES o_role_info(role_code);
+ALTER TABLE o_bad_state ADD CONSTRAINT fk_o_bad_state FOREIGN KEY (return_uniq_id, product_serial_number) REFERENCES o_returned_product(return_uniq_id, product_serial_number);
+ALTER TABLE o_board ADD CONSTRAINT fk_o_board FOREIGN KEY (board_id) REFERENCES o_board_master(board_id);
+ALTER TABLE o_board_attached_file_detail ADD CONSTRAINT fk_o_board_attached_file_detail FOREIGN KEY (attached_file_id) REFERENCES o_board_attached_file(attached_file_id);
+ALTER TABLE o_board_comment ADD CONSTRAINT fk_o_board_comment FOREIGN KEY (post_id, board_id) REFERENCES o_board(post_id, board_id);
+ALTER TABLE o_board_comment_history ADD CONSTRAINT fk_o_board_comment_history FOREIGN KEY (post_id, board_id, reply_id) REFERENCES o_board_comment(post_id, board_id, reply_id);
+ALTER TABLE o_client_manager ADD CONSTRAINT fk_o_client_manager FOREIGN KEY (client_uniq_id) REFERENCES o_client(client_uniq_id);
+ALTER TABLE o_common_code ADD CONSTRAINT fk_o_common_code FOREIGN KEY (classified_code) REFERENCES o_common_classification_code(classified_code);
+ALTER TABLE o_common_detail_code ADD CONSTRAINT fk_o_common_detail_code FOREIGN KEY (code_id) REFERENCES o_common_code(code_id);
+ALTER TABLE o_contract ADD CONSTRAINT fk_o_contract FOREIGN KEY (client_uniq_id) REFERENCES o_client(client_uniq_id);
+ALTER TABLE o_contract_product ADD CONSTRAINT fk_o_contract_product_1 FOREIGN KEY (contract_uniq_no, client_uniq_id) REFERENCES o_contract(contract_uniq_no, client_uniq_id);
+ALTER TABLE o_contract_product ADD CONSTRAINT fk_o_contract_product_2 FOREIGN KEY (material_uniq_id) REFERENCES o_material(material_uniq_id);
+ALTER TABLE o_delivered_material ADD CONSTRAINT fk_o_delivered_material_1 FOREIGN KEY (delivery_uniq_id) REFERENCES o_delivery (delivery_uniq_id);
+ALTER TABLE o_delivered_material ADD CONSTRAINT fk_o_delivered_material_2 FOREIGN KEY (material_uniq_id) REFERENCES o_cmaterial (material_uniq_id);
+ALTER TABLE o_delivered_product ADD CONSTRAINT fk_o_delivered_product_1 FOREIGN KEY (delivery_uniq_id) REFERENCES o_delivery(delivery_uniq_id);
+ALTER TABLE o_delivered_product ADD CONSTRAINT fk_o_delivered_product_2 FOREIGN KEY (product_serial_number) REFERENCES o_product(product_serial_number);
+ALTER TABLE o_estimate_product ADD CONSTRAINT fk_o_estimate_product FOREIGN KEY (material_uniq_id) REFERENCES o_material(material_uniq_id);
+ALTER TABLE o_install_contract ADD CONSTRAINT fk_o_install_contract_1 FOREIGN KEY (contract_uniq_no, client_uniq_id) REFERENCES o_contract(contract_uniq_no, client_uniq_id);
+ALTER TABLE o_install_contract ADD CONSTRAINT fk_o_install_contract_2 FOREIGN KEY (client_builder_id) REFERENCES o_client(client_uniq_id);
+ALTER TABLE o_install_contract_product_list ADD CONSTRAINT fk_o_install_contract_product_list FOREIGN KEY (contract_uniq_no, client_uniq_id, install_contract_no) REFERENCES o_install_contract(contract_uniq_no, client_uniq_id, install_contract_no);
+ALTER TABLE o_material ADD CONSTRAINT fk_o_material FOREIGN KEY (asset_sort_code, product_sort_code) REFERENCES o_material_code(asset_sort_code, product_sort_code);
+ALTER TABLE o_member ADD CONSTRAINT fk_o_member_1 FOREIGN KEY (authority_code) REFERENCES o_authority_info(authority_code);
+ALTER TABLE o_member ADD CONSTRAINT fk_o_member_2 FOREIGN KEY (group_id) REFERENCES o_authority_group_info(group_id);
+ALTER TABLE o_member_modified_history ADD CONSTRAINT fk_o_member_modified_history FOREIGN KEY (member_id) REFERENCES o_member(member_id);
+ALTER TABLE o_office_assign ADD CONSTRAINT fk_o_office_assign_1 FOREIGN KEY (member_id) REFERENCES o_member(member_id);
+ALTER TABLE o_office_assign ADD CONSTRAINT fk_o_office_assign_2 FOREIGN KEY (office_id) REFERENCES o_office(office_id);
+ALTER TABLE o_product ADD CONSTRAINT fk_o_product FOREIGN KEY (material_uniq_id) REFERENCES o_material(material_uniq_id);
+ALTER TABLE o_return ADD CONSTRAINT fk_o_return FOREIGN KEY (client_uniq_id) REFERENCES o_client(client_uniq_id);
+ALTER TABLE o_returned_product ADD CONSTRAINT fk_o_returned_product FOREIGN KEY (return_uniq_id) REFERENCES o_return(return_uniq_id);
+ALTER TABLE o_role_hierarchy ADD CONSTRAINT fk_o_role_hierarchy_1 FOREIGN KEY (parent_role) REFERENCES o_authority_info(authority_code);
+ALTER TABLE o_role_hierarchy ADD CONSTRAINT fk_o_role_hierarchy_2 FOREIGN KEY (children_role) REFERENCES o_authority_info(authority_code);
+ALTER TABLE o_token ADD CONSTRAINT fk_o_token FOREIGN KEY (member_id) REFERENCES o_member(member_id);
+
+
+# spring_session relation이 없습니다 오류
+>> application.properties에 설정해둔 부분(Spring Session settings)이 안먹힌것...
+(spring.session.store-type=jdbc
+spring.session.jdbc.table-name=spring_session
+spring.session.jdbc.initialize-schema=always)
+>> 수동으로 테이블*2 (spring_session, spring_session_attributes) 생성해주기
+CREATE TABLE "spring_session" (
+	"primary_id" CHAR(36) NOT NULL,
+	"session_id" CHAR(36) NOT NULL,
+	"creation_time" BIGINT NOT NULL,
+	"last_access_time" BIGINT NOT NULL,
+	"max_inactive_interval" INTEGER NOT NULL,
+	"expiry_time" BIGINT NOT NULL,
+	"principal_name" VARCHAR(100) NULL DEFAULT NULL,
+	PRIMARY KEY ("primary_id"),
+	UNIQUE INDEX "spring_session_ix1" ("session_id"),
+	INDEX "spring_session_ix2" ("expiry_time"),
+	INDEX "spring_session_ix3" ("principal_name")
+);
+COMMENT ON COLUMN "spring_session"."primary_id" IS '';
+COMMENT ON COLUMN "spring_session"."session_id" IS '';
+COMMENT ON COLUMN "spring_session"."creation_time" IS '';
+COMMENT ON COLUMN "spring_session"."last_access_time" IS '';
+COMMENT ON COLUMN "spring_session"."max_inactive_interval" IS '';
+COMMENT ON COLUMN "spring_session"."expiry_time" IS '';
+COMMENT ON COLUMN "spring_session"."principal_name" IS '';
+
+CREATE TABLE "" (
+	"session_primary_id" CHAR(36) NOT NULL,
+	"attribute_name" VARCHAR(200) NOT NULL,
+	"attribute_bytes" BYTEA NOT NULL,
+	PRIMARY KEY ("session_primary_id", "attribute_name"),
+	CONSTRAINT "spring_session_attributes_fk" FOREIGN KEY ("session_primary_id") REFERENCES "spring_session" ("primary_id") ON UPDATE NO ACTION ON DELETE CASCADE
+);
+COMMENT ON COLUMN "spring_session_attributes"."session_primary_id" IS '';
+COMMENT ON COLUMN "spring_session_attributes"."attribute_name" IS '';
+COMMENT ON COLUMN "spring_session_attributes"."attribute_bytes" IS '';

@@ -14,10 +14,35 @@ public class ContractService {
     @Autowired
     ContractMapper contractMapper;
 
-    public List<ContractModel> getListGeneralContract()
+    public List<ContractModel> getListContract(String contractType)
     {
-        return contractMapper.getListContract();
+        switch (contractType) {
+            case "gov":
+                return contractMapper.getListGovContract();
+            case "general":
+                return contractMapper.getListGeneralContract();
+            default:
+                return null;
+        }
     }
+    public int getCountListContract(String contractType)
+    {
+        switch (contractType) {
+            case "gov":
+                return contractMapper.getCountListGovContract();
+            case "general":
+                return contractMapper.getCountListGeneralContract();
+            default:
+                return 0;
+        }
+    }
+
+    public ContractModel getOneContract(String contractUniqNo)
+    {
+        return contractMapper.getOneContract(contractUniqNo);
+    }
+
+
 
     public String getNewContractUniqNo()
     {
@@ -51,28 +76,21 @@ public class ContractService {
     {
         int result = 0;
         result = contractMapper.updateContract(contractModel);
-        result += contractMapper.registerContractDetail(contractModel.getContractDetailList());
-        result += contractMapper.registerContractProduct(contractModel.getContractProductList());
+        result += contractMapper.updateContractDetail(contractModel.getContractDetailList());
+        result += contractMapper.updateContractProduct(contractModel.getContractProductList());
         return result;
     }
 
+    @Transactional
     public int deleteContract(String contractId)
     {
-        return contractMapper.deleteContract(contractId);
+        int result = 0;
+        result = contractMapper.deleteContract(contractId);
+        result += contractMapper.deleteContractDetail(contractId);
+        result += contractMapper.deleteContractProduct(contractId);
+        return result;
     }
 
-
-    public List<ContractModel> getListGovContract()
-    {
-        return contractMapper.getListContract();
-    }
-
-
-
-    public int deleteGovContract(String contractId)
-    {
-        return contractMapper.deleteContract(contractId);
-    }
 
 
 

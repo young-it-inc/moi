@@ -21,6 +21,24 @@ public class GeneralContractController {
     @Autowired
     ContractService contractService;
 
+    @Operation(summary = "일반 계약 리스트 조회")
+    @GetMapping("/contract/general")
+    public ApiResponse<List<ContractModel>> getListGeneralContract() {
+        logger.info("일반 계약 리스트 조회");
+        int count = contractService.getCountListContract("general");
+        List<ContractModel> result = contractService.getListContract("general");
+        return new ApiResponse<>(result, 0, "조회 성공", count);
+    }
+
+    @Operation(summary = "일반 계약 개별 조회")
+    @GetMapping("/contract/general/{contractUniqNo}")
+    public ApiResponse<ContractModel> getOneGeneralContract(@PathVariable String contractUniqNo) {
+        logger.info("일반 계약 개별 조회");
+        ContractModel result = contractService.getOneContract(contractUniqNo);
+        return new ApiResponse<>(result);
+    }
+
+
     @Operation(summary = "일반 계약서 작성: 계약번호 자동생성")
     @GetMapping("/contract/general/contractno")
     public ApiResponse<String> getNewContractNo()
@@ -37,12 +55,6 @@ public class GeneralContractController {
         return new ApiResponse<>("일반 계약 등록 성공");
     }
 
-    @Operation(summary = "일반 계약 조회")
-    @GetMapping("/contract/general")
-    public ApiResponse<List<ContractModel>> getListGeneralContract() {
-        logger.info("일반 계약 조회");
-        return new ApiResponse<>(contractService.getListGeneralContract());
-    }
 
     @Operation(summary = "일반 계약 수정")
     @PutMapping("/contract/general")

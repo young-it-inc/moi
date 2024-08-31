@@ -13,9 +13,14 @@ public class InstallService {
     @Autowired
     InstallMapper installMapper;
 
-    public List<InstallModel> getListInstall() {
-
-        return installMapper.getListInstall();
+    public List<InstallModel> getListInstall(String installStateCode) {
+        return installMapper.getListInstall(installStateCode);
+    }
+    public int getCountListInstall(String installStateCode) {
+        return installMapper.getCountListInstall(installStateCode);
+    }
+    public InstallModel getOneInstall(String installUniqId) {
+        return installMapper.getOneInstall(installUniqId);
     }
 
     public int registerInstall(InstallModel installModel) {

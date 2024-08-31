@@ -3,10 +3,47 @@
 
 <mapper namespace="com.youngit.office.api.contract.mapper.ContractMapper">
 
-    <select id="getGeneralContractList" resultType="ContractModel">
-        SELECT contract_id, contract_name, contract_type, contract_status, contract_start_date, contract_end_date, contract_amount, contract_currency, contract_payment_method
-        FROM o_contract
+
+    <select id="getListGovContract" resultType="ContractModel">
+        SELECT *
+        FROM o_contract a
+        left join o_client b on a.client_uniq_id = b.client_uniq_id
+        where b.client_type_code = 'BSE01'
     </select>
+
+    <select id="getCountListGovContract" resultType="int">
+        SELECT count(*)
+        FROM o_contract a
+        left join o_client b on a.client_uniq_id = b.client_uniq_id
+        where b.client_type_code = 'BSE01'
+    </select>
+
+    <select id="getListGeneralContract" resultType="ContractModel">
+        SELECT *
+        FROM o_contract a
+        left join o_client b on a.client_uniq_id = b.client_uniq_id
+        where b.client_type_code = 'BSE02'
+    </select>
+
+    <select id="getCountListGeneralContract" resultType="int">
+        SELECT count(*)
+        FROM o_contract a
+                 left join o_client b on a.client_uniq_id = b.client_uniq_id
+        where b.client_type_code = 'BSE02'
+    </select>
+
+
+
+    <select id="getOneContract" resultType="ContractModel">
+        SELECT *
+        FROM o_contract a
+        left join o_client b on a.client_uniq_id = b.client_uniq_id
+        where contract_uniq_no = #{contractUniqNo}
+    </select>
+
+
+
+
 
     <select id="getLastContractNo" resultType="String">
         SELECT MAX(contract_uniq_no)
@@ -15,10 +52,26 @@
 
     </select>
     <insert id="registerContract" parameterType="ContractModel">
-        INSERT INTO o_contract (contract_id, contract_name, contract_type, contract_status, contract_start_date,
-                                contract_end_date, contract_amount, contract_currency, contract_payment_method)
-        values (#{contractId}, #{contractName}, #{contractType}, #{contractStatus}, #{contractStartDate},
-                #{contractEndDate}, #{contractAmount}, #{contractCurrency}, #{contractPaymentMethod})
+        INSERT INTO o_contract (contract_uniq_no, client_uniq_id, contract_main, ordering_contract_no, contract_name,
+                                contract_method, contract_code, contract_quantity, contract_date, opening_date,
+                                approximate_date, due_date, contract_amount, created_at, created_by_member_uniq_id,
+                                updated_at, updated_by_member_uniq_id, is_used, contract_main_etc, incoming_date,
+                                delivery_date, delivery_request_date, tracking_no, billing_date, is_billed,
+                                first_billing_date, first_billing_amount, second_billing_date, second_billing_amount, third_billing_date,
+                                third_billing_amount, fourth_billing_date, fourth_billing_amount, is_guaranted, guaranty_date,
+                                is_warranted, warranty_date, tax_invoice_date_1, tax_invoice_date_2, tax_invoice_date_3,
+                                tax_invoice_date_4, bond_issue_date_1, bond_issue_date_2, bond_issue_date_3, bond_issue_date_4,
+                                etc)
+        values (#{contractUniqNo}, #{clientUniqId}, #{contractMain}, #{orderingContractNo}, #{contractName},
+                #{contractMethod}, #{contractCode}, #{contractQuantity}, #{contractDate}, #{openingDate},
+                #{approximateDate}, #{dueDate}, #{contractAmount}, #{createAt}, #{createdByMemberUniqId},
+                #{updateAt}, #{updatedByMemberUniqId}, #{isUsed}, #{contractMainEtc}, #{incomingDate},
+                #{deliveryDate}, #{deliveryRequestDate}, #{trackingNo}, #{billingDate}, #{isBilled},
+                #{firstBillingDate}, #{firstBillingAmount}, #{secondBillingDate}, #{secondBillingAmount}, #{thirdBillingDate},
+                #{thirdBillingAmount}, #{fourthBillingDate}, #{fourthBillingAmount}, #{isGuaranted}, #{guarantyDate},
+                #{isWarranted}, #{warrantyDate}, #{taxInvoiceDate1}, #{taxInvoiceDate2}, #{taxInvoiceDate3},
+                #{taxInvoiceDate4}, #{bondIssueDate1}, #{bondIssueDate2}, #{bondIssueDate3}, #{bondIssueDate4},
+                #{etc})
 
     </insert>
 
@@ -54,6 +107,20 @@
             where
     </update>
 
+    <delete id="deleteContract" parameterType="int">
+        DELETE FROM o_contract
+        WHERE contract_id = #{contractId}
+    </delete>
+
+    <delete id="deleteContractDetail" parameterType="int">
+        DELETE FROM o_contract
+        WHERE contract_id = #{contractId}
+    </delete>
+
+    <delete id="deleteContractProduct" parameterType="int">
+        DELETE FROM o_contract
+        WHERE contract_id = #{contractId}
+    </delete>
 
 
 </mapper>

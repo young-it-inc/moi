@@ -10,7 +10,9 @@ import java.util.List;
 public interface ClientMapper {
 
     List<ClientModel> getListClient();
+    ClientModel getOneClient(String clientUniqId);
 
+    List<ClientManagerModel> getListClientManager(String clientUniqId);
 
 
     int registerClient(ClientModel clientModel);

@@ -27,10 +27,21 @@ public class EstimateController {
 
     @Operation(summary = "견적서 리스트 조회")
     @GetMapping("/estimate")
-    public List<EstimateModel> getListEstimate()
+    public ApiResponse<List<EstimateModel>> getListEstimate()
     {
         logger.info("견적서 리스트 조회");
-        return estimateService.getListEstimate();
+        int count = estimateService.getCountListEstimate();
+        List<EstimateModel> result = estimateService.getListEstimate();
+        return new ApiResponse<>(result, 0, "견적서 목록 조회 완료", count);
+    }
+
+    @Operation(summary = "견적서 개별 조회")
+    @GetMapping("/estimate/{estimateUniqNo}")
+    public ApiResponse<EstimateModel> getListEstimate(String estimateUniqNo)
+    {
+        logger.info("견적서 개별 조회");
+        EstimateModel result = estimateService.getOneEstimate(estimateUniqNo);
+        return new ApiResponse<>(result, 0, "견적서 개별 조회 완료");
     }
 
 

@@ -3,6 +3,288 @@
 
 <mapper namespace="com.youngit.office.api.as.mapper.AsMapper">
 
+    <select id="getListAs" resultType="AsModel">
+        SELECT *
+        FROM o_as
+        where 1=1
+        <if test="asStateCode != null and asStateCode != ''">
+            AND as_state_code = #{asStateCode}
+        </if>
+        ORDER BY as_uniq_id DESC
+    </select>
 
+    <select id="getCountListAs" resultType="int">
+        SELECT count(*)
+        FROM o_as
+        where 1=1
+        <if test="asStateCode != null and asStateCode != ''">
+            AND as_state_code = #{asStateCode}
+        </if>
+    </select>
+
+    <select id="getOneAs" resultType="AsModel">
+        SELECT *
+        FROM o_as
+        where as_uniq_id = #{asUniqId}
+    </select>
+
+    <insert id="registerAs" parameterType="AsModel">
+        INSERT INTO o_as (as_uniq_id, install_uniq_id, client_builder_id, assign_number, office_id,
+                          customer_number, customer_name, customer_address, customer_phone_number, as_year_month,
+                          as_week, as_receipt_date, as_request_date, as_process_date, as_complete_date,
+                          as_content, as_state_code, as_cause_code, as_cuase_sub_code, as_member_id,
+                          as_result, as_memo, is_replaced, meter_number, meter_caliber,
+                          meter_reading_serial_number, meter_reading_version, meter_reading_location,
+                          terminal_box_serial_number, terminal_box_location,
+                          external_indicator_serial_number, old_customer_number, install_environment_code,
+                          cable_status_code, before_meter_reading_serial_number,
+                          before_terminal_box_serial_number, before_external_indicator_serial_number, cable_length,
+                          as_etc, is_external_indicator_installed,
+                          is_enclosure_installed, as_signature_path, as_before_path, as_after_path, as_environment_path,
+                          as_before_meter_path, as_after_meter_path, as_before_meter_reading_path,
+                          as_after_meter_reading_path, as_before_terminal_box_path,
+                          as_after_terminal_box_path, as_before_cable_path, as_after_cable_path, correct_count,
+                          meterman_name,
+                          meterman_phone_number, is_deducted, deduction_id, deduction_reason, pay_apply_date,
+                          created_at, created_by_member_uniq_id, updated_at, updated_by_member_uniq_id, is_used,
+                          receipt_number, temp_production_date, as_code, customer_phone_number_2, deduction_year_month,
+                          deduction_amount, before_install_uniq_id, inspection_date)
+        VALUES (#{asUniqId}, #{installUniqId}, #{clientBuilderId}, #{assignNumber}, #{officeId},
+                #{customerNumber}, #{customerName}, #{customerAddress}, #{customerPhoneNumber}, #{asYearMonth},
+                #{asWeek}, #{asReceiptDate}, #{asRequestDate}, #{asProcessDate}, #{asCompleteDate},
+                #{asContent}, #{asStateCode}, #{asCauseCode}, #{asCuaseSubCode}, #{asMemberId},
+                #{asResult}, #{asMemo}, #{isReplaced}, #{meterNumber}, #{meterCaliber},
+                #{meterReadingSerialNumber}, #{meterReadingVersion}, #{meterReadingLocation},
+                #{terminalBoxSerialNumber}, #{terminalBoxLocation},
+                #{externalIndicatorSerialNumber}, #{oldCustomerNumber}, #{installEnvironmentCode}, #{cableStatusCode},
+                #{beforeMeterReadingSerialNumber},
+                #{beforeTerminalBoxSerialNumber}, #{beforeExternalIndicatorSerialNumber}, #{cableLength}, #{asEtc},
+                #{isExternalIndicatorInstalled},
+                #{isEnclosureInstalled}, #{asSignaturePath}, #{asBeforePath}, #{asAfterPath}, #{asEnvironmentPath},
+                #{asBeforeMeterPath}, #{asAfterMeterPath}, #{asBeforeMeterReadingPath}, #{asAfterMeterReadingPath},
+                #{asBeforeTerminalBoxPath},
+                #{asAfterTerminalBoxPath}, #{asBeforeCablePath}, #{asAfterCablePath}, #{correctCount}, #{metermanName},
+                #{metermanPhoneNumber}, #{isDeducted}, #{deductionId}, #{deductionReason}, #{payApplyDate},
+                CURRENT_TIMESTAMP(3), #{createdByMemberUniqId}, CURRENT_TIMESTAMP(3), #{updatedByMemberUniqId},
+                #{isUsed},
+                #{receiptNumber}, #{tempProductionDate}, #{asCode}, #{customerPhoneNumber2}, #{deductionYearMonth},
+                #{deductionAmount}, #{beforeInstallUniqId}, #{inspectionDate})
+    </insert>
+
+    <update id="updateAs" parameterType="AsModel">
+        UPDATE o_as
+        SET
+        <if test="asUniqueCode != null and asUniqueCode != ''">
+            as_unique_id = #{asUniqueId},
+        </if>
+        <if test="installUniqId != null and installUniqId != ''">
+            install_uniq_id = #{installUniqId},
+        </if>
+        <if test="clientBuilderId != null and clientBuilderId != ''">
+            client_builder_id = #{clientBuilderId},
+        </if>
+        <if test="assignNumber != null and assignNumber != ''">
+            assign_number = #{assignNumber},
+        </if>
+        <if test="officeId != null and officeId != ''">
+            office_id = #{officeId},
+        </if>
+        <if test="customerNumber != null and customerNumber != ''">
+            customer_number = #{customerNumber},
+        </if>
+        <if test="customerName != null and customerName != ''">
+            customer_name = #{customerName},
+        </if>
+        <if test="customerAddress != null and customerAddress != ''">
+            customer_address = #{customerAddress},
+        </if>
+        <if test="customerPhoneNumber != null and customerPhoneNumber != ''">
+            customer_phone_number = #{customerPhoneNumber},
+        </if>
+        <if test="asYearMonth != null and asYearMonth != ''">
+            as_year_month = #{asYearMonth},
+        </if>
+        <if test="asWeek != null and asWeek != ''">
+            as_week = #{asWeek},
+        </if>
+        <if test="asReceiptDate != null and asReceiptDate != ''">
+            as_receipt_date = #{asReceiptDate},
+        </if>
+        <if test="asRequestDate != null and asRequestDate != ''">
+            as_request_date = #{asRequestDate},
+        </if>
+        <if test="asProcessDate != null and asProcessDate != ''">
+            as_process_date = #{asProcessDate},
+        </if>
+        <if test="asCompleteDate != null and asCompleteDate != ''">
+            as_complete_date = #{asCompleteDate},
+        </if>
+        <if test="asContent != null and asContent != ''">
+            as_content = #{asContent},
+        </if>
+        <if test="asStateCode != null and asStateCode != ''">
+            as_state_code = #{asStateCode},
+        </if>
+        <if test="asCauseCode != null and asCauseCode != ''">
+            as_cause_code = #{asCauseCode},
+        </if>
+        <if test="asCuaseSubCode != null and asCuaseSubCode != ''">
+            as_cuase_sub_code = #{asCuaseSubCode},
+        </if>
+        <if test="asMemberId != null and asMemberId != ''">
+            as_member_id = #{asMemberId},
+        </if>
+        <if test="asResult != null and asResult != ''">
+            as_result = #{asResult},
+        </if>
+        <if test="asMemo != null and asMemo != ''">
+            as_memo = #{asMemo},
+        </if>
+        <if test="isReplaced != null and isReplaced != ''">
+            is_replaced = #{isReplaced},
+        </if>
+        <if test="meterNumber != null and meterNumber != ''">
+            meter_number = #{meterNumber},
+        </if>
+        <if test="meterCaliber != null and meterCaliber != ''">
+            meter_caliber = #{meterCaliber},
+        </if>
+        <if test="meterReadingSerialNumber != null and meterReadingSerialNumber != ''">
+            meter_reading_serial_number = #{meterReadingSerialNumber},
+        </if>
+        <if test="meterReadingVersion != null and meterReadingVersion != ''">
+            meter_reading_version = #{meterReadingVersion},
+        </if>
+        <if test="meterReadingLocation != null and meterReadingLocation != ''">
+            meter_reading_location = #{meterReadingLocation},
+        </if>
+        <if test="terminalBoxSerialNumber != null and terminalBoxSerialNumber != ''">
+            terminal_box_serial_number = #{terminalBoxSerialNumber},
+        </if>
+        <if test="terminalBoxLocation != null and terminalBoxLocation != ''">
+            terminal_box_location = #{terminalBoxLocation},
+        </if>
+        <if test="externalIndicatorSerialNumber != null and externalIndicatorSerialNumber != ''">
+            external_indicator_serial_number = #{externalIndicatorSerialNumber},
+        </if>
+        <if test="oldCustomerNumber != null and oldCustomerNumber != ''">
+            old_customer_number = #{oldCustomerNumber},
+        </if>
+        <if test="installEnvironmentCode != null and installEnvironmentCode != ''">
+            install_environment_code = #{installEnvironmentCode},
+        </if>
+        <if test="cableStatusCode != null and cableStatusCode != ''">
+            cable_status_code = #{cableStatusCode},
+        </if>
+        <if test="beforeMeterReadingSerialNumber != null and beforeMeterReadingSerialNumber != ''">
+            before_meter_reading_serial_number = #{beforeMeterReadingSerialNumber},
+        </if>
+        <if test="beforeTerminalBoxSerialNumber != null and beforeTerminalBoxSerialNumber != ''">
+            before_terminal_box_serial_number = #{beforeTerminalBoxSerialNumber},
+        </if>
+        <if test="beforeExternalIndicatorSerialNumber != null and beforeExternalIndicatorSerialNumber != ''">
+            before_external_indicator_serial_number = #{beforeExternalIndicatorSerialNumber},
+        </if>
+        <if test="cableLength != null and cableLength != ''">
+            cable_length = #{cableLength},
+        </if>
+        <if test="asEtc != null and asEtc != ''">
+            as_etc = #{asEtc},
+        </if>
+        <if test="isExternalIndicatorInstalled != null and isExternalIndicatorInstalled != ''">
+            is_external_indicator_installed = #{isExternalIndicatorInstalled},
+        </if>
+        <if test="isEnclosureInstalled != null and isEnclosureInstalled != ''">
+            is_enclosure_installed = #{isEnclosureInstalled},
+        </if>
+        <if test="asSignaturePath != null and asSignaturePath != ''">
+            as_signature_path = #{asSignaturePath},
+        </if>
+        <if test="asBeforePath != null and asBeforePath != ''">
+            as_before_path = #{asBeforePath},
+        </if>
+        <if test="asAfterPath != null and asAfterPath != ''">
+            as_after_path = #{asAfterPath},
+        </if>
+        <if test="asEnvironmentPath != null and asEnvironmentPath != ''">
+            as_environment_path = #{asEnvironmentPath},
+        </if>
+        <if test="asBeforeMeterPath != null and asBeforeMeterPath != ''">
+            as_before_meter_path = #{asBeforeMeterPath},
+        </if>
+        <if test="asAfterMeterPath != null and asAfterMeterPath != ''">
+            as_after_meter_path = #{asAfterMeterPath},
+        </if>
+        <if test="asBeforeMeterReadingPath != null and asBeforeMeterReadingPath != ''">
+            as_before_meter_reading_path = #{asBeforeMeterReadingPath},
+        </if>
+        <if test="asAfterMeterReadingPath != null and asAfterMeterReadingPath != ''">
+            as_after_meter_reading_path = #{asAfterMeterReadingPath},
+        </if>
+        <if test="asBeforeTerminalBoxPath != null and asBeforeTerminalBoxPath != ''">
+            as_before_terminal_box_path = #{asBeforeTerminalBoxPath},
+        </if>
+        <if test="asAfterTerminalBoxPath != null and asAfterTerminalBoxPath != ''">
+            as_after_terminal_box_path = #{asAfterTerminalBoxPath},
+        </if>
+        <if test="asBeforeCablePath != null and asBeforeCablePath != ''">
+            as_before_cable_path = #{asBeforeCablePath},
+        </if>
+        <if test="asAfterCablePath != null and asAfterCablePath != ''">
+            as_after_cable_path = #{asAfterCablePath},
+        </if>
+        <if test="correctCount != null and correctCount != ''">
+            correct_count = #{correctCount},
+        </if>
+        <if test="metermanName != null and metermanName != ''">
+            meterman_name = #{metermanName},
+        </if>
+        <if test="metermanPhoneNumber != null and metermanPhoneNumber != ''">
+            meterman_phone_number = #{metermanPhoneNumber},
+        </if>
+        <if test="isDeducted != null and isDeducted != ''">
+            is_deducted = #{isDeducted},
+        </if>
+        <if test="deductionId != null and deductionId != ''">
+            deduction_id = #{deductionId},
+        </if>
+        <if test="deductionReason != null and deductionReason != ''">
+            deduction_reason = #{deductionReason},
+        </if>
+        <if test="payApplyDate != null and payApplyDate != ''">
+            pay_apply_date = #{payApplyDate},
+        </if>
+        <if test="updatedByMemberUniqId != null and updatedByMemberUniqId != ''">
+            updated_by_member_uniq_id = #{updatedByMemberUniqId},
+        </if>
+
+        <if test="receiptNumber != null and receiptNumber != ''">
+            receipt_number = #{receiptNumber},
+        </if>
+        <if test="tempProductionDate != null and tempProductionDate != ''">
+            temp_production_date = #{tempProductionDate},
+        </if>
+        <if test="asCode != null and asCode != ''">
+            as_code = #{asCode},
+        </if>
+        <if test="customerPhoneNumber2 != null and customerPhoneNumber2 != ''">
+            customer_phone_number_2 = #{customerPhoneNumber2},
+        </if>
+        <if test="deductionYearMonth != null and deductionYearMonth != ''">
+            deduction_year_month = #{deductionYearMonth},
+        </if>
+        <if test="deductionAmount != null and deductionAmount != ''">
+            deduction_amount = #{deductionAmount},
+        </if>
+
+        <if test="beforeInstallUniqId != null and beforeInstallUniqId != ''">
+            before_install_uniq_id = #{beforeInstallUniqId},
+        </if>
+        <if test="inspectionDate != null and inspectionDate != ''">
+            inspection_date = #{inspectionDate},
+        </if>
+        updated_at = CURRENT_TIMESTAMP(3)
+        WHERE as_uniq_id = #{asUniqId}
+    </update>
 
 </mapper>

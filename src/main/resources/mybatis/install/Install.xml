@@ -3,6 +3,32 @@
 
 <mapper namespace="com.youngit.office.api.install.mapper.InstallMapper">
 
+    <select id="getListInstall" resultType="InstallModel">
+        SELECT *
+        FROM o_install
+        where is_used = 'Y'
+        <if test="installStateCode != null and installStateCode != ''">
+            AND install_state_code = #{installStateCode}
+        </if>
+        ORDER BY install_uniq_id DESC
+    </select>
+
+    <select id="getCountListInstall" resultType="int">
+        SELECT count(*)
+        FROM o_install
+        where 1=1
+        <if test="installStateCode != null and installStateCode != ''">
+            AND install_state_code = #{installStateCode}
+        </if>
+    </select>
+
+    <select id="getOneInstall" resultType="InstallModel">
+        SELECT *
+        FROM o_install
+        WHERE install_uniq_id = #{installUniqId}
+    </select>
+
+
     <select id="getLastInstallUniqId" resultType="InstallModel">
         SELECT MAX(install_uniq_id)
         FROM o_install
@@ -13,7 +39,7 @@
         INSERT INTO o_install(install_uniq_id, contract_uniq_no, client_uniq_id, sub_client_uniq_id, install_contract_no,
                               client_builder_id, office_id, customer_number, customer_name, customer_address,
                               customer_phone_number, meter_number, meter_caliber, install_receipt_date, install_date,
-                              install_complete_date, install_state_code, is_impossiblem, install_impossible_date, install_impossible_code,
+                              install_complete_date, install_state_code, is_impossible, install_impossible_date, install_impossible_code,
                               install_impossible_reason, meter_reading_serial_number, meter_reading_version, meter_reading_location, terminal_box_serial_number,
                               terminal_box_location, close_field_date, old_customer_number, install_environment_code, cable_status_code,
                               cable_length, external_indicator_serial_number, is_external_indicator_installed, is_enclosure_installed, etc,

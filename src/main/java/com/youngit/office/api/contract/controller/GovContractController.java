@@ -21,6 +21,22 @@ public class GovContractController {
     @Autowired
     ContractService contractService;
 
+    @Operation(summary = "지자체 계약 리스트 조회")
+    @GetMapping("/contract/gov")
+    public ApiResponse<List<ContractModel>> getListGovContract() {
+        logger.info("지자체 계약 리스트 조회");
+        int count = contractService.getCountListContract("gov");
+        List<ContractModel> result = contractService.getListContract("gov");
+        return new ApiResponse<>(result, 0, "조회성공", count);
+    }
+
+    @Operation(summary = "지자체 계약 개별 조회")
+    @GetMapping("/contract/gov/{contractUniqNo}")
+    public ApiResponse<ContractModel> getOneGovContract(String contractUniqNo) {
+        logger.info("지자체 계약 개별 조회");
+        return new ApiResponse<>(contractService.getOneContract(contractUniqNo));
+    }
+
     @Operation(summary = "지자체 계약서 작성: 계약번호 자동생성")
     @GetMapping("/contract/gov/contractno")
     public ApiResponse<String> getNewContractNo(){
@@ -33,16 +49,13 @@ public class GovContractController {
     @PostMapping("/contract/gov")
     public ApiResponse<String> registerContract(@RequestBody ContractModel contractModel) {
         logger.info("지자체 계약 등록");
-        int result = contractService.registerContract((contractModel));
-        return new ApiResponse<>("지자체 계약 등록 성공");
+        int result = contractService.registerContract(contractModel);
+        if(result == 3)
+            return new ApiResponse<>("지자체 계약 등록 성공");
+        else
+            return new ApiResponse<>("지자체 계약 등록 실패");
     }
 
-    @Operation(summary = "지자체 계약 조회")
-    @GetMapping("/contract/gov")
-    public ApiResponse<List<ContractModel>> getListContract() {
-        logger.info("지자체 계약 조회");
-        return new ApiResponse<>(contractService.getListGovContract());
-    }
 
     @Operation(summary = "지자체 계약 수정")
     @PutMapping("/contract/gov")
@@ -61,8 +74,8 @@ public class GovContractController {
     @DeleteMapping("/contract/gov")
     public ApiResponse<String> deleteContract(String contractId) {
         logger.info("지자체 계약 삭제");
-        int result = contractService.deleteGovContract(contractId);
-        if(result == 1) {
+        int result = contractService.deleteContract(contractId);
+        if(result == 3) {
             return new ApiResponse<>("지자체 계약 삭제 성공");
         }
         else
