@@ -2,14 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.youngit.office.api.installer.mapper.InstallerMapper">
-
-<select id="getListInstaller" resultType="InstallerModel">
-    SELECT *
-    FROM o_installer
-    ORDER BY installer_uniq_no DESC
+    <select id="getListInstaller" resultType="InstallerModel">
+SELECT *
+FROM o_installer
+ORDER BY installer_uniq_no DESC
 </select>
+    <select id="getCountListInstaller" resultType="int">
+SELECT COUNT(*)
+FROM o_installer
+    </select>
 
+    <select id="getOneInstaller" resultType="InstallerModel">
+select *
+from o_installer
+where installer_uniq_no = #{installerUniqNo}
+    </select>
 
+    <insert id="registerInstaller" parameterType="InstallerModel">
+INSERT INTO o_installer ()
+    VALUES(#{installerUniqNo}, #{installerName}, #{installerPhone}, #{installerEmail}, #{installerAddress}, #{installerRegDate}, #{installerModDate})
+
+    </insert>
+
+    <update id="updateInstaller" parameterType="InstallerModel">
+            UPDATE o_installer
+    SET
+    <if test="">
+    installer_name = #{installerName}
+    </if>
+    WHERE installer_uniq_no = #{installerUniqNo}
+    </update>
 
 
 </mapper>

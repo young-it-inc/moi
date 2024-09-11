@@ -10,12 +10,30 @@ import java.util.List;
 
 @Service
 public class MemberService {
+
+    private final MemberMapper memberMapper;
+
+
     @Autowired
-    MemberMapper memberMapper;
+    public MemberService(MemberMapper memberMapper) {
+        this.memberMapper = memberMapper;
+    }
+    public MemberDto convertToDto(MemberModel memberModel) {
+        return memberMapper.toDto(memberModel);
+    }
+    public MemberModel convertToModel(MemberDto memberDto) {
+        return memberMapper.toModel(memberDto);
+    }
+    public List<MemberDto> convertToDtoList(List<MemberModel> memberModelList) {
+        return memberMapper.toDtoList(memberModelList);
+    }
+    public List<MemberModel> convertToModelList(List<MemberDto> memberDtoList) {
+        return memberMapper.toModelList(memberDtoList);
+    }
 
-    public List<MemberModel> getListMember(MemberDto memberDto) {
+    public List<MemberModel> getListMember() {
 
-        return memberMapper.getListMember(memberDto);
+        return memberMapper.getListMember();
     }
 
     public int registerMember(MemberModel memberModel) {

@@ -1,6 +1,6 @@
 package com.youngit.office.api.as.controller;
 
-import com.youngit.office.api.as.model.AsModel;
+import com.youngit.office.api.as.dto.AsDto;
 import com.youngit.office.api.as.service.AsService;
 import com.youngit.office.api.http.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,35 +24,38 @@ public class AsController {
 
     //as통계: 현재는 as원인코드로만 검색가능. >>결과코드 추가 필요, 설치팀별 일평균 as수량 자동계산되게.
 
-
     private static final Logger logger = Logger.getLogger(AsController.class.getName());
+    private final AsService asService;
 
     @Autowired
-    public AsService asService;
+    public AsController(AsService asService) {
+
+        this.asService = asService;
+    }
 
     @Operation(summary = "AS 리스트 + 상태별 조회")
     @GetMapping("/as")
-    public ApiResponse<List<AsModel>> getListAs(@RequestParam(value = "asStateCode", required = false) String asStateCode) {
+    public ApiResponse<List<AsDto>> getListAs(@RequestParam(value = "asStateCode", required = false) String asStateCode) {
         logger.info("AS 리스트 + 상태별 조회");
         int count = asService.getCountListAs(asStateCode);
-        List<AsModel> result = asService.getListAs(asStateCode);
-        return new ApiResponse<>(result, 0, "as 목록 조회 완료", count);
+        List<AsDto> result = asService.getListAs(asStateCode);
+        return new ApiResponse<>(result, 0, "as 리스트 조회 완료", count);
     }
 
 
     @Operation(summary = "AS 개별 조회")
     @GetMapping("/as/{asUniqId}")
-    public ApiResponse<AsModel> getOneAs(String asUniqId) {
+    public ApiResponse<AsDto> getOneAs(String asUniqId) {
         logger.info("AS 개별 조회");
-        AsModel result = asService.getOneAs(asUniqId);
+        AsDto result = asService.getOneAs(asUniqId);
         return new ApiResponse<>(result, 0, "as 개별 조회 완료");
     }
 
 
     @Operation(summary = "AS 등록")
     @PostMapping("/as")
-    public ApiResponse<String> registerAs(AsModel asModel) {
-        int result = asService.registerAs(asModel);
+    public ApiResponse<String> registerAs(AsDto asDto) {
+        int result = asService.registerAs(asDto);
         if (result == 1)
             return new ApiResponse<>("as 등록 성공");
         else
@@ -61,8 +64,8 @@ public class AsController {
 
     @Operation(summary = "AS 수정")
     @PutMapping("/as")
-    public ApiResponse<String> updateAs(AsModel asModel) {
-        int result = asService.updateAs(asModel);
+    public ApiResponse<String> updateAs(AsDto asDto) {
+        int result = asService.updateAs(asDto);
         if (result == 1)
             return new ApiResponse<>("as 수정 성공");
         else

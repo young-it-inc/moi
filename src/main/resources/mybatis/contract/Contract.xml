@@ -108,19 +108,11 @@
     </update>
 
     <delete id="deleteContract" parameterType="int">
-        DELETE FROM o_contract
-        WHERE contract_id = #{contractId}
+        UPDATE o_contract
+        SET is_used = 'N'
+        where contract_uniq_no = #{contractUniqNo}
     </delete>
 
-    <delete id="deleteContractDetail" parameterType="int">
-        DELETE FROM o_contract
-        WHERE contract_id = #{contractId}
-    </delete>
-
-    <delete id="deleteContractProduct" parameterType="int">
-        DELETE FROM o_contract
-        WHERE contract_id = #{contractId}
-    </delete>
 
 
 </mapper>

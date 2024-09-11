@@ -213,11 +213,6 @@ public class AsDto {
     @Schema(description = "검수일")
     private String inspectionDate;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS", timezone = "Asia/Seoul")
-    @Schema(description = "최초등록시점")
-    private String createAt;
-
-
 
     @Schema(description = "최초등록자ID")
     private String createdByMemberUniqId;

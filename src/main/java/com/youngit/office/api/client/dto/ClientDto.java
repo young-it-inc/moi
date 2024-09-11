@@ -1,10 +1,12 @@
 package com.youngit.office.api.client.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
+@Schema(description = "거래처 정보 DTO")
 public class ClientDto {
 
     String searchOption;

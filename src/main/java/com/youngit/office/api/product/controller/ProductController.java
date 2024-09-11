@@ -1,6 +1,7 @@
 package com.youngit.office.api.product.controller;
 
 import com.youngit.office.api.http.ApiResponse;
+import com.youngit.office.api.product.dto.ProductDto;
 import com.youngit.office.api.product.model.ProductModel;
 import com.youngit.office.api.product.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,25 +25,25 @@ public class ProductController {
 
     @Operation(summary = "제품 조회")
     @GetMapping("/product")
-    public List<ProductModel> getListProduct() {
+    public List<ProductDto> getListProduct() {
         logger.info("제품 조회");
-        List<ProductModel> productModel = productService.getListProduct();
-        return productModel;
+        List<ProductDto> productDto = productService.getListProduct();
+        return productDto;
     }
 
     @Operation(summary = "제품 등록", description = "필수입력: ")
     @PostMapping("/product")
-    public ApiResponse<String> registerProduct(@RequestBody ProductModel productModel) {
+    public ApiResponse<String> registerProduct(@RequestBody ProductDto productDto) {
         logger.info("제품 등록");
-        int result = productService.registerProduct((productModel));
+        int result = productService.registerProduct(productDto);
         return new ApiResponse<>("제품 등록 성공");
     }
 
     @Operation(summary = "제품 수정", description = "필수입력: ")
     @PutMapping("/product")
-    public ApiResponse<String> updateProduct(@RequestBody ProductModel productModel) {
+    public ApiResponse<String> updateProduct(@RequestBody ProductDto productDto) {
         logger.info("제품 수정");
-        int result = productService.updateProduct((productModel));
+        int result = productService.updateProduct(productDto);
         return new ApiResponse<>("제품 수정 성공");
     }
 

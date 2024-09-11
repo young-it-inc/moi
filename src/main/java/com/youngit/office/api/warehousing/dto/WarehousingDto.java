@@ -1,11 +1,11 @@
-package com.youngit.office.api.warehousing.model;
+package com.youngit.office.api.warehousing.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-@Schema(description = "입출고 정보")
-public class WarehousingModel {
+@Schema(description = "입출고 정보 DTO")
+public class WarehousingDto {
 
     String	registerDate; //등록일
     String	clientBuilderId; //시공사고유ID

@@ -1,7 +1,7 @@
 package com.youngit.office.api.installer.controller;
 
 import com.youngit.office.api.http.ApiResponse;
-import com.youngit.office.api.installer.model.InstallerModel;
+import com.youngit.office.api.installer.dto.InstallerDto;
 import com.youngit.office.api.installer.service.InstallerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,24 +24,26 @@ public class InstallerController {
 
     @Operation(summary = "설치팀 최초 계약 리스트 조회")
     @GetMapping("/api/installer")
-    public ApiResponse<List<InstallerModel>> getListInstaller() {
+    public ApiResponse<List<InstallerDto>> getListInstaller() {
         logger.info("설치팀 최초 계약 리스트 조회");
-        return new ApiResponse<>(installerService.getListInstaller());
+        int count = installerService.getCountListInstaller();
+        List<InstallerDto> result = installerService.getListInstaller();
+        return new ApiResponse<>(result, 0, "설치팀 최초 계약 리스트 조회 완료", count);
     }
 
     @Operation(summary = "설치팀 최초 계약 등록")
     @PostMapping("/api/installer")
-    public ApiResponse<String> registerInstaller(@RequestBody InstallerModel installerModel) {
+    public ApiResponse<String> registerInstaller(@RequestBody InstallerDto installerDto) {
         logger.info("설치팀 최초 계약 등록");
-        int result = installerService.registerInstaller(installerModel);
+        int result = installerService.registerInstaller(installerDto);
         return new ApiResponse<>("회원 생성 성공");
     }
 
     @Operation(summary = "설치팀 최초 계약 수정")
     @PutMapping("/api/installer")
-    public ApiResponse<String> updateInstaller(InstallerModel installerModel) {
+    public ApiResponse<String> updateInstaller(InstallerDto installerDto) {
         logger.info("설치팀 최초 계약 수정");
-        int result = installerService.updateInstaller(installerModel);
+        int result = installerService.updateInstaller(installerDto);
         return new ApiResponse<>("회원 수정 성공");
     }
 

@@ -19,8 +19,12 @@ public class BillController {
 
     private static final Logger logger = Logger.getLogger(BillController.class.getName());
 
+    private final BillService billService;
+
     @Autowired
-    private BillService billService;
+    public BillController(BillService billService) {
+        this.billService = billService;
+    }
 
     @Operation(summary = "내역서 조회")
     @GetMapping("/bill")

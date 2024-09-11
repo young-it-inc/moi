@@ -41,19 +41,25 @@ public class MemberController {
     TokenMapper tokenMapper;
 
 
-    @Operation(summary = "회원 조회")
+    @Operation(summary = "회원 리스트 조회")
     @GetMapping("/api/member")
-    public ApiResponse<List<MemberModel>> getListMember(@PathVariable MemberDto memberDto) {
+    public ApiResponse<List<MemberDto>> getListMember() {
         logger.info("회원 리스트 조회");
-        List<MemberModel> result = memberService.getListMember(memberDto);
+        List<MemberDto> result = memberService.getListMember();
         return new ApiResponse<>(result);
     }
 
+    public ApiResponse<MemberDto> getOneMember(@PathVariable String memberId)
+    {
+
+    }
+
+
     @Operation(summary = "회원 등록")
     @PostMapping("/api/member")
-    public ApiResponse<String> registerMember(@RequestBody MemberModel memberModel) {
+    public ApiResponse<String> registerMember(@RequestBody MemberDto memberDto) {
         logger.info("회원 등록");
-        int result = memberService.registerMember(memberModel);
+        int result = memberService.registerMember(memberDto);
         return new ApiResponse<>("회원 생성 성공");
     }
 
@@ -75,9 +81,9 @@ public class MemberController {
 
     @Operation(summary = "회원정보 수정")
     @PutMapping("/api/member")
-    public ApiResponse<String> updateMember(@RequestBody MemberModel memberModel) {
+    public ApiResponse<String> updateMember(@RequestBody MemberDto memberDto) {
         logger.info("회원정보 수정");
-        int result = memberService.updateMember(memberModel);
+        int result = memberService.updateMember(memberDto);
         return new ApiResponse<>("회원정보 수정 성공");
     }
 
@@ -99,11 +105,11 @@ public class MemberController {
 
     @Operation(summary = "로그인")
     @PostMapping("/api/login")
-    public ApiResponse<MemberModel> login(@RequestBody MemberModel memberModel) {
+    public ApiResponse<MemberModel> login(@RequestBody MemberDto memberDto) {
         logger.info("로그인");
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         String clientIp = (String) Objects.requireNonNull(attributes).getAttribute("clientIp", RequestAttributes.SCOPE_REQUEST);
-        MemberModel result = memberService.login(memberModel);
+        MemberDto result = memberService.login(memberDto);
         System.out.println("result: " + result);
         if(result != null)
         {

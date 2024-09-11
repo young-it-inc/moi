@@ -7,7 +7,7 @@ import lombok.Data;
 @Schema(description = "제품 정보")
 public class ProductModel {
 
-    String	productSerialNumber; //제품일련번호 : 00-00-000000
+    String	productSerialNumber; //제품일련번호(고유) : 00-00-000000
     String	productDate; //제품생산일 : 20240704(8자리)
     String	materialUniqId; //자재고유ID : MTRIL_00000000000000(14자리)
     String	productStateCode; //제품상태코드 : PST01/02/03/04/05/99 (재고/출고/설치/회수/반납/폐기)

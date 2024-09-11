@@ -1,7 +1,7 @@
 package com.youngit.office.api.install.controller;
 
 import com.youngit.office.api.http.ApiResponse;
-import com.youngit.office.api.install.model.InstallModel;
+import com.youngit.office.api.install.dto.InstallDto;
 import com.youngit.office.api.install.service.InstallService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,26 +24,26 @@ public class InstallController {
 
     @Operation(summary = "설치 리스트 + 상태별 조회")
     @GetMapping("/install")
-    public ApiResponse<List<InstallModel>> getListInstall(@RequestParam(value = "installstateCode", required = false) String installStateCode) {
+    public ApiResponse<List<InstallDto>> getListInstall(@RequestParam(value = "installstateCode", required = false) String installStateCode) {
         logger.info("설치 리스트 + 상태별 조회");
         int count = installService.getCountListInstall(installStateCode);
-        List<InstallModel> result = installService.getListInstall(installStateCode);
-        return new ApiResponse<>(result, 0, "목록 조회", count);
+        List<InstallDto> result = installService.getListInstall(installStateCode);
+        return new ApiResponse<>(result, 0, "설치 리스트 조회", count);
     }
 
 
     @Operation(summary = "설치 개별 조회")
     @GetMapping("/install/{installUniqId}")
-    public ApiResponse<InstallModel> getOneInstall(String installUniqId) {
+    public ApiResponse<InstallDto> getOneInstall(String installUniqId) {
         logger.info("설치 개별 조회");
-        InstallModel result = installService.getOneInstall(installUniqId);
+        InstallDto result = installService.getOneInstall(installUniqId);
         return new ApiResponse<>(result);
     }
 
     @Operation(summary = "신규설치 등록")
     @PostMapping("/install")
-    public ApiResponse<String> registerInstall(InstallModel installModel) {
-        int result = installService.registerInstall(installModel);
+    public ApiResponse<String> registerInstall(InstallDto installDto) {
+        int result = installService.registerInstall(installDto);
         if (result == 1) {
             return new ApiResponse<>("설치 등록 성공");
         } else {
@@ -53,8 +53,8 @@ public class InstallController {
 
     @Operation(summary = "설치 수정")
     @PutMapping("/install")
-    public ApiResponse<String> updateInstall(InstallModel installModel) {
-        int result = installService.updateInstall(installModel);
+    public ApiResponse<String> updateInstall(InstallDto installDto) {
+        int result = installService.updateInstall(installDto);
         if (result == 1) {
             return new ApiResponse<>("설치 수정 성공");
         } else {
@@ -65,8 +65,9 @@ public class InstallController {
 
     @Operation(summary = "설치 삭제")
     @DeleteMapping("/install")
-    public ApiResponse<String> deleteInstall(InstallModel installModel) {
-        int result = installService.deleteInstall(installModel);
+    public ApiResponse<String> deleteInstall(String installUniqId)
+    {
+        int result = installService.deleteInstall(installUniqId);
         if (result == 1) {
             return new ApiResponse<>("설치 삭제 성공");
         } else {

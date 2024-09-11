@@ -4,23 +4,31 @@
 <mapper namespace="com.youngit.office.api.member.mapper.MemberMapper">
 
 
-    <select id="getMember" parameterType="MemberDto" resultType="MemberModel">
+    <select id="getListMember" resultType="MemberModel">
     select *
     from o_member
-   where 1=1
-        <if test ="memberId != null and memberId !=''">
-            and member_id = #{memberId}
-        </if>
-        <if test ="name != null and name !=''">
-            and name = #{name}
+    </select>
+
+    <select id="getCountListMember" resultType="int">
+
+    </select>
+
+    <select id="getOneMember" resultType ="MemberModel">
+    select *
+    from o_member
+    where 1=1
+    <if test ="memberId != null and memberId !=''">
+        and member_id = #{memberId}
+    </if>
+    <if test ="name != null and name !=''">
+        and name = #{name}
     </if>
     <if test ="email != null and email !=''">
         and email = #{email}
     </if>
     <if test ="phoneNumber != null and phoneNumber !=''">
-        and phone_number = #{phoneNumber}
+    and phone_number = #{phoneNumber}
     </if>
-
     </select>
 
 

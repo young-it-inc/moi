@@ -1,5 +1,6 @@
 package com.youngit.office.api.estimate.service;
 
+import com.youngit.office.api.estimate.dto.EstimateDto;
 import com.youngit.office.api.estimate.mapper.EstimateMapper;
 import com.youngit.office.api.estimate.model.EstimateModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,19 +12,36 @@ import java.util.List;
 @Service
 public class EstimateService {
 
+    private final EstimateMapper estimateMapper;
     @Autowired
-    EstimateMapper estimateMapper;
+    public EstimateService(EstimateMapper estimateMapper) {
+        this.estimateMapper = estimateMapper;
+    }
+    public EstimateDto convertToDto(EstimateModel estimateModel) {
+        return estimateMapper.toDto(estimateModel);
+    }
+    public List<EstimateDto> convertToDtoList(List<EstimateModel> estimateModelList) {
+        return estimateMapper.toDtoList(estimateModelList);
+    }
+    public EstimateModel convertToModel(EstimateDto estimateDto) {
+        return estimateMapper.toModel(estimateDto);
+    }
 
-    public List<EstimateModel> getListEstimate() {
+    public List<EstimateModel> convertToModelList(List<EstimateDto> estimateDtoList) {
+        return estimateMapper.toModelList(estimateDtoList);
+    }
 
-        return estimateMapper.getListEstimate();
+    public List<EstimateDto> getListEstimate() {
+        List<EstimateModel> resultModel= estimateMapper.getListEstimate();
+        return convertToDtoList(resultModel);
     }
     public int getCountListEstimate() {
         return estimateMapper.getCountListEstimate();
     }
 
-    public EstimateModel getOneEstimate(String estimateUniqNo) {
-        return estimateMapper.getOneEstimate(estimateUniqNo);
+    public EstimateDto getOneEstimate(String estimateUniqNo) {
+        EstimateModel estimateModel = estimateMapper.getOneEstimate(estimateUniqNo);
+        return convertToDto(estimateModel);
     }
 
     public String getNewEstimateUniqNo()
@@ -44,25 +62,25 @@ public class EstimateService {
         return  newEstimateUniqNo;
     }
 
-    public int registerEstimate(EstimateModel estimateModel) {
-
+    public int registerEstimate(EstimateDto estimateDto) {
         int result = 0;
+        EstimateModel estimateModel = convertToModel(estimateDto);
         result = estimateMapper.registerEstimate(estimateModel);
-        result += estimateMapper.registerEstimateProducts(estimateModel.getEstimateProducts());
+        result += estimateMapper.registerEstimateProductList(estimateModel.getEstimateProducts());
         return result;
     }
 
 
-    public int updateEstimate(EstimateModel estimateModel) {
-
+    public int updateEstimate(EstimateDto estimateDto) {
         int result = 0;
+        EstimateModel estimateModel = convertToModel(estimateDto);
         result = estimateMapper.updateEstimate(estimateModel);
-        result += estimateMapper.updateEstimateProducts(estimateModel.getEstimateProducts());
+        result += estimateMapper.updateEstimateProductList(estimateModel.getEstimateProducts());
         return result;
     }
 
-    public int deleteEstimate(EstimateModel estimateModel) {
+    public int deleteEstimate(String estimateUniqNo) {
 
-        return estimateMapper.deleteEstimate(estimateModel);
+        return estimateMapper.deleteEstimate(estimateUniqNo);
     }
 }

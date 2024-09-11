@@ -9,7 +9,14 @@ import java.util.List;
 @Mapper
 public interface MemberMapper {
 
-    List<MemberModel> getListMember(MemberDto memberDto);
+    MemberDto toDto(MemberModel memberModel);
+    MemberModel toModel(MemberDto memberDto);
+    List<MemberDto> toDtoList(List<MemberModel> memberModelList);
+    List<MemberModel> toModelList(List<MemberDto> memberDtoList);
+
+
+    List<MemberModel> getListMember();
+    int getCountListMember();
     int registerMember(MemberModel memberModel);
 
     String getLastMemberUniqId();

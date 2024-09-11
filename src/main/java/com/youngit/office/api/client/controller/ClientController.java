@@ -1,6 +1,6 @@
 package com.youngit.office.api.client.controller;
 
-import com.youngit.office.api.client.model.ClientModel;
+import com.youngit.office.api.client.dto.ClientDto;
 import com.youngit.office.api.client.service.ClientService;
 import com.youngit.office.api.http.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,31 +18,34 @@ public class ClientController {
 //거래처 조회, 검색, 등록, 수정, 삭제, 엑셀출력
 
     private static final Logger logger = Logger.getLogger(ClientController.class.getName());
+    private final ClientService clientService;
 
     @Autowired
-    ClientService clientService;
+    public ClientController(ClientService clientService) {
+        this.clientService = clientService;
+    }
 
 
-    @Operation(summary = "거래처 목록 조회")
+    @Operation(summary = "거래처 리스트 조회")
     @GetMapping("/client")
-    public ApiResponse<List<ClientModel>> getListClient() {
-        logger.info("거래처 목록 조회");
-        List<ClientModel> result = clientService.getListClient();
-        return new ApiResponse<>(result, 0, "거래처 목록 조회 성공");
+    public ApiResponse<List<ClientDto>> getListClient() {
+        logger.info("거래처 리스트 조회");
+        List<ClientDto> result = clientService.getListClient();
+        return new ApiResponse<>(result, 0, "거래처 리스트 조회 성공");
     }
 
     @Operation(summary = "거래처 개별 조회")
     @GetMapping("/client/{clientUniqId}")
-    public ApiResponse<ClientModel> getOneClient(@PathVariable String clientUniqId) {
+    public ApiResponse<ClientDto> getOneClient(@PathVariable String clientUniqId) {
         logger.info("거래처 개별 조회");
-        ClientModel result = clientService.getOneClient(clientUniqId);
+        ClientDto result = clientService.getOneClient(clientUniqId);
         return new ApiResponse<>(result, 0, "거래처 개별 조회 성공");
     }
     @Operation(summary = "거래처 등록", description = "필수입력: 거래처명, 구분코드, 대표자명,")
     @PostMapping("/client")
-    public ApiResponse<String> registerClient(@RequestBody ClientModel clientModel) {
+    public ApiResponse<String> registerClient(@RequestBody ClientDto clientDto) {
         logger.info("거래처 등록");
-        int result = clientService.registerClient(clientModel);
+        int result = clientService.registerClient(clientDto);
         if(result == 1)
             return new ApiResponse<>("거래처 등록 성공");
         else
@@ -63,9 +66,9 @@ public class ClientController {
 
     @Operation(summary = "거래처 확인 및 수정", description = "필수입력: 거래처명, 구분코드, 대표자명. / 수정시 담당자 추가/삭제도 확인 필요")
     @PutMapping("/client")
-    public ApiResponse<String> updateClient(@RequestBody ClientModel clientModel) {
+    public ApiResponse<String> updateClient(@RequestBody ClientDto clientDto) {
         logger.info("거래처 수정");
-        int result = clientService.updateClient(clientModel);
+        int result = clientService.updateClient(clientDto);
         if(result == 1)
             return new ApiResponse<>("거래처 수정 성공");
         else
