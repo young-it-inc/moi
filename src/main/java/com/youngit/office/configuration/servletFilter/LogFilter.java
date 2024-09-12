@@ -14,13 +14,13 @@ public class LogFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException
     {
-        System.out.println("2: LogFilter class init()");
+        System.out.println("LogFilter init 2: LogFilter class init()");
         Filter.super.init(filterConfig);
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)  throws IOException, ServletException {
-        System.out.println("1. LogFilter class doFilter()");
+        System.out.println("api 1: LogFilter class doFilter()");
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
         String requestURI = httpRequest.getRequestURI();

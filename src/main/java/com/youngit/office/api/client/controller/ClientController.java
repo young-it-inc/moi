@@ -22,6 +22,7 @@ public class ClientController {
 
     @Autowired
     public ClientController(ClientService clientService) {
+        System.out.println(" 여기는 controller");
         this.clientService = clientService;
     }
 

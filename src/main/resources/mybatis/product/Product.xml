@@ -3,20 +3,29 @@
 
 <mapper namespace="com.youngit.office.api.product.mapper.ProductMapper">
 
-    <select id="selectAll" parameterType="String" resultType="com.youngit.office.api.product.model.ProductModel">
-        select *
-        from o_product
 
+    <select id="getListProduct" resultType="com.youngit.office.api.product.model.ProductModel">
+        SELECT *
+        FROM o_product
+    </select>
+    <select id="getCountListProduct" resultType="int">
+        SELECT *
+        FROM o_product
     </select>
 
+    <select id="getOneProduct" resultType="ProductModel">
+        SELECT *
+        FROM o_product
+        WHERE product_serial_number = #{productSerialNumber}
+    </select>
 
-    <insert id="insert" parameterType="ProductModel">
+    <insert id="registerProduct" parameterType="ProductModel">
         INSERT INTO o_product (product_serial_number,product_date,material_uniq_id,product_state_code,delivery_unit_price,disuse_date,client_builder_id,chaged_status_date,office_id, is_state_used, as_uniq_id)
         VALUES (#{productSerialNumber},#{productDate},#{materialUniqId},#{productStateCode},#{deliveryUnitPrice},#{disuseDate},#{clientBuilderId},#{chagedStatusDate}, #{officeId}, #{isStateUsed}, #{asUniqId})
     </insert>
 
 
-    <update id="update" parameterType="ProductModel">
+    <update id="updateProduct" parameterType="ProductModel">
         UPDATE o_product
         SET product_serial_number = #{productSerialNumber},
             product_date = #{productDate},
@@ -31,6 +40,11 @@
             as_uniq_id = #{asUniqId}
         WHERE product_serial_number = #{productSerialNumber}
     </update>
+
+    <delete id ="" parameterType="string">
+        DELETE FROM o_product
+        WHERE product_serial_number = #{productSerialNumber}
+    </delete>
 
 
 </mapper>

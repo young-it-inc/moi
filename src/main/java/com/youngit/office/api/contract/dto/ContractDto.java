@@ -73,11 +73,13 @@ public class ContractDto {
 
     //추가
     String contractManager; //계약별 관리자 (진척상황 관리 필요)
-    ContractStatus contractStatus; //진행상태 : 공란/설치중/준공임박/설치완료/검수요청/최종완료
+    //ContractStatus contractStatus; //진행상태 : 공란/설치중/준공임박/설치완료/검수요청/최종완료
     String team; //사업팀: 사업1팀, 사업2팀, 사업3팀...
 }
-
+/*
 enum ContractStatus {
 //진행상태 : 공란/설치중/준공임박/설치완료/검수요청/최종완료
 
 }
+
+ */

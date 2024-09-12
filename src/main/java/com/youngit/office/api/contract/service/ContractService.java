@@ -2,6 +2,7 @@ package com.youngit.office.api.contract.service;
 
 import com.youngit.office.api.contract.dto.ContractDto;
 import com.youngit.office.api.contract.mapper.ContractMapper;
+import com.youngit.office.api.contract.mapper.ContractMapstructMapper;
 import com.youngit.office.api.contract.model.ContractModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,28 +13,31 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
+@Transactional
 public class ContractService {
     private final ContractMapper contractMapper;
+    private final ContractMapstructMapper contractMapstructMapper;
 
     @Autowired
-    public ContractService(ContractMapper contractMapper) {
+    public ContractService(ContractMapper contractMapper, ContractMapstructMapper contractMapstructMapper) {
 
         this.contractMapper = contractMapper;
+        this.contractMapstructMapper = contractMapstructMapper;
     }
 
     public ContractDto convertToDto(ContractModel contractModel) {
-        return contractMapper.toDto(contractModel);
+        return contractMapstructMapper.toDto(contractModel);
     }
 
     public List<ContractDto> convertToDtoList(List<ContractModel> contractModelList) {
-        return contractMapper.toDtoList(contractModelList);
+        return contractMapstructMapper.toDtoList(contractModelList);
     }
 
     public ContractModel convertToModel(ContractDto contractDto) {
-        return contractMapper.toModel(contractDto);
+        return contractMapstructMapper.toModel(contractDto);
     }
     public List<ContractModel> convertToModelList(List<ContractDto> contractDtoList) {
-        return contractMapper.toModelList(contractDtoList);
+        return contractMapstructMapper.toModelList(contractDtoList);
     }
 
     public List<ContractDto> getListContract(String contractType) {

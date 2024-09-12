@@ -4,13 +4,14 @@ import com.youngit.office.configuration.jwt.JwtProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHttpSession;
-import org.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication
+@ComponentScan(basePackages = {"com.youngit.office", "com.youngit.office.configuration"})
 @EnableJdbcHttpSession
 @EnableConfigurationProperties(JwtProperties.class)
-@MapperScan(basePackages = "com.youngit.office.api.**.mapper") //Spring Boot 애플리케이션에서 sqlSessionTemplate 빈을 찾지 못해 발생하는 문제 해결
+//@MapperScan("com.youngit.office.api.**.mapper")
 public class OfficeApplication {
 
     public static void main(String[] args) {

@@ -9,12 +9,6 @@ import java.util.List;
 @Mapper
 public interface InstallMapper {
 
-    InstallModel toModel(InstallDto installDto);
-    InstallDto toDto(InstallModel installModel);
-
-    List<InstallModel> toModelList(List<InstallDto> installDtoList);
-    List<InstallDto> toDtoList(List<InstallModel> installModelList);
-
 
     List<InstallModel> getListInstall(String installStateCode);
     int getCountListInstall(String installStateCode);

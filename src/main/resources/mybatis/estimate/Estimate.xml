@@ -33,24 +33,78 @@ values (#{estimateUniqNo}, #{clientCode}, #{clientUniqId}, #{clientName}, #{esti
         #{updatedByUserId}, 'Y')
     </insert>
 
+    <insert id="registerEstimateProductList" parameterType="EstimateProductModel">
+        insert into o_estimate_product (estimate_uniq_no, material_uniq_id, product_order, product_quantity, product_unit_price, product_total_price)
+        values (#{estimateUniqNo}, #{materialUniqId}, #{productOrder}, #{productQuantity}, #{productUnitPrice}, #{productTotalPrice} )
+    </insert>
 
     <update id="updateEstimate" parameterType="EstimateModel">
         UPDATE o_estimate
         SET
-            <if test="estimate_name != null and estimate_name !=''">
-                estimate_name = #{estimate_name}
+            <if test="client_code != null and client_code !=''">
+                client_code = #{clientCode}
             </if>
-
-    WHERE
-            estimate_id = #{estimate_id}
+        <if test="client_uniq_id != null and client_uniq_id !=''">
+            client_uniq_id = #{clientUniqId}
+        </if>
+        <if test="client_name != null and client_name !=''">
+            client_name = #{clientName}
+        </if>
+        <if test="estimate_main != null and estimate_main !=''">
+            estimate_main = #{estimateMain}
+        </if>
+        <if test="estimate_main_etc != null and estimate_main_etc !=''">
+            estimate_main_etc = #{estimateMainEtc}
+        </if>
+        <if test="estimate_name != null and estimate_name !=''">
+            estimate_name = #{estimateName}
+        </if>
+        <if test="estimate_method != null and estimate_method !=''">
+            estimate_method = #{estimateMethod}
+        </if>
+        <if test="estimate_code != null and estimate_code !=''">
+            estimate_code = #{estimateCode}
+        </if>
+        <if test="estimate_quantity != null and estimate_quantity !=''">
+            estimate_quantity = #{estimateQuantity}
+        </if>
+        <if test="estimate_date != null and estimate_date !=''">
+            estimate_date = #{estimateDate}
+        </if>
+        <if test="opening_date != null and opening_date !=''">
+            opening_date = #{openingDate}
+        </if>
+        <if test="approximate_date != null and approximate_date !=''">
+            approximate_date = #{approximateDate}
+        </if>
+        <if test="due_date != null and due_date !=''">
+            due_date = #{dueDate}
+        </if>
+        <if test="estimate_amount != null and estimate_amount !=''">
+            estimate_amount = #{estimateAmount}
+        </if>
+        <if test="contract_uniq_no != null and contract_uniq_no !=''">
+            contract_uniq_no = #{contractUniqNo}
+        </if>
+        <if test="estimate_note != null and estimate_note !=''">
+            estimate_note = #{estimateNote}
+        </if>
+        updated_at = CURRENT_TIMESTAMP(3),
+        updated_by_member_uniq_id = #{updatedByUserId}
+        WHERE
+        estimate_uniq_no = #{estimateUniqNo}
     </update>
 
-    <delete id="deleteEstimate" parameterType="String">
+    <update id="deleteEstimate" parameterType="String"> --delete지만 사실 update로 처리
         UPDATE o_estimate
         SET is_used = 'N'
-        WHERE estimate_id = #{estimate_id}
-    </delete>
+        WHERE estimate_uniq_no = #{estimateUniqNo}
+    </update>
 
+    <delete id="deleteEstimateProductList" parameterType="String">
+        DELETE FROM o_estimate_product
+        WHERE estimate_uniq_no = #{estimateUniqNo}
+    </delete>
 
 
 </mapper>

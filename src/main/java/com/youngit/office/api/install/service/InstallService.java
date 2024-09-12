@@ -2,41 +2,39 @@ package com.youngit.office.api.install.service;
 
 import com.youngit.office.api.install.dto.InstallDto;
 import com.youngit.office.api.install.mapper.InstallMapper;
+import com.youngit.office.api.install.mapper.InstallMapstructMapper;
 import com.youngit.office.api.install.model.InstallModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class InstallService {
 
-    @Autowired
-    InstallMapper installMapper;
 
-    public InstallDto convertToDto(InstallModel installModel) {
-        return installMapper.toDto(installModel);
+    private final InstallMapper installMapper;
+    private final InstallMapstructMapper installMapstructMapper;
+
+    @Autowired
+    public InstallService(InstallMapper installMapper, InstallMapstructMapper installMapstructMapper) {
+        this.installMapper = installMapper;
+        this.installMapstructMapper = installMapstructMapper;
     }
-    public InstallModel convertToModel(InstallDto installDto) {
-        return installMapper.toModel(installDto);
-    }
-    public List<InstallDto> convertToDtoList(List<InstallModel> installModelList) {
-        return installMapper.toDtoList(installModelList);
-    }
-    public List<InstallModel> convertToModelList(List<InstallDto> installDtoList) {
-        return installMapper.toModelList(installDtoList);
-    }
+
 
     public List<InstallDto> getListInstall(String installStateCode) {
         List<InstallModel> resultModelList = installMapper.getListInstall(installStateCode);
-        return convertToDtoList(resultModelList);
+        return resultModelList.stream().map(installMapstructMapper::toDto).toList();
     }
     public int getCountListInstall(String installStateCode) {
         return installMapper.getCountListInstall(installStateCode);
     }
     public InstallDto getOneInstall(String installUniqId) {
         InstallModel resultModel = installMapper.getOneInstall(installUniqId);
-        return convertToDto(resultModel);
+        return installMapstructMapper.toDto(resultModel);
     }
 
     public int registerInstall(InstallDto installDto) {
@@ -44,13 +42,12 @@ public class InstallService {
         String lastInstallUniqId = installMapper.getLastInstallUniqId();
         String newInstallUniqId = generateNewInstallUniqId(lastInstallUniqId);
         installDto.setInstallUniqId(newInstallUniqId);
-        InstallModel installModel = convertToModel(installDto);
+        InstallModel installModel = installMapstructMapper.toModel(installDto);
         return installMapper.registerInstall(installModel);
     }
     private String generateNewInstallUniqId(String lastInstallUniqId) {
         if(lastInstallUniqId == null)
             return "INSTL_00000000000001";
-
         String prefix = "INSTL_";
         String numberPart = lastInstallUniqId.substring(prefix.length());
         int newNumber = Integer.parseInt(numberPart) + 1;
@@ -58,9 +55,8 @@ public class InstallService {
         return prefix + newNumberStr;
     }
 
-
     public int updateInstall(InstallDto installDto) {
-        InstallModel installModel = installMapper.toModel(installDto);
+        InstallModel installModel = installMapstructMapper.toModel(installDto);
         return installMapper.updateInstall(installModel);
     }
 

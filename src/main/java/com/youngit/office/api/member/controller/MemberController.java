@@ -46,14 +46,17 @@ public class MemberController {
     public ApiResponse<List<MemberDto>> getListMember() {
         logger.info("회원 리스트 조회");
         List<MemberDto> result = memberService.getListMember();
-        return new ApiResponse<>(result);
+        return new ApiResponse<>(result, 0, "회원 리스트 조회 완료", result.size());
     }
 
+    @Operation(summary = "회원 개별 조회")
+    @GetMapping("/api/member/{memberId}")
     public ApiResponse<MemberDto> getOneMember(@PathVariable String memberId)
     {
-
+        logger.info("회원 개별 조회");
+        MemberDto result = memberService.getOneMember(memberId);
+        return new ApiResponse<>(result, 0, "회원 개별 조회 완료");
     }
-
 
     @Operation(summary = "회원 등록")
     @PostMapping("/api/member")
@@ -64,7 +67,7 @@ public class MemberController {
     }
 
     @Operation(summary = "아이디 중복 체크", description = "")
-    @GetMapping("api/idCheck/{id}")
+    @GetMapping("api/member/idCheck/{id}")
     public ApiResponse<String> checkMemberId(@PathVariable String id) {
         logger.info("아이디 중복 체크");
         boolean isExist = memberService.checkMemberId(id);
@@ -87,6 +90,8 @@ public class MemberController {
         return new ApiResponse<>("회원정보 수정 성공");
     }
 
+    @Operation(summary = "비밀번호 변경")
+    @PutMapping("/api/member/changepassword")
     public ApiResponse<String> changePassword()
     {
         logger.info("비밀번호 변경");
@@ -105,7 +110,7 @@ public class MemberController {
 
     @Operation(summary = "로그인")
     @PostMapping("/api/login")
-    public ApiResponse<MemberModel> login(@RequestBody MemberDto memberDto) {
+    public ApiResponse<MemberDto> login(@RequestBody MemberDto memberDto) {
         logger.info("로그인");
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         String clientIp = (String) Objects.requireNonNull(attributes).getAttribute("clientIp", RequestAttributes.SCOPE_REQUEST);
@@ -128,7 +133,7 @@ public class MemberController {
             tokenModel.setToken(token);
             tokenModel.setExpiredAtToken(result.getExpriredAtToken());
             System.out.println("tokenModel : " + tokenModel);
-            if(tokenMapper.isTokenExist(memberModel.getMemberId()))
+            if(tokenMapper.isTokenExist(memberDto.getMemberId()))
             {
                 tokenMapper.updateToken(tokenModel);
             }
@@ -140,7 +145,7 @@ public class MemberController {
         }
         else
         {
-            LogModel logModel = new LogModel("Login Fail", "POST", "/api/login", memberModel.getMemberId(), clientIp, "");
+            LogModel logModel = new LogModel("Login Fail", "POST", "/api/login", memberDto.getMemberId(), clientIp, "");
             logMapper.insertLog(logModel);
             return new ApiResponse<>(null, 99, "로그인 실패");
         }
@@ -151,7 +156,6 @@ public class MemberController {
     @GetMapping("/api/authority")
     public ApiResponse<String> authority(@RequestBody MemberModel memberModel) {
         logger.info("권한 설정");
-
 
         return new ApiResponse<>("권한설정 성공");
     }

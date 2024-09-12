@@ -3,7 +3,7 @@
 
 <mapper namespace="com.youngit.office.api.client.mapper.ClientMapper">
 
-    <select id="getListClient" resultType="ClientModel">
+    <select id="getListClient" resultType="com.youngit.office.api.client.model.ClientModel">
         SELECT *
         FROM o_client
         where is_used = 'Y'
@@ -16,13 +16,13 @@
     </select>
 
 
-    <select id="getOneClient" resultType="ClientModel">
+    <select id="getOneClient" resultType="com.youngit.office.api.client.model.ClientModel">
         SELECT *
         FROM o_client
         where client_uniq_id = #{clientUniqId}
     </select>
 
-    <select id="getListClientManager" resultType="ClientManagerModel">
+    <select id="getListClientManager" resultType="com.youngit.office.api.client.model.ClientManagerModel">
         SELECT *
         FROM o_client_manager
         where client_uniq_id = #{clientUniqId}
@@ -30,7 +30,7 @@
 
 
 
-    <insert id="registerClient" parameterType="ClientModel">
+    <insert id="registerClient" parameterType="com.youngit.office.api.client.model.ClientModel">
         INSERT INTO o_client (client_uniq_id, client_type_code, business_registration_number, client_name, representative_name,
                               address, business_type, business_category, phone_number, fax_number,
                               email, item, water_supply_code, bank_name, account_holder,
@@ -44,7 +44,7 @@
     </insert>
 
 
-    <update id="updateClient" parameterType="ClientModel">
+    <update id="updateClient" parameterType="com.youngit.office.api.client.model.ClientModel">
         UPDATE o_client
 
         <set>
@@ -103,13 +103,13 @@
         </set>
     </update>
 
-    <insert id="registerClientManager" parameterType="ClientManagerModel">
+    <insert id="registerClientManager" parameterType="com.youngit.office.api.client.model.ClientManagerModel">
         INSERT INTO o_client_manager (client_uniq_id, manager_no, manager_name, manager_department, manager_position, manager_phone_number, manager_email)
         VALUES (#{clientUniqId}, #{managerNo}, #{managerName}, #{managerDepartment}, #{managerPosition}, #{managerPhoneNumber}, #{managerEmail})
     </insert>
 
 
-    <update id="updateClientManager" parameterType="ClientManagerModel">
+    <update id="updateClientManager" parameterType="com.youngit.office.api.client.model.ClientManagerModel">
         UPDATE o_client_manager
         SET
         <if test="managerName != null and managerName !=''">

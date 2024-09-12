@@ -17,9 +17,7 @@ import java.util.logging.Logger;
 public class GovContractController {
 
     private static final Logger logger = Logger.getLogger(GovContractController.class.getName());
-
     private final ContractService contractService;
-
     @Autowired
     public GovContractController(ContractService contractService) {
         this.contractService = contractService;
@@ -38,7 +36,8 @@ public class GovContractController {
     @GetMapping("/contract/gov/{contractUniqNo}")
     public ApiResponse<ContractDto> getOneGovContract(String contractUniqNo) {
         logger.info("지자체 계약 개별 조회");
-        return new ApiResponse<>(contractService.getOneContract(contractUniqNo));
+        ContractDto result = contractService.getOneContract(contractUniqNo);
+        return new ApiResponse<>(result, 0, "조회성공");
     }
 
     @Operation(summary = "지자체 계약서 작성: 계약번호 자동생성")

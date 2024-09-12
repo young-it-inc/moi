@@ -4,7 +4,7 @@
 <mapper namespace="com.youngit.office.api.contract.mapper.ContractMapper">
 
 
-    <select id="getListGovContract" resultType="ContractModel">
+    <select id="getListGovContract" resultType="com.youngit.office.api.contract.model.ContractModel">
         SELECT *
         FROM o_contract a
         left join o_client b on a.client_uniq_id = b.client_uniq_id
@@ -18,7 +18,7 @@
         where b.client_type_code = 'BSE01'
     </select>
 
-    <select id="getListGeneralContract" resultType="ContractModel">
+    <select id="getListGeneralContract" resultType="com.youngit.office.api.contract.model.ContractModel">
         SELECT *
         FROM o_contract a
         left join o_client b on a.client_uniq_id = b.client_uniq_id
@@ -34,7 +34,7 @@
 
 
 
-    <select id="getOneContract" resultType="ContractModel">
+    <select id="getOneContract" resultType="com.youngit.office.api.contract.model.ContractModel">
         SELECT *
         FROM o_contract a
         left join o_client b on a.client_uniq_id = b.client_uniq_id
@@ -51,7 +51,7 @@
         where contract_uniq_no like CONCAT(#{todayDate}, '%')
 
     </select>
-    <insert id="registerContract" parameterType="ContractModel">
+    <insert id="registerContract" parameterType="com.youngit.office.api.contract.model.ContractModel">
         INSERT INTO o_contract (contract_uniq_no, client_uniq_id, contract_main, ordering_contract_no, contract_name,
                                 contract_method, contract_code, contract_quantity, contract_date, opening_date,
                                 approximate_date, due_date, contract_amount, created_at, created_by_member_uniq_id,
@@ -76,7 +76,7 @@
     </insert>
 
 
-    <update id="updateGeneralContract" parameterType="ContractModel">
+    <update id="updateGeneralContract" parameterType="com.youngit.office.api.contract.model.ContractModel">
         UPDATE o_contract
         <trim prefix="SET" suffixOverrides=",">
         <if test="contractName != null and contractName !=''">
@@ -107,11 +107,11 @@
             where
     </update>
 
-    <delete id="deleteContract" parameterType="int">
+    <update id="deleteContract" parameterType="int"> --delete지만 사실 update됨.
         UPDATE o_contract
         SET is_used = 'N'
         where contract_uniq_no = #{contractUniqNo}
-    </delete>
+    </update>
 
 
 

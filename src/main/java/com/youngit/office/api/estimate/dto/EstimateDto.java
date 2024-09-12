@@ -1,6 +1,5 @@
 package com.youngit.office.api.estimate.dto;
 
-import com.youngit.office.api.estimate.model.EstimateProductModel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -27,14 +26,10 @@ public class EstimateDto {
     String	clientUniqId; //거래처고유ID - 견적서 받고 구입 원할시
     String	contractUniqNo; //고객계약고유번호 - 견적서 받고 구입 원할시
 
-    String	openingDate; //착수일 -필요x
-    String	approximateDate; //완료예정일 -필요x
-    String	dueDate; //완료일 -필요x
-
     String createdByUserId; //최초등록자ID
     String updatedByUserId; //최종수정자ID
 
-    List<EstimateProductModel> estimateProducts; //견적서 품목리스트
+    List<EstimateProductDto> estimateProductDtoList; //견적서 품목리스트
 
     //추가
     String   estimateStatus; //견적서상태 (견적-계약-입금확인-출고요청-출고-세금계산서-배송완료?)

@@ -25,6 +25,8 @@ public class AsController {
     //as통계: 현재는 as원인코드로만 검색가능. >>결과코드 추가 필요, 설치팀별 일평균 as수량 자동계산되게.
 
     private static final Logger logger = Logger.getLogger(AsController.class.getName());
+
+    @Autowired
     private final AsService asService;
 
     @Autowired

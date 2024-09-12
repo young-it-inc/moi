@@ -2,53 +2,42 @@ package com.youngit.office.api.installer.service;
 
 import com.youngit.office.api.installer.dto.InstallerDto;
 import com.youngit.office.api.installer.mapper.InstallerMapper;
+import com.youngit.office.api.installer.mapper.InstallerMapstructMapper;
 import com.youngit.office.api.installer.model.InstallerModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class InstallerService {
 
     private final InstallerMapper installerMapper;
+    private final InstallerMapstructMapper installerMapstructMapper;
 
     @Autowired
-    public InstallerService(InstallerMapper installerMapper) {
+    public InstallerService(InstallerMapper installerMapper, InstallerMapstructMapper installerMapstructMapper) {
         this.installerMapper = installerMapper;
-    }
-
-    public InstallerDto convertToDto(InstallerModel installerModel) {
-        return installerMapper.toDto(installerModel);
-    }
-
-    public List<InstallerDto> convertToDtoList(List<InstallerModel> installerModelList) {
-        return installerMapper.toDtoList(installerModelList);
-    }
-
-    public InstallerModel convertToModel(InstallerDto installerDto) {
-        return installerMapper.toModel(installerDto);
-    }
-
-    public List<InstallerModel> convertToModelList(List<InstallerDto> installerDtoList) {
-        return installerMapper.toModelList(installerDtoList);
+        this.installerMapstructMapper = installerMapstructMapper;
     }
 
     public List<InstallerDto> getListInstaller() {
         List<InstallerModel> resultModelList = installerMapper.getListInstaller();
-        return convertToDtoList(resultModelList);
+        return resultModelList.stream().map(installerMapstructMapper::toDto).toList();
     }
 
     public int getCountListInstaller() {
         return installerMapper.getCountListInstaller();
     }
     public int registerInstaller(InstallerDto installerDto) {
-        InstallerModel installerModel = convertToModel(installerDto);
+        InstallerModel installerModel = installerMapstructMapper.toModel(installerDto);
         return installerMapper.registerInstaller(installerModel);
     }
 
     public int updateInstaller(InstallerDto installerDto) {
-        InstallerModel installerModel = convertToModel(installerDto);
+        InstallerModel installerModel = installerMapstructMapper.toModel(installerDto);
         return installerMapper.updateInstaller(installerModel);
     }
 

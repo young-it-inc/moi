@@ -2,38 +2,30 @@ package com.youngit.office.api.material.service;
 
 import com.youngit.office.api.material.dto.MaterialDto;
 import com.youngit.office.api.material.mapper.MaterialMapper;
+import com.youngit.office.api.material.mapper.MaterialMapstructMapper;
 import com.youngit.office.api.material.model.MaterialModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class MaterialService {
 
     private final MaterialMapper materialMapper;
+    private final MaterialMapstructMapper materialMapstructMapper;
 
     @Autowired
-    public MaterialService(MaterialMapper materialMapper) {
+    public MaterialService(MaterialMapper materialMapper, MaterialMapstructMapper materialMapstructMapper) {
         this.materialMapper = materialMapper;
-    }
-
-    public MaterialDto convertToDto(MaterialModel materialModel) {
-        return materialMapper.toDto(materialModel);
-    }
-    public List<MaterialDto> convertToDtoList(List<MaterialModel> materialModelList) {
-        return materialMapper.toDtoList(materialModelList);
-    }
-    public MaterialModel convertToModel(MaterialDto materialDto) {
-        return materialMapper.toModel(materialDto);
-    }
-    public List<MaterialModel> convertToModelList(List<MaterialDto> materialDtoList) {
-        return materialMapper.toModelList(materialDtoList);
+        this.materialMapstructMapper = materialMapstructMapper;
     }
 
     public List<MaterialDto> getListMaterial() {
         List<MaterialModel> result = materialMapper.getListMaterial();
-        return convertToDtoList(result);
+        return result.stream().map(materialMapstructMapper::toDto).toList();
     }
     public int getCountListMaterial() {
         int result = materialMapper.getCountListMaterial();
@@ -43,17 +35,17 @@ public class MaterialService {
     public MaterialDto getOneMaterial(String materialUniqId)
     {
         MaterialModel materialModel = materialMapper.getOneMaterial(materialUniqId);
-        return convertToDto(materialModel);
+        return materialMapstructMapper.toDto(materialModel);
     }
 
     public int registerMaterial(MaterialDto materialDto) {
-        MaterialModel materialModel = materialMapper.toModel(materialDto);
+        MaterialModel materialModel = materialMapstructMapper.toModel(materialDto);
         int result = materialMapper.registerMaterial(materialModel);
         return result;
     }
 
     public int updateMaterial(MaterialDto materialDto) {
-        MaterialModel materialModel = materialMapper.toModel(materialDto);
+        MaterialModel materialModel = materialMapstructMapper.toModel(materialDto);
         int result = materialMapper.updateMaterial(materialModel);
         return result;
     }

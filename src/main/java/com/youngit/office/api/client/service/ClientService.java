@@ -3,47 +3,39 @@ package com.youngit.office.api.client.service;
 import com.youngit.office.api.client.dto.ClientDto;
 import com.youngit.office.api.client.dto.ClientManagerDto;
 import com.youngit.office.api.client.mapper.ClientMapper;
+import com.youngit.office.api.client.mapper.ClientMapstructMapper;
 import com.youngit.office.api.client.model.ClientManagerModel;
 import com.youngit.office.api.client.model.ClientModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class ClientService {
 
     private final ClientMapper clientMapper;
+    private final ClientMapstructMapper clientMapstructMapper;
 
     @Autowired
-    public ClientService(ClientMapper clientMapper) {
+    public ClientService(ClientMapper clientMapper, ClientMapstructMapper clientMapstructMapper) {
+        System.out.println("여기는 언제탐?");
         this.clientMapper = clientMapper;
+        this.clientMapstructMapper = clientMapstructMapper;
     }
-    public ClientDto convertToDto(ClientModel clientModel) {
-        return clientMapper.toDto(clientModel);
-    }
-    public ClientModel converToModel(ClientDto clientDto) {
-        return clientMapper.toModel(clientDto);
-    }
-    public List<ClientDto> convertToDtoList(List<ClientModel> clientModelList) {
-        return clientMapper.toDtoList(clientModelList);
-    }
-    public List<ClientModel> convertToModelList(List<ClientDto> clientDtoList) {
-        return clientMapper.toModelList(clientDtoList);
-    }
-
-
 
     public List<ClientDto> getListClient() {
         List<ClientModel> resultModel = clientMapper.getListClient();
-        List<ClientDto> resultDto = convertToDtoList(resultModel);
+        List<ClientDto> resultDto = clientMapstructMapper.toDtoList(resultModel);
         return resultDto;
     }
 
     public ClientDto getOneClient(String clientUniqId) {
         ClientModel clientModel = clientMapper.getOneClient(clientUniqId);
         clientModel.setClientManagerModelList(clientMapper.getListClientManager(clientUniqId));
-        ClientDto resultDto = convertToDto(clientModel);
+        ClientDto resultDto = clientMapstructMapper.toDto(clientModel);
         return resultDto;
 
     }
@@ -53,7 +45,7 @@ public class ClientService {
         String lastClientUniqId = clientMapper.getLastClientUniqId();
         String newClientUniqId = generateNewClientUniqId(lastClientUniqId);
         clientDto.setClientUniqId(newClientUniqId);
-        ClientModel clientModel = converToModel(clientDto);
+        ClientModel clientModel = clientMapstructMapper.toModel(clientDto);
 
         int result = 0;
         result = clientMapper.registerClient(clientModel);
@@ -89,7 +81,7 @@ public class ClientService {
 
     public int updateClient(ClientDto clientDto) {
 
-        ClientModel clientModel = converToModel(clientDto);
+        ClientModel clientModel = clientMapstructMapper.toModel(clientDto);
         int result = clientMapper.updateClient(clientModel);
         if(clientDto.getClientManagerDtoList() != null)
         {
@@ -99,7 +91,7 @@ public class ClientService {
                 {
                     clientManagerDto.setClientUniqId(clientDto.getClientUniqId());
                 }
-                ClientManagerModel clientManagerModel = clientMapper.toModel(clientManagerDto);
+                ClientManagerModel clientManagerModel = clientMapstructMapper.toModel(clientManagerDto);
                 result += clientMapper.updateClientManager(clientManagerModel);
             }
         }

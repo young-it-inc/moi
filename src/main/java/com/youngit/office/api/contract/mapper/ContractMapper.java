@@ -1,6 +1,5 @@
 package com.youngit.office.api.contract.mapper;
 
-import com.youngit.office.api.contract.dto.ContractDto;
 import com.youngit.office.api.contract.model.ContractDetailModel;
 import com.youngit.office.api.contract.model.ContractModel;
 import com.youngit.office.api.contract.model.ContractProductModel;
@@ -11,10 +10,6 @@ import java.util.List;
 @Mapper
 public interface ContractMapper {
 
-    ContractDto toDto(ContractModel contractModel);
-    ContractModel toModel(ContractDto contractDto);
-    List<ContractDto> toDtoList(List<ContractModel> contractModelList);
-    List<ContractModel> toModelList(List<ContractDto> contractDtoList);
 
     //계약 등록
     int registerContract(ContractModel contractModel);

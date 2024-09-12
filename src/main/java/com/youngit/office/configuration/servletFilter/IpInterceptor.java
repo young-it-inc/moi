@@ -13,7 +13,7 @@ public class IpInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String clientIp = request.getHeader("X-Forwarded-For");
 
-        System.out.println("2. IpInterceptor class: preHandle() ");
+        System.out.println("api 2: IpInterceptor class: preHandle() ");
         if (clientIp == null || clientIp.isEmpty() || "unknown".equalsIgnoreCase(clientIp)) {
             clientIp = request.getRemoteAddr();
         }

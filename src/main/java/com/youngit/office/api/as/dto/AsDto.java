@@ -2,9 +2,9 @@ package com.youngit.office.api.as.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
+import org.springframework.stereotype.Repository;
 
-@Data
+@Repository
 @Schema(description = "AS 정보 DTO")
 public class AsDto {
 

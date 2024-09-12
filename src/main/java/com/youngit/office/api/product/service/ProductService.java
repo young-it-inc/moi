@@ -2,39 +2,30 @@ package com.youngit.office.api.product.service;
 
 import com.youngit.office.api.product.dto.ProductDto;
 import com.youngit.office.api.product.mapper.ProductMapper;
+import com.youngit.office.api.product.mapper.ProductMapstructMapper;
 import com.youngit.office.api.product.model.ProductModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class ProductService {
     private final ProductMapper productMapper;
+    private final ProductMapstructMapper productMapstructMapper;
 
     @Autowired
-    public ProductService(ProductMapper productMapper) {
+    public ProductService(ProductMapper productMapper, ProductMapstructMapper productMapstructMapper) {
         this.productMapper = productMapper;
+        this.productMapstructMapper = productMapstructMapper;
     }
 
-    public ProductDto convertToDto(ProductModel productModel) {
-        return productMapper.toDto(productModel);
-    }
-
-    public List<ProductDto> convertoToDtoList(List<ProductModel> productModelList) {
-        return productMapper.toDtoList(productModelList);
-    }
-
-    public ProductModel convertToModel(ProductDto productDto) {
-        return productMapper.toModel(productDto);
-    }
-    public List<ProductModel> convertToModelList(List<ProductDto> productDtoList) {
-        return productMapper.toModelList(productDtoList);
-    }
 
     public List<ProductDto> getListProduct() {
         List<ProductModel> productModelList = productMapper.getListProduct();
-        return convertoToDtoList(productModelList);
+        return productModelList.stream().map(productMapstructMapper::toDto).toList();
     }
 
     public int getCountListProduct() {
@@ -43,16 +34,16 @@ public class ProductService {
 
     public ProductDto getOneProduct(String productSerialNumber) {
         ProductModel productModel = productMapper.getOneProduct(productSerialNumber);
-        return convertToDto(productModel);
+        return productMapstructMapper.toDto(productModel);
     }
 
     public int registerProduct(ProductDto productDto) {
-        ProductModel productModel = productMapper.toModel(productDto);
+        ProductModel productModel = productMapstructMapper.toModel(productDto);
         return productMapper.registerProduct(productModel);
     }
 
     public int updateProduct(ProductDto productDto) {
-        ProductModel productModel = productMapper.toModel(productDto);
+        ProductModel productModel = productMapstructMapper.toModel(productDto);
         return productMapper.updateProduct(productModel);
     }
 

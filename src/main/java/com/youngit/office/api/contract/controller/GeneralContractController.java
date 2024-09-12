@@ -17,9 +17,7 @@ import java.util.logging.Logger;
 public class GeneralContractController {
 
     private static final Logger logger = Logger.getLogger(GeneralContractController.class.getName());
-
     private final ContractService contractService;
-
     @Autowired
     public GeneralContractController(ContractService contractService) {
         this.contractService = contractService;
@@ -43,14 +41,14 @@ public class GeneralContractController {
     }
 
 
-    @Operation(summary = "일반 계약서 작성: 계약번호 자동생성")
+    @Operation(summary = "일반 계약서 등록 버튼: 계약번호 자동생성")
     @GetMapping("/contract/general/contractno")
     public ApiResponse<String> getNewContractNo() {
         String result = contractService.getNewContractUniqNo();
         return new ApiResponse<>(result);
     }
 
-    @Operation(summary = "일반 계약 등록 완료", description = "필수입력: 계약주체, 계약번호, 계약명, 계약분류, 거래처")
+    @Operation(summary = "일반 계약 등록 완료 버튼", description = "필수입력: 계약주체, 계약번호, 계약명, 계약분류, 거래처")
     @PostMapping("/contract/general")
     public ApiResponse<String> registerGeneralContract(@RequestBody ContractDto contractDto) {
         logger.info("일반 계약 등록");
