@@ -18,11 +18,11 @@ public class ClientController {
 //거래처 조회, 검색, 등록, 수정, 삭제, 엑셀출력
 
     private static final Logger logger = Logger.getLogger(ClientController.class.getName());
+    @Autowired
     private final ClientService clientService;
 
     @Autowired
     public ClientController(ClientService clientService) {
-        System.out.println(" 여기는 controller");
         this.clientService = clientService;
     }
 

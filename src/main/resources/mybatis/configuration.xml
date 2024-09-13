@@ -11,9 +11,4 @@
     <typeAliases>
         <package name="com.youngit.office.api"/>
     </typeAliases>
-
-    <mappers>
-    <mapper resource="mybatis/mapper/ClientMapper.xml"/>
-    </mappers>
-
 </configuration>

@@ -14,7 +14,7 @@ public class LogFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException
     {
-        System.out.println("LogFilter init 2: LogFilter class init()");
+        System.out.println("init 2: LogFilter class init()");
         Filter.super.init(filterConfig);
     }
 

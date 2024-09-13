@@ -21,12 +21,12 @@ public class ClientService {
 
     @Autowired
     public ClientService(ClientMapper clientMapper, ClientMapstructMapper clientMapstructMapper) {
-        System.out.println("여기는 언제탐?");
         this.clientMapper = clientMapper;
         this.clientMapstructMapper = clientMapstructMapper;
     }
 
     public List<ClientDto> getListClient() {
+        System.out.println("여기는 옴?");
         List<ClientModel> resultModel = clientMapper.getListClient();
         List<ClientDto> resultDto = clientMapstructMapper.toDtoList(resultModel);
         return resultDto;
