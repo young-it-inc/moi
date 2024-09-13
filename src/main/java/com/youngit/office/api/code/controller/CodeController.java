@@ -13,8 +13,13 @@ public class CodeController {
 
     private static final Logger logger = Logger.getLogger(CodeController.class.getName());
 
+
+    private final CodeService codeService;
+
     @Autowired
-    CodeService codeService;
+    public CodeController(CodeService codeService) {
+        this.codeService = codeService;
+    }
 
 
 

@@ -11,8 +11,12 @@ import java.util.logging.Logger;
 @RestController
 public class BoardController {
 
-    @Autowired
-    private BoardService boardService;
+    private final BoardService boardService;
 
     private static final Logger logger = Logger.getLogger(BoardController.class.getName());
+
+    @Autowired
+    public BoardController(BoardService boardService) {
+        this.boardService = boardService;
+    }
 }

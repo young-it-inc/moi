@@ -8,9 +8,10 @@ import java.util.List;
 
 @Mapper
 public interface ClientMapper {
-
     List<ClientModel> getListClient();
-
+    int getCountListClient();
+    ClientModel getOneClient(String clientUniqId);
+    List<ClientManagerModel> getListClientManager(String clientUniqId);
 
 
     int registerClient(ClientModel clientModel);
@@ -23,7 +24,6 @@ public interface ClientMapper {
 
     int updateClient(ClientModel clientModel);
     int updateClientManager(ClientManagerModel clientManagerModel);
-
 
 
 

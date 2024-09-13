@@ -4,11 +4,13 @@ import com.youngit.office.api.estimate.mapper.EstimateMapper;
 import com.youngit.office.api.estimate.model.EstimateModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Service
+@Transactional
 public class EstimateService {
 
     @Autowired

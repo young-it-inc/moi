@@ -4,10 +4,12 @@ import com.youngit.office.api.product.mapper.ProductMapper;
 import com.youngit.office.api.product.model.ProductModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class ProductService {
     @Autowired
     ProductMapper productMapper;

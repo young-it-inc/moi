@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Service
+@Transactional
 public class ContractService {
     @Autowired
     ContractMapper contractMapper;

@@ -1,28 +1,51 @@
 package com.youngit.office.api.client.service;
 
+import com.youngit.office.api.client.dto.ClientDto;
+import com.youngit.office.api.client.dto.ClientManagerDto;
 import com.youngit.office.api.client.mapper.ClientMapper;
+import com.youngit.office.api.client.mapstruct.ClientMapstruct;
 import com.youngit.office.api.client.model.ClientManagerModel;
 import com.youngit.office.api.client.model.ClientModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class ClientService {
-    @Autowired
-    ClientMapper clientMapper;
 
-    public List<ClientModel> getListClient() {
-        //사용여부 N은 출력x
-        return clientMapper.getListClient();
+    private final ClientMapper clientMapper;
+    private final ClientMapstruct clientMapstruct;
+
+    @Autowired
+    public ClientService(ClientMapper clientMapper, ClientMapstruct clientMapstruct) {
+        this.clientMapper = clientMapper;
+        this.clientMapstruct = clientMapstruct;
     }
-    public int registerClient(ClientModel clientModel) {
+
+    public List<ClientDto> getListClient() {
+        System.out.println("여기는 옴?");
+        List<ClientModel> resultModel = clientMapper.getListClient();
+        List<ClientDto> resultDto = resultModel.stream().map(clientMapstruct::toDto).toList();
+        return resultDto;
+    }
+
+    public ClientDto getOneClient(String clientUniqId) {
+        ClientModel clientModel = clientMapper.getOneClient(clientUniqId);
+        clientModel.setClientManagerModelList(clientMapper.getListClientManager(clientUniqId));
+        ClientDto resultDto = clientMapstruct.toDto(clientModel);
+        return resultDto;
+
+    }
+    public int registerClient(ClientDto clientDto) {
 
         //clientUniqId: 고유번호(BCNC_15자리) 등록하기 위해 가장 최근의 고유번호를 가져옴
         String lastClientUniqId = clientMapper.getLastClientUniqId();
         String newClientUniqId = generateNewClientUniqId(lastClientUniqId);
-        clientModel.setClientUniqId(newClientUniqId);
+        clientDto.setClientUniqId(newClientUniqId);
+        ClientModel clientModel = clientMapstruct.toModel(clientDto);
 
         int result = 0;
         result = clientMapper.registerClient(clientModel);
@@ -43,7 +66,6 @@ public class ClientService {
     private String generateNewClientUniqId(String lastClientUniqId) {
         if(lastClientUniqId == null)
             return "BCNC_000000000000001";
-
         String prefix = "BCNC_";
         String numberPart = lastClientUniqId.substring(prefix.length());
         int newNumber = Integer.parseInt(numberPart) + 1;
@@ -57,21 +79,23 @@ public class ClientService {
         return clientMapper.checkBizNumber(bizNumber);
     }
 
-    public int updateClient(ClientModel clientModel) {
+    public int updateClient(ClientDto clientDto) {
 
+        ClientModel clientModel = clientMapstruct.toModel(clientDto);
         int result = clientMapper.updateClient(clientModel);
-        if(clientModel.getClientManagerModelList() != null)
+        if(clientDto.getClientManagerDtoList() != null)
         {
-            for(ClientManagerModel clientManagerModel : clientModel.getClientManagerModelList())
+            for(ClientManagerDto clientManagerDto : clientDto.getClientManagerDtoList())
             {
-                if(clientManagerModel.getClientUniqId() == null)
+                if(clientManagerDto.getClientUniqId() == null)
                 {
-                    clientManagerModel.setClientUniqId(clientModel.getClientUniqId());
+                    clientManagerDto.setClientUniqId(clientDto.getClientUniqId());
                 }
-                clientMapper.registerClientManager(clientManagerModel);
+                ClientManagerModel clientManagerModel = clientMapstruct.toModel(clientManagerDto);
+                result += clientMapper.updateClientManager(clientManagerModel);
             }
         }
-        return clientMapper.updateClient(clientModel);
+        return result;
     }
 
     public int deleteClient(String clientUniqId) {

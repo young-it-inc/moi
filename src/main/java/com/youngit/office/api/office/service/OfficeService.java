@@ -4,10 +4,12 @@ import com.youngit.office.api.office.mapper.OfficeMapper;
 import com.youngit.office.api.office.model.OfficeModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class OfficeService {
 
     @Autowired
