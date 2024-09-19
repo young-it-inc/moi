@@ -9,6 +9,8 @@ import java.sql.Timestamp;
 @Data
 @Schema(description = "사진 정보")
 public class PhotoModel {
+    //설치 사진 저장시 압축저장할 수 있게
+
     String	operation_id; // 작업고유ID: AS_00000000000000000(17자리) / INSTL_00000000000000(14자리)
     String	operation_code; //작업고유코드
     String	is_corrected; //시정여부 Y/N

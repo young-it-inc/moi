@@ -14,7 +14,7 @@ public class InstallModel {
     String	contractUniqNo; //고객계약고유번호 : 202408130001 12자리
     String	clientUniqId; //거래처고유ID : BCNC_000000000000000 15자리
     String	subClientUniqId; //부거래처고유ID : 보통 null
-    int	installContractNo; //설치계약번호
+    int	installContractIdx; //설치계약번호
     String	clientBuilderId; //시공사고유ID : BCNC_000000000000000 15자리
     String	officeId; //지역고유ID :office코드
     String	customerNumber; //수용가번호

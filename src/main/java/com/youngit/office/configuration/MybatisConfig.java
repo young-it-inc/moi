@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import javax.sql.DataSource;
 
 
-//@Configuration
+//@Configuration : 어느테이션만 주석처리해도 여기 타지않음
 public class MybatisConfig {
 
     @Bean

@@ -1,9 +1,10 @@
 package com.youngit.office.configuration.jwt;
 
-import com.youngit.office.api.member.model.MemberModel;
+import com.youngit.office.api.member.dto.MemberDto;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import io.jsonwebtoken.*;
+
 import java.time.Instant;
 import java.util.Date;
 import java.util.logging.Logger;
@@ -16,7 +17,7 @@ public class JwtTokenProvider {
 
     private final JwtProperties jwtProperties;
 
-    public String makeJwtToken(MemberModel memberModel) {
+    public String makeJwtToken(MemberDto memberDto) {
 
         logger.info("makeJwtToken");
         Instant now = Instant.now();
@@ -27,8 +28,8 @@ public class JwtTokenProvider {
                 .setIssuer(jwtProperties.getIssuer())
                 .setIssuedAt(Date.from(now))
                 .setExpiration(Date.from(expriyDate))
-                .claim("id", memberModel.getMemberId())
-                .claim("email", memberModel.getEmail())
+                .claim("id", memberDto.getMemberId())
+                .claim("email", memberDto.getEmail())
                 .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretkey())
                 .compact();
 

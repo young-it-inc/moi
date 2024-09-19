@@ -1,6 +1,6 @@
 package com.youngit.office.api.estimate.controller;
 
-import com.youngit.office.api.estimate.model.EstimateModel;
+import com.youngit.office.api.estimate.dto.EstimateDto;
 import com.youngit.office.api.estimate.service.EstimateService;
 import com.youngit.office.api.http.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,41 +22,72 @@ public class EstimateController {
     // 견적부터 종료까지 한번에 확인 가능하게(견적-세금계산서-입금확인-출고요청-출고-배송완료)
 
     private static final Logger logger = Logger.getLogger(EstimateController.class.getName());
+
+    private final EstimateService estimateService;
+
     @Autowired
-    EstimateService estimateService;
+    public EstimateController(EstimateService estimateService) {
+        this.estimateService = estimateService;
+    }
 
     @Operation(summary = "견적서 리스트 조회")
     @GetMapping("/estimate")
-    public List<EstimateModel> getListEstimate()
+    public ApiResponse<List<EstimateDto>> getListEstimate()
     {
         logger.info("견적서 리스트 조회");
-        return estimateService.getListEstimate();
+        int count = estimateService.getCountListEstimate();
+        List<EstimateDto> result = estimateService.getListEstimate();
+        return new ApiResponse<>(result, 0, "견적서 리스트 조회 완료", count);
+    }
+
+    @Operation(summary = "견적서 개별 조회")
+    @GetMapping("/estimate/{estimateUniqNo}")
+    public ApiResponse<EstimateDto> getListEstimate(String estimateUniqNo)
+    {
+        logger.info("견적서 개별 조회");
+        EstimateDto result = estimateService.getOneEstimate(estimateUniqNo);
+        return new ApiResponse<>(result, 0, "견적서 개별 조회 완료");
     }
 
 
-    @Operation(summary = "견적서 등록: 일반, 지자체")
-    @PostMapping("/estimate")
-    public ApiResponse<String> registerEstimate(EstimateModel estimateModel) {
-        logger.info("견적서 등록");
-        int result = estimateService.registerEstimate(estimateModel);
+    @Operation(summary = "견적서 등록 버튼: 견적번호 자동생성")
+    @GetMapping("/estimate/register")
+    public ApiResponse<String> getNewEstimateNo() {
+        String result = estimateService.getNewEstimateUniqNo();
+        return new ApiResponse<>(result);
+    }
+
+    @Operation(summary = "견적서 등록 완료: 일반, 지자체")
+    @PostMapping("/estimate/register")
+    public ApiResponse<String> registerEstimate(EstimateDto estimateDto) {
+        logger.info("견적서 등록 완료");
+        int result = estimateService.registerEstimate(estimateDto);
         return new ApiResponse<>("견적서 등록 성공");
     }
 
 
     @Operation(summary = "견적서 수정")
     @PutMapping("/estimate")
-    public ApiResponse<String> updateEstimate(EstimateModel estimateModel) {
+    public ApiResponse<String> updateEstimate(EstimateDto estimateDto) {
         logger.info("견적서 수정");
-        int result = estimateService.updateEstimate(estimateModel);
+        int result = estimateService.updateEstimate(estimateDto);
         return new ApiResponse<>("견적서 수정 성공");
     }
 
 
     @Operation(summary = "견적서 삭제")
     @DeleteMapping("/estimate")
-    public ApiResponse<String> deleteEstimate(EstimateModel estimateModel) {
+    public ApiResponse<String> deleteEstimate(String estimateUniqNo) {
         logger.info("견적서 삭제");
-        int result = estimateService.deleteEstimate(estimateModel);
+        int result = estimateService.deleteEstimate(estimateUniqNo);
         return new ApiResponse<>("견적서 삭제 성공");
+    }
+
+    @Operation(summary = "견적서 계약 진행")
+    @GetMapping("/estimate/contract")
+    public ApiResponse<String> registerEstimateContract(EstimateDto estimateDto) {
+        logger.info("견적서 계약 진행 (계약서 미완성 상태)");
+        String result = estimateService.registerEstimateContract(estimateDto); //계약번호 전달
+        return new ApiResponse<>(result);
     }
 }

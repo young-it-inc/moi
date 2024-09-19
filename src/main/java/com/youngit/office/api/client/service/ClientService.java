@@ -25,11 +25,19 @@ public class ClientService {
         this.clientMapstruct = clientMapstruct;
     }
 
+
+    /** 거래처 조회
+     * @param : clientUniqId
+     * @return : List<ClientDto>, ClientDto
+     */
     public List<ClientDto> getListClient() {
-        System.out.println("여기는 옴?");
         List<ClientModel> resultModel = clientMapper.getListClient();
         List<ClientDto> resultDto = resultModel.stream().map(clientMapstruct::toDto).toList();
         return resultDto;
+    }
+
+    public int getCountListClient() {
+        return clientMapper.getCountListClient();
     }
 
     public ClientDto getOneClient(String clientUniqId) {
@@ -39,6 +47,17 @@ public class ClientService {
         return resultDto;
 
     }
+
+    public List<ClientDto> findClient()
+    {
+        return null;
+
+    }
+    /**
+     * 거래처 등록
+     * @param clientDto
+     * @return
+     */
     public int registerClient(ClientDto clientDto) {
 
         //clientUniqId: 고유번호(BCNC_15자리) 등록하기 위해 가장 최근의 고유번호를 가져옴

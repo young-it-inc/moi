@@ -1,7 +1,7 @@
 package com.youngit.office.api.material.controller;
 
 import com.youngit.office.api.http.ApiResponse;
-import com.youngit.office.api.material.model.MaterialModel;
+import com.youngit.office.api.material.dto.MaterialDto;
 import com.youngit.office.api.material.service.MaterialService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,21 +20,32 @@ public class MaterialController {
 
     private static final Logger logger = Logger.getLogger(MaterialController.class.getName());
 
-    @Autowired
     private MaterialService materialService;
+    @Autowired
+    public MaterialController(MaterialService materialService) {
+        this.materialService = materialService;
+    }
 
-    @Operation(summary = "자재 조회")
+    @Operation(summary = "자재 리스트 조회")
     @GetMapping("/material")
-    public List<MaterialModel> getListMaterial() {
+    public ApiResponse<List<MaterialDto>> getListMaterial() {
+        logger.info("자재 리스트 조회");
+        List<MaterialDto> result = materialService.getListMaterial();
+        return new ApiResponse<>(result, 0, "자재 목록 조회 완료", result.size());
+    }
+
+    public ApiResponse<MaterialDto> getOneMaterial(String materialUniqId) {
         logger.info("자재 조회");
-        return materialService.getListMaterial();
+        MaterialDto result = materialService.getOneMaterial(materialUniqId);
+
+        return new ApiResponse<>(result, 0, "자재 조회 완료");
     }
 
     @Operation(summary = "자재 등록", description = "필수입력: ")
     @PostMapping("/material")
-    public ApiResponse<String> postMaterial(@RequestBody MaterialModel materialModel) {
+    public ApiResponse<String> postMaterial(@RequestBody MaterialDto materialDto) {
         logger.info("자재 등록");
-        int result = materialService.registerMaterial(materialModel);
+        int result = materialService.registerMaterial(materialDto);
         if (result == 1)
         {
             return new ApiResponse<>("자재 등록 성공");
@@ -47,9 +58,9 @@ public class MaterialController {
 
     @Operation(summary = "자재 수정")
     @PutMapping("/material")
-    public ApiResponse<String> updateMaterial(@RequestBody MaterialModel materialModel) {
+    public ApiResponse<String> updateMaterial(@RequestBody MaterialDto materialDto) {
         logger.info("자재 수정");
-        int result = materialService.updateMaterial((materialModel));
+        int result = materialService.updateMaterial(materialDto);
         if (result == 1)
         {
             return new ApiResponse<>("자재 수정 성공");

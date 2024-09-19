@@ -65,7 +65,7 @@ public class ContractModel {
 
     List<ContractDetailModel> contractDetailList; //계약상세정보
 
-    List<ContractProductListModel> contractProductList; //계약제품정보
+    List<ContractProductModel> contractProductList; //계약제품정보
 
     //추가
     String contractManager; //계약별 관리자 (진척상황 관리 필요)

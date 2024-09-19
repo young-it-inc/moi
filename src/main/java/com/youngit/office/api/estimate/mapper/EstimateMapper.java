@@ -10,17 +10,21 @@ import java.util.List;
 public interface EstimateMapper {
 
     List<EstimateModel> getListEstimate();
+    int getCountListEstimate();
+    EstimateModel getOneEstimate(String estimateUniqNo);
+
 
     String getLastEstimateUniqNo(String todayDate);
 
 
     int registerEstimate(EstimateModel estimateModel);
-
-    int registerEstimateProducts(List<EstimateProductModel> estimateDetailModels);
-
     int updateEstimate(EstimateModel estimateModel);
-    int updateEstimateProducts(List<EstimateProductModel> estimateDetailModels);
+    int deleteEstimate(String estimateUniqNo); //사실상 삭제x (isUsed= 'N'으로 변경)
 
 
-    int deleteEstimate(EstimateModel estimateModel);
+
+
+    int registerEstimateProductList(List<EstimateProductModel> estimateProductModelList);
+    int updateEstimateProductList(List<EstimateProductModel> estimateProductModelList);
+    int deleteEstimateProductList(String estimateUniqNo); //삭제o
 }

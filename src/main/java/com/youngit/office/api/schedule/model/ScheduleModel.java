@@ -5,5 +5,5 @@ import lombok.Data;
 
 @Data
 @Schema(description = "일정 정보")
-class ScheduleModel {
+public class ScheduleModel {
 }

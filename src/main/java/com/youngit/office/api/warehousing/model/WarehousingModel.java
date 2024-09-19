@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Schema(description = "입출고 정보")
-class WarehousingModel {
+public class WarehousingModel {
 
     String	registerDate; //등록일
     String	clientBuilderId; //시공사고유ID

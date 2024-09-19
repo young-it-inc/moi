@@ -9,6 +9,18 @@
         ORDER BY sort_no
     </select>
 
+    <select id="getCountListOffice" resultType="int">
+        SELECT COUNT(*)
+        FROM o_office
+    </select>
+
+    <select id ="getOneOffice" resultType="OfficeModel">
+        SELECT office_id, office_major_code, office_minor_code, office_name, sort_no, is_used
+        FROM o_office
+        WHERE office_id = #{officeId}
+    </select>
+
+
     <select id="isExistOfficeId" parameterType="string" resultType="boolean">
         SELECT COUNT(*) > 0
         FROM o_office

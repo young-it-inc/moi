@@ -21,10 +21,8 @@ public interface ClientMapper {
 
 
 
-
     int updateClient(ClientModel clientModel);
     int updateClientManager(ClientManagerModel clientManagerModel);
-
 
 
     int deleteClient(String clientUniqId);

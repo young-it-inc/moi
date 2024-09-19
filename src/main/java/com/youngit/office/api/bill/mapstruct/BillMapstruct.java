@@ -10,6 +10,5 @@ import java.util.List;
 public interface BillMapstruct {
     BillDto toDto(BillModel billModel);
     BillModel toModel(BillDto billDto);
-    List<BillDto> toDtoList(List<BillModel> billModelList);
-    List<BillModel> toModelList(List<BillDto> billDtoList);
+
 }

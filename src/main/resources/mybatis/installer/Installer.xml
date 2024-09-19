@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.youngit.office.api.installer.mapper.InstallerMapper">
+
+    <select id="getListInstaller" resultType="InstallerModel">
+        select *
+        from o_installer
+
+    </select>
+
+    <select id="getCountListInstaller" resultType="int">
+    </select>
+
+    <select id="getOneInstaller" resultType="InstallerModel">
+    </select>
+
+
+    <insert id="registerInstaller" parameterType="InstallerModel">
+        INSERT INTO o_installer()
+        VALUES()
+    </insert>
+
+    <update id="updateInstaller" parameterType="InstallerModel">
+        UPDATE o_installer
+        SET
+
+    </update>
+
+
+</mapper>

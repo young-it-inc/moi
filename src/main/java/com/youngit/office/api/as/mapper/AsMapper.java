@@ -9,16 +9,12 @@ import java.util.List;
 public interface AsMapper {
 
     List<AsModel> getListAs(String asStateCode);
-
+    int getCountListAs(String asStateCode);
     AsModel getOneAs(String asUniqId);
 
-    int getCountListAs(String asStateCode);
-
-
+    String getLastAsUniqId();
     int registerAs(AsModel asModel);
-
     int updateAs(AsModel asModel);
-
     int deleteAs(String asUniqId);
 
 }

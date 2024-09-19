@@ -8,7 +8,11 @@ import java.util.List;
 @Mapper
 public interface InstallerMapper {
 
+
+    //설치팀계약 리스트 조회
     List<InstallerModel> getListInstaller();
+    int getCountListInstaller();
+    InstallerModel getOneInstaller(String installerUniqNo);
 
     int registerInstaller(InstallerModel installerModel);
 

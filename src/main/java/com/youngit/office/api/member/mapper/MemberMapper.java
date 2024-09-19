@@ -9,15 +9,18 @@ import java.util.List;
 @Mapper
 public interface MemberMapper {
 
-    List<MemberModel> getListMember(MemberDto memberDto);
+    List<MemberModel> getListMember();
+    int getCountListMember();
+
+    MemberModel getOneMember(String memberId);
     int registerMember(MemberModel memberModel);
 
     String getLastMemberUniqId();
-    boolean checkMemberId(String id);
+    boolean checkMemberId(String memberId);
 
     int updateMember(MemberModel memberModel);
 
-    int deleteMember(String id);
+    int deleteMember(String memberId);
 
     MemberModel login(MemberModel memberModel);
 }

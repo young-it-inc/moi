@@ -23,6 +23,11 @@ public class AsService {
         this.asMapstruct = asMapstruct;
     }
 
+    /**
+     * AS 조회
+     * @param asStateCode
+     * @return
+     */
     public List<AsDto> getListAs(String asStateCode) {
         List<AsModel> asModelList = asMapper.getListAs(asStateCode);
         return asModelList.stream().map(asMapstruct::toDto).toList();
@@ -35,16 +40,44 @@ public class AsService {
         return asMapstruct.toDto(asModel);
     }
 
-
+    /**
+     * AS 등록
+     * @param asDto
+     * @return
+     */
     public int registerAs(AsDto asDto) {
         AsModel asModel = asMapstruct.toModel(asDto);
+        String newAsUniqId = generateNewAsUniqId(asMapper.getLastAsUniqId());
+        asModel.setAsUniqId(newAsUniqId);
         return asMapper.registerAs(asModel);
     }
+    private String generateNewAsUniqId(String lastAsUniqId) {
+        String newAsUniqId = "";
+        if (lastAsUniqId == null) {
+            newAsUniqId = "AS_00000000000000001";
+        } else {
+            String lastAsUniqIdNumber = lastAsUniqId.substring(2);
+            long newAsUniqIdNumber = Long.parseLong(lastAsUniqIdNumber) + 1;
+            newAsUniqId = "AS_" + String.format("%017d", newAsUniqIdNumber);
+        }
+        return newAsUniqId;
+    }
+    /**
+     * AS 수정
+     * @param asDto
+     * @return
+     */
     public int updateAs(AsDto asDto) {
         int result = 0;
         AsModel asModel = asMapstruct.toModel(asDto);
         return asMapper.updateAs(asModel);
     }
+
+    /**
+     * AS 삭제
+     * @param asUniqId
+     * @return
+     */
     public int deleteAs(String asUniqId) {
         return asMapper.deleteAs(asUniqId);
     }

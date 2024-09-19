@@ -80,5 +80,4 @@ public class AsController {
             return new ApiResponse<>("as 삭제 실패");
     }
 
-
 }

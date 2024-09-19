@@ -3,6 +3,73 @@
 
 <mapper namespace="com.youngit.office.api.as.mapper.AsMapper">
 
+<select id="getListAs" resultType="AsModel">
+    SELECT *
+    FROM o_as
+    where is_used = 'Y'
+      <if test = "asStateCode != null and asStateCode != ''">
+              and as_state_code = #{asStateCode}
+      </if>
+    </select>
+
+    <select id="getCountListAs" resultType="int">
+    SELECT count(*)
+    FROM o_as
+    where is_used = 'Y' and as_state_code = #{asStateCode}
+    </select>
+
+    <select id="getOneAs" resultType="AsModel">
+    SELECT *
+    FROM o_as
+    where as_uniq_id = #{asUniqId}
+    </select>
+
+    <insert id="registerAs" parameterType="AsModel">
+    INSERT INTO o_as (as_uniq_id, install_uniq_id, client_builder_id, assign_idx, office_id,
+                      customer_number, customer_name, customer_address, customer_phone_number, as_year_month,
+                      as_week, as_receipt_date, as_request_date, as_process_date, as_complete_date,
+                      as_content, as_state_code, as_cause_code, as_cuase_sub_code, as_member_id,
+                      as_result, as_memo, is_replaced, meter_number, meter_caliber,
+                      meter_reading_serial_number, meter_reading_version, meter_reading_location, terminal_box_serial_number, terminal_box_location,
+                      external_indicator_serial_number, old_customer_number, install_environment_code, cable_status_code, before_meter_reading_serial_number,
+                      before_terminal_box_serial_number, before_external_indicator_serial_number, cable_length, as_etc, is_external_indicator_installed,
+                      is_enclosure_installed, as_signature_path, as_before_path, as_after_path, as_environment_path,
+                      as_before_meter_path, as_after_meter_path, as_before_meter_reading_path, as_after_meter_reading_path, as_before_terminal_box_path,
+                      as_after_terminal_box_path, as_before_cable_path, as_after_cable_path, correct_count, meterman_name,
+                      meterman_phone_number, is_deducted, deduction_id, deduction_reason, pay_apply_date,
+                      created_at, created_by_member_uniq_id, updated_at, updated_by_member_uniq_id, is_used,
+                      receipt_number, temp_production_date, as_code, customer_phone_number_2, deduction_year_month,
+                      deduction_amount, before_install_uniq_id, inspection_date)
+    VALUES (#{asUniqId}, #{installUniqId}, #{clientBuilderId}, #{assignNumber}, #{officeId},
+            #{customerNumber}, #{customerName}, #{customerAddress}, #{customerPhoneNumber}, #{asYearMonth},
+            #{asWeek}, #{asReceiptDate}, #{asRequestDate}, #{asProcessDate}, #{asCompleteDate},
+            #{asContent}, #{asProcessStatusCode}, #{asCauseCode}, #{asCuaseSubCode}, #{asMemberId},
+            #{asResult}, #{asMemo}, #{isReplaced}, #{meterNumber}, #{meterCaliber},
+            #{meterReadingSerialNumber}, #{meterReadingVersion}, #{meterReadingLocation}, #{terminalBoxSerialNumber}, #{terminalBoxLocation},
+            #{externalIndicatorSerialNumber}, #{oldCustomerNumber}, #{installEnvironmentCode}, #{cableStatusCode}, #{beforeMeterReadingSerialNumber},
+            #{beforeTerminalBoxSerialNumber}, #{beforeExternalIndicatorSerialNumber}, #{cableLength}, #{asEtc}, #{isExternalIndicatorInstalled},
+            #{isEnclosureInstalled}, #{asSignaturePath}, #{asBeforePath}, #{asAfterPath}, #{asEnvironmentPath},
+            #{asBeforeMeterPath}, #{asAfterMeterPath}, #{asBeforeMeterReadingPath}, #{asAfterMeterReadingPath}, #{asBeforeTerminalBoxPath},
+            #{asAfter_terminalBox_path}, #{asBeforeCablePath}, #{asAfterCablePath}, #{correctCount}, #{metermanName},
+            #{metermanPhoneNumber}, #{isDeducted}, #{deductionId}, #{deductionReason}, #{payApplyDate},
+            CURRENT_TIMESTAMP(3), #{createdByMemberUniqId}, CURRENT_TIMESTAMP(3), #{updatedByMemberUniqId}, 'Y',
+            #{receiptNumber}, #{tempProductionDate}, #{asCode}, #{customerPhoneNumber2}, #{deductionYearMonth},
+            #{deductionAmount}, #{beforeInstallUniqId}, #{inspectionDate})
+    </insert>
+
+    <update id="updateAs" parameterType="AsModel">
+    UPDATE o_as
+    SET
+    <if test="asTypeCode != null and asTypeCode !=''">
+    as_type_code = #{asTypeCode},
+    </if>
+
+    where as_uniq_id = #{asUniqId}
+    </update>
+
+    <delete id ="deleteAs" parameterType="String">
+
+    </delete>
 
 
 </mapper>

@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Schema(description = "상용구 텍스트 정보")
-class AutotextModel {
+public class AutotextModel {
     int	textUniqNumber; //상용구고유번호
     String	textType; //텍스트구분
     int	sortNumber; //정렬번호

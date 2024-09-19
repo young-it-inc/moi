@@ -9,10 +9,9 @@ public class EstimateProductModel {
 
     int	estimateProductUniqOrder; // 견적품목고유번호(order)
     String	estimateUniqNo; // 견적서고유번호
-    String	deliveryCode; // 출고구분코드
-    String	officeId; // 지역고유ID
-    String	clientUniqId; // 거래처고유ID
+    int productOrder; // 품목순서
     String	materialUniqId; // 자재고유ID
     int	productQuantity; // 품목수량
     int	productUnitPrice; // 품목단가
+    int productTotalPrice; // 품목별총액
 }

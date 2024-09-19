@@ -1,7 +1,6 @@
 package com.youngit.office.api.bill.controller;
 
 import com.youngit.office.api.bill.dto.BillDto;
-import com.youngit.office.api.bill.model.BillModel;
 import com.youngit.office.api.bill.service.BillService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,7 +28,7 @@ public class BillController {
 
     @Operation(summary = "내역서 조회")
     @GetMapping("/bill")
-    public List<BillModel> getListBill() {
+    public List<BillDto> getListBill() {
         logger.info("내역서 조회");
         return billService.getListBill();
     }

@@ -7,14 +7,13 @@ import java.util.List;
 
 @Mapper
 public interface ProductMapper {
-
     List<ProductModel> getListProduct();
+    int getCountListProduct();
+    ProductModel getOneProduct(String productSerialNumber);
 
     int registerProduct(ProductModel productModel);
 
-
-
     int updateProduct(ProductModel productModel);
 
-    int deleteProduct(String productId);
+    int deleteProduct(String productSerialNumber);
 }

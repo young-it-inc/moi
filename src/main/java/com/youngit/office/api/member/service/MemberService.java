@@ -2,6 +2,7 @@ package com.youngit.office.api.member.service;
 
 import com.youngit.office.api.member.dto.MemberDto;
 import com.youngit.office.api.member.mapper.MemberMapper;
+import com.youngit.office.api.member.mapstruct.MemberMapstruct;
 import com.youngit.office.api.member.model.MemberModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,19 +13,35 @@ import java.util.List;
 @Service
 @Transactional
 public class MemberService {
+
+
+
+    private final MemberMapper memberMapper;
+    private final MemberMapstruct memberMapstruct;
+
     @Autowired
-    MemberMapper memberMapper;
-
-    public List<MemberModel> getListMember(MemberDto memberDto) {
-
-        return memberMapper.getListMember(memberDto);
+    public MemberService(MemberMapper memberMapper, MemberMapstruct memberMapstruct) {
+        this.memberMapper = memberMapper;
+        this.memberMapstruct = memberMapstruct;
     }
 
-    public int registerMember(MemberModel memberModel) {
+    public List<MemberDto> getListMember() {
+        List<MemberModel> result = memberMapper.getListMember();
+        return result.stream().map(memberMapstruct::toDto).toList();
+    }
+
+    public MemberDto getOneMember(String memberId)
+    {
+        MemberModel result = memberMapper.getOneMember(memberId);
+        return memberMapstruct.toDto(result);
+    }
+
+    public int registerMember(MemberDto memberDto) {
         //memberUiqId: 고유번호 등록하기 위해 가장 최근 고유번호 가져옴.
         String lastMemberUniqId = memberMapper.getLastMemberUniqId();
         String newMemberUniqId = generateNewMemberUniqId(lastMemberUniqId);
-        memberModel.setMemberUniqId(newMemberUniqId);
+        memberDto.setMemberUniqId(newMemberUniqId);
+        MemberModel memberModel = memberMapstruct.toModel(memberDto);
         return memberMapper.registerMember(memberModel);
     }
 
@@ -44,7 +61,8 @@ public class MemberService {
         return memberMapper.checkMemberId(id);
     }
 
-    public int updateMember(MemberModel memberModel) {
+    public int updateMember(MemberDto memberDto) {
+        MemberModel memberModel = memberMapstruct.toModel(memberDto);
         return memberMapper.updateMember(memberModel);
     }
 
@@ -52,7 +70,9 @@ public class MemberService {
         return memberMapper.deleteMember(id);
     }
 
-    public MemberModel login(MemberModel memberModel) {
-        return memberMapper.login(memberModel);
+    public MemberDto login(MemberDto memberDto) {
+        MemberModel memberModel = memberMapstruct.toModel(memberDto);
+        MemberModel result = memberMapper.login(memberModel);
+        return memberMapstruct.toDto(result);
     }
 }

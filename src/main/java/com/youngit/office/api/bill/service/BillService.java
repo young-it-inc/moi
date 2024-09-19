@@ -23,12 +23,31 @@ public class BillService {
         this.billMapstruct = billMapstruct;
     }
 
-    public List<BillModel> getListBill() {
 
-        return billMapper.getListBill();
+    /**
+     * Bill 조회
+     * @return
+     */
+    public List<BillDto> getListBill() {
+        List<BillModel> billModel = billMapper.getListBill();
+        return billModel.stream().map(billMapstruct::toDto).toList();
 
     }
+    public int getCountListBill()
+    {
+        return billMapper.getCountListBill();
+    }
 
+    public BillDto getOneBill(String billId) {
+        BillModel billModel = billMapper.getOneBill(billId);
+        return billMapstruct.toDto(billModel);
+    }
+
+    /**
+     * Bill 등록
+     * @param billDto
+     * @return
+     */
     public int registerBill(BillDto billDto) {
         BillModel billModel = billMapstruct.toModel(billDto);
         return billMapper.registerBill(billModel);

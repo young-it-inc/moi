@@ -3,4 +3,38 @@
 
 <mapper namespace="com.youngit.office.api.material.mapper.MaterialMapper">
 
+    <select id="getListMaterial" resultType="MaterialModel">
+        SELECT *
+        FROM o_material
+        WHERE is_used = 'Y'
+    </select>
+    <select id="getCountListMaterial" resultType="int">
+        SELECT COUNT(*)
+        FROM o_material
+        WHERE is_used = 'Y'
+    </select>
+
+    <select id="getOneMaterial" resultType="MaterialModel">
+        SELECT *
+        FROM o_material
+        WHERE material_uniq_id = #{materialUniqId}
+    </select>
+
+    <insert id="registerMaterial" parameterType="MaterialModel">
+        INSERT INTO o_material (asset_sort_code, product_sort_code, material_name, material_unit_price, created_at, created_by_member_uniq_id, updated_at, is_used)
+        VALUES(#{assetSortCode}, #{productSortCode}, #{materialName}, #{materialUnitPrice}, CURRENT_TIMESTAMP(3), #{createdByMemberUniqId}, CURRENT_TIMESTAMP(3), 'Y')
+    </insert>
+
+    <update id="updateMaterial" parameterType="MaterialModel">
+        UPDATE o_material
+        SET
+            <if test="assetSortCode != null">
+                asset_sort_code = #{assetSortCode}
+            </if>
+    </update>
+
+    <delete id="deleteMaterial" parameterType="String">
+
+    </delete>
+
 </mapper>

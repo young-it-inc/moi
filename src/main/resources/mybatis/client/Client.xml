@@ -3,26 +3,25 @@
 
 <mapper namespace="com.youngit.office.api.client.mapper.ClientMapper">
 
-    <select id="getListClient" resultType="com.youngit.office.api.client.model.ClientModel">
+    <select id="getListClient" resultType="ClientModel">
         SELECT *
         FROM o_client
         where is_used = 'Y'
     </select>
 
     <select id="getCountListClient" resultType="int">
-        SELECT count(*)
+        SELECT COUNT(*)
         FROM o_client
         where is_used = 'Y'
     </select>
 
-
-    <select id="getOneClient" resultType="com.youngit.office.api.client.model.ClientModel">
+    <select id="getOneClient" resultType="ClientModel">
         SELECT *
         FROM o_client
-        where client_uniq_id = #{clientUniqId}
+        where client_uniq_id = #{clientUniqId} and is_used = 'Y'
     </select>
 
-    <select id="getListClientManager" resultType="com.youngit.office.api.client.model.ClientManagerModel">
+    <select id="getListClientManager" resultType="ClientManagerModel">
         SELECT *
         FROM o_client_manager
         where client_uniq_id = #{clientUniqId}
@@ -30,7 +29,7 @@
 
 
 
-    <insert id="registerClient" parameterType="com.youngit.office.api.client.model.ClientModel">
+    <insert id="registerClient" parameterType="ClientModel">
         INSERT INTO o_client (client_uniq_id, client_type_code, business_registration_number, client_name, representative_name,
                               address, business_type, business_category, phone_number, fax_number,
                               email, item, water_supply_code, bank_name, account_holder,
@@ -44,9 +43,8 @@
     </insert>
 
 
-    <update id="updateClient" parameterType="com.youngit.office.api.client.model.ClientModel">
+    <update id="updateClient" parameterType="ClientModel">
         UPDATE o_client
-
         <set>
             <if test="clientTypeCode != null and clientTypeCode !=''">
                 client_type_code = #{clientTypeCode},
@@ -103,13 +101,13 @@
         </set>
     </update>
 
-    <insert id="registerClientManager" parameterType="com.youngit.office.api.client.model.ClientManagerModel">
-        INSERT INTO o_client_manager (client_uniq_id, manager_no, manager_name, manager_department, manager_position, manager_phone_number, manager_email)
-        VALUES (#{clientUniqId}, #{managerNo}, #{managerName}, #{managerDepartment}, #{managerPosition}, #{managerPhoneNumber}, #{managerEmail})
+    <insert id="registerClientManager" parameterType="ClientManagerModel">
+        INSERT INTO o_client_manager (client_uniq_id, manager_order, manager_name, manager_department, manager_position, manager_phone_number, manager_email)
+        VALUES (#{clientUniqId}, #{managerOrder}, #{managerName}, #{managerDepartment}, #{managerPosition}, #{managerPhoneNumber}, #{managerEmail})
     </insert>
 
 
-    <update id="updateClientManager" parameterType="com.youngit.office.api.client.model.ClientManagerModel">
+    <update id="updateClientManager" parameterType="ClientManagerModel">
         UPDATE o_client_manager
         SET
         <if test="managerName != null and managerName !=''">
@@ -127,7 +125,7 @@
         <if test="managerEmail != null and managerEmail !=''">
             manager_email = #{managerEmail}
         </if>
-        WHERE client_uniq_id = #{clientUniqId}
+        WHERE client_uniq_id = #{clientUniqId} and is_used = 'Y'
     </update>
 
     <update id="deleteClient" parameterType="String"> --delete지만 실제로 삭제는 x, is_used를 N으로 변경
@@ -135,9 +133,6 @@
     set is_used = 'N'
     WHERE client_uniq_id = #{clientUniqId}
     </update>
-
-
-
 
 
     <select id="getLastClientUniqId" resultType="String">
@@ -148,6 +143,13 @@
     <select id="checkBizNumber" parameterType="String" resultType="boolean">
         select count(*)>0
         from o_client
-        where business_registration_number = #{businessRegistrationNumber}
+        where business_registration_number = #{businessRegistrationNumber} and is_used = 'Y'
     </select>
+
+    <select id="findClient" parameterType="String" resultType="ClientModel">
+        SELECT *
+        FROM o_client
+        where business_registration_number = #{businessRegistrationNumber} and is_used = 'Y'
+    </select>
+
 </mapper>

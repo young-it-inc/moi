@@ -1,7 +1,7 @@
 package com.youngit.office.api.office.controller;
 
 import com.youngit.office.api.http.ApiResponse;
-import com.youngit.office.api.office.model.OfficeModel;
+import com.youngit.office.api.office.dto.OfficeDto;
 import com.youngit.office.api.office.service.OfficeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,14 +17,17 @@ public class OfficeController {
 
     private static final Logger logger = Logger.getLogger(OfficeController.class.getName());
 
-    @Autowired
-    OfficeService officeService;
+    private final OfficeService officeService;
 
+    @Autowired
+    public OfficeController(OfficeService officeService) {
+        this.officeService = officeService;
+    }
     @Operation(summary = "사업소 등록")
     @PostMapping("/api/office")
-    public ApiResponse<String> registerOffice(@RequestBody OfficeModel officeModel) {
+    public ApiResponse<String> registerOffice(@RequestBody OfficeDto officeDto) {
         logger.info("사업소 등록");
-        int result = officeService.registerOffice(officeModel);
+        int result = officeService.registerOffice(officeDto);
         if(result == 1) {
             return new ApiResponse<>("사업소 등록 성공");
         } else {
@@ -34,17 +37,17 @@ public class OfficeController {
 
     @Operation(summary ="사업소 조회")
     @GetMapping("/api/office")
-    public ApiResponse<List<OfficeModel>> getListOffice() {
+    public ApiResponse<List<OfficeDto>> getListOffice() {
         logger.info("사업소 조회");
-        List<OfficeModel> result = officeService.getListOffice();
+        List<OfficeDto> result = officeService.getListOffice();
         return new ApiResponse<>(result);
     }
 
     @Operation(summary = "사업소 수정")
     @PutMapping("/api/office")
-    public ApiResponse<String> updateOffice(@RequestBody OfficeModel officeModel) {
+    public ApiResponse<String> updateOffice(@RequestBody OfficeDto officeDto) {
         logger.info("사업소 수정");
-        int result = officeService.updateOffice(officeModel);
+        int result = officeService.updateOffice(officeDto);
         if(result == 1) {
             return new ApiResponse<>("사업소 수정 성공");
         } else {
