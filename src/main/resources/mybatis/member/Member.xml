@@ -4,41 +4,21 @@
 <mapper namespace="com.youngit.office.api.member.mapper.MemberMapper">
 
 
-    <select id="getListMember" resultType="MemberModel">
+    <select id="getOrSearchListMember" parameterType="MemberSearchDto" resultType="MemberModel">
         select *
         from o_member
         where member_status = 'P'
     </select>
 
 
-    <select id="ListMember" parameterType="memberDto" resultType="MemberModel">
-        SELECT  member_id as memberId,
-        name as name,
-        email as email,
-        phone_number as phoneNumber,
-        status as status,
-        authority_code as authorityCode,
-        sign_up_at as signUpAt,
-        position_code as positionCode,
-        department_code as departmentCode,
-        task_code as taskCode,
-        type_code as typeCode,
-        member_uniq_id as memberUniqId
-        from o_member
-        <where>
-            <if test="sqlQuery !=''">
-                AND ${sqlQuery}
-            </if>
-        </where>
-    </select>
 
-    <select id="getCountListMember" resultType="int">
+    <select id="countGetOrSearchListMember" resultType="int">
         select count(*)
         from o_member
         where member_status = 'P'
     </select>
 
-    <select id="getOneMember" parameterType="MemberDto" resultType="MemberModel">
+    <select id="getOneMember" resultType="MemberModel">
     select *
     from o_member
    where 1=1
@@ -59,8 +39,8 @@
 
 
     <insert id="registerMember" parameterType="MemberModel">
-        INSERT INTO o_member (member_id,password, name,email,phone_number,status, authority_code, position_code, department_code, task_code, type_code, member_uniq_id, sign_up_at)
-        values (#{memberId},#{password},#{name},#{email},#{phoneNumber},#{status}, #{authorityCode}, #{positionCode}, #{departmentCode}, #{taskCode}, #{typeCode}, #{memberUniqId}, #{signUpAt})
+        INSERT INTO o_member (member_id, password, password_question, password_answer, member_name, member_email,member_phone_number, member_cellphone_number, member_status, member_type_code, group_id, authority_code, sign_up_at, member_uniq_id, position_code, department_code, task_code, cooperative_id)
+        values (#{memberId},#{password},#{passwordQuestion},#{passwordAnswer},#{memberName},#{memberEmail}, #{memberPhoneNumber}, #{memberCellphoneNumber}, #{memberStatus}, #{memberTypeCode}, #{groupId}, #{authorityCode}, #{signUpAt}, #{memberUniqId}, #{positionCode}, #{departmentCode}, #{taskCode}, #{cooperativeId})
     </insert>
 
     <update id="updateMember" parameterType="MemberModel">
@@ -123,18 +103,7 @@
 
 
     <select id="login" parameterType="MemberModel" resultType="MemberModel">
-        select member_id as memberId,
-               name as name,
-               email as email,
-               phone_number as phoneNumber,
-               status as status,
-               authority_code as authorityCode,
-               sign_up_at as signUpAt,
-               position_code as positionCode,
-               department_code as departmentCode,
-               task_code as taskCode,
-               type_code as typeCode,
-               member_uniq_id as memberUniqId
+        select *
         from o_member
         where member_id = #{memberId} and password = #{password}
     </select>
@@ -143,7 +112,5 @@
         SELECT MAX(member_id)
         FROM o_member
     </select>
-
-    <
 
 </mapper>

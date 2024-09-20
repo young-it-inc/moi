@@ -3,67 +3,196 @@
 
 <mapper namespace="com.youngit.office.api.contract.mapper.ContractMapper">
 
-    <select id="getListContract" resultType="ContractModel">
+    <select id="getOrSearchListContract" parameterType="ContractSearchDto" resultType="ContractModel">
         SELECT *
         FROM o_contract
-        where --일반/지자체
+        where contract_type = #{contractType}
     </select>
 
-    <select id="getCountListContract" resultType="int">
+    <select id="countGetOrSearchListContract" parameterType="ContractSearchDto" resultType="int">
         SELECT count(*)
         FROM o_contract
-        where --일반/지자체
+        where contract_type = #{contractType}
     </select>
 
     <select id="getOneContract" resultType="ContractModel">
         SELECT *
         FROM o_contract
-        where contract_uniq_no = #{contractUniqNo} and --일반/지자체
+        where contract_uniq_no = #{contractUniqNo}
     </select>
 
 
-    <select id="getLastContractNo" resultType="String">
+    <select id="getLastContractUniqNo" resultType="String">
         SELECT MAX(contract_uniq_no)
         FROM o_contract
         where contract_uniq_no like CONCAT(#{todayDate}, '%')
 
     </select>
     <insert id="registerContract" parameterType="ContractModel">
-        INSERT INTO o_contract ()
-        values ()
+        INSERT INTO o_contract (contract_uniq_no, client_uniq_id, contract_main, ordering_contract_no, contract_name,
+                                contract_method, contract_code, contract_quantity, contract_date, opening_date,
+                                approximate_date, due_date, contract_amount, created_at, created_by_member_uniq_id,
+                                updated_at, updated_by_member_uniq_id, is_used, contract_main_etc, incoming_date,
+                                delivery_date, delivery_request_date, tracking_no, billing_date, is_billed,
+                                first_billing_date, first_billing_amount, second_billing_date, second_billing_amount, third_billing_date,
+                                third_billing_amount, fourth_billing_date, fourth_billing_amount, is_guaranted, guaranty_date,
+                                is_warranted, warranty_date, tax_invoice_date_1, tax_invoice_date_2, tax_invoice_date_3,
+                                tax_invoice_date_4, bond_issue_date_1, bond_issue_date_2, bond_issue_date_3, bond_issue_date_4,
+                                etc, contract_type)
+        values (#{contract_uniq_no}, #{clientUniqId}, #{contractMain}, #{orderingContractNo}, #{contractName},
+                #{contractMethod}, #{contractCode}, #{contractQuantity}, #{contractDate}, #{openingDate},
+                #{approximateDate}, #{dueDate}, #{contractAmount}, CURRENT_TIMESTAMP(3), #{createdByMemberUniqId},
+                CURRENT_TIMESTAMP(3), #{updatedByMemberUniqId}, 'Y', #{contractMainEtc}, #{incomingDate},
+                #{deliveryDate}, #{deliveryRequestDate}, #{trackingNo}, #{billingDate}, #{isBilled},
+                #{firstBillingDate}, #{firstBillingAmount}, #{secondBillingDate}, #{secondBillingAmount}, #{thirdBillingDate},
+                #{thirdBillingAmount}, #{fourthBillingDate}, #{fourthBillingAmount}, #{isGuaranted}, #{guarantyDate},
+                #{isWarranted}, #{warrantyDate}, #{taxInvoiceDate1}, #{taxInvoiceDate2}, #{taxInvoiceDate3},
+                #{taxInvoiceDate4}, #{bondIssueDate1}, #{bondIssueDate2}, #{bondIssueDate3}, #{bondIssueDate4},
+                #{etc}, #{contractType})
+    </insert>
 
+    <insert id="registerContractDetail" parameterType="ContractDetailModel">
+        INSERT INTO o_contract_detail (contract_uniq_no, client_uniq_id, contract_detail_code_order, contract_detail_code, contract_detail_quantity)
+        values (#{contractUniqNo}, #{clientUniqId}, #{contractDetailCodeOrder}, #{contractDetailCode}, #{contractDetailQuantity})
+    </insert>
+
+    <insert id="registerContractProduct" parameterType="ContractProductModel">
+        INSERT INTO o_contract_product (product_uniq_idx, contract_uniq_no, delivery_code, office_id, client_uniq_id, material_uniq_id, product_quantity, product_unit_price )
+        values (#{productUniqIdx}, #{contractUniqNo}, #{deliveryCode}, #{officeId}, #{clientUniqId}, #{materialUniqId}, #{productQuantity}, #{productUnitPrice})
     </insert>
 
 
     <update id="updateGeneralContract" parameterType="ContractModel">
         UPDATE o_contract
         <trim prefix="SET" suffixOverrides=",">
+        <if test="clientUniqId != null and clientUniqId !=''">
+            client_uniq_id = #{clientUniqId},
+        </if>
+        <if test="contractMain != null and contractMain !=''">
+            contract_main = #{contractMain},
+        </if>
+        <if test="orderingContractNo != null and orderingContractNo !=''">
+            ordering_contract_no = #{orderingContractNo},
+        </if>
         <if test="contractName != null and contractName !=''">
             contract_name = #{contractName},
         </if>
-        <if test="contractType != null and contractType !=''">
-            contract_type = #{contractType},
+        <if test="contractMethod != null and contractMethod !=''">
+            contract_method = #{contractMethod},
         </if>
-        <if test="contractStatus != null and contractStatus !=''">
-            contract_status = #{contractStatus},
+        <if test="contractCode != null and contractCode !=''">
+            contract_code = #{contractCode},
         </if>
-        <if test="contractStartDate != null and contractStartDate !=''">
-            contract_start_date = #{contractStartDate},
+        <if test="contractQuantity != null and contractQuantity !=''">
+            contract_quantity = #{contractQuantity},
         </if>
-        <if test="contractEndDate != null and contractEndDate !=''">
-            contract_end_date = #{contractEndDate},
+        <if test="contractDate != null and contractDate !=''">
+            contract_date = #{contractDate},
+        </if>
+        <if test="openingDate != null and openingDate !=''">
+            opening_date = #{openingDate},
+        </if>
+        <if test="approximateDate != null and approximateDate !=''">
+            approximate_date = #{approximateDate},
+        </if>
+        <if test="dueDate != null and dueDate !=''">
+            due_date = #{dueDate},
         </if>
         <if test="contractAmount != null and contractAmount !=''">
             contract_amount = #{contractAmount},
         </if>
-        <if test="contractCurrency != null and contractCurrency !=''">
-            contract_currency = #{contractCurrency},
+        <if test="updatedByMemberUniqId != null and updatedByMemberUniqId !=''">
+            updated_by_member_uniq_id = #{updatedByMemberUniqId},
         </if>
-        <if test="contractPaymentMethod != null and contractPaymentMethod !=''">
-            contract_payment_method = #{contractPaymentMethod},
+        <if test="contractMainEtc != null and contractMainEtc !=''">
+            contract_main_etc = #{contractMainEtc},
+        </if>
+        <if test="incomingDate != null and incomingDate !=''">
+            incoming_date = #{incomingDate},
+        </if>
+        <if test="deliveryDate != null and deliveryDate !=''">
+            delivery_date = #{deliveryDate},
+        </if>
+        <if test="deliveryRequestDate != null and deliveryRequestDate !=''">
+            delivery_request_date = #{deliveryRequestDate},
+        </if>
+        <if test="trackingNo != null and trackingNo !=''">
+            tracking_no = #{trackingNo},
+        </if>
+        <if test="billingDate != null and billingDate !=''">
+            billing_date = #{billingDate},
+        </if>
+        <if test="isBilled != null and isBilled !=''">
+            is_billed = #{isBilled},
+        </if>
+        <if test="firstBillingDate != null and firstBillingDate !=''">
+            first_billing_date = #{firstBillingDate},
+        </if>
+        <if test="firstBillingAmount != null and firstBillingAmount !=''">
+            first_billing_amount = #{firstBillingAmount},
+        </if>
+        <if test="secondBillingDate != null and secondBillingDate !=''">
+            second_billing_date = #{secondBillingDate},
+        </if>
+        <if test="secondBillingAmount != null and secondBillingAmount !=''">
+            second_billing_amount = #{secondBillingAmount},
+        </if>
+        <if test="thirdBillingDate != null and thirdBillingDate !=''">
+            third_billing_date = #{thirdBillingDate},
+        </if>
+        <if test="thirdBillingAmount != null and thirdBillingAmount !=''">
+            third_billing_amount = #{thirdBillingAmount},
+        </if>
+        <if test="fourthBillingDate != null and fourthBillingDate !=''">
+            fourth_billing_date = #{fourthBillingDate},
+        </if>
+        <if test="fourthBillingAmount != null and fourthBillingAmount !=''">
+            fourth_billing_amount = #{fourthBillingAmount},
+        </if>
+        <if test="isGuaranted != null and isGuaranted !=''">
+            is_guaranted = #{isGuaranted},
+        </if>
+        <if test="guarantyDate != null and guarantyDate !=''">
+            guaranty_date = #{guarantyDate},
+        </if>
+        <if test="isWarranted != null and isWarranted !=''">
+            is_warranted = #{isWarranted},
+        </if>
+        <if test="warrantyDate != null and warrantyDate !=''">
+            warranty_date = #{warrantyDate},
+        </if>
+        <if test="taxInvoiceDate1 != null and taxInvoiceDate1 !=''">
+            tax_invoice_date_1 = #{taxInvoiceDate1},
+        </if>
+        <if test="taxInvoiceDate2 != null and taxInvoiceDate2 !=''">
+            tax_invoice_date_2 = #{taxInvoiceDate2},
+        </if>
+        <if test="taxInvoiceDate3 != null and taxInvoiceDate3 !=''">
+            tax_invoice_date_3 = #{taxInvoiceDate3},
+        </if>
+        <if test="taxInvoiceDate4 != null and taxInvoiceDate4 !=''">
+            tax_invoice_date_4 = #{taxInvoiceDate4},
+        </if>
+        <if test="bondIssueDate1 != null and bondIssueDate1 !=''">
+            bond_issue_date_1 = #{bondIssueDate1},
+        </if>
+        <if test="bondIssueDate2 != null and bondIssueDate2 !=''">
+            bond_issue_date_2 = #{bondIssueDate2},
+        </if>
+        <if test="bondIssueDate3 != null and bondIssueDate3 !=''">
+            bond_issue_date_3 = #{bondIssueDate3},
+        </if>
+        <if test="bondIssueDate4 != null and bondIssueDate4 !=''">
+            bond_issue_date_4 = #{bondIssueDate4},
+        </if>
+        <if test="etc != null and etc !=''">
+            etc = #{etc},
+        </if>
+        <if test="contractType != null and contractType !=''">
+            contract_type = #{contractType},
         </if>
         </trim>
-            where
+        where contract_uniq_no = #{contractUniqNo}
     </update>
 
     <update id="deleteContract" parameterType="String">
@@ -72,6 +201,14 @@
         WHERE contract_uniq_no = #{contractUniqNo}
     </update>
 
+    <delete id="deleteContractDetail" parameterType="String">
+        DELETE FROM o_contract_detail
+        WHERE contract_uniq_no = #{contractUniqNo}
+    </delete>
 
+    <delete id="deleteContractProduct" parameterType="String">
+        DELETE FROM o_contract_product
+        WHERE contract_uniq_no = #{contractUniqNo}
+    </delete>
 
 </mapper>

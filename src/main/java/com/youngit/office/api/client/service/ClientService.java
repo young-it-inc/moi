@@ -2,6 +2,7 @@ package com.youngit.office.api.client.service;
 
 import com.youngit.office.api.client.dto.ClientDto;
 import com.youngit.office.api.client.dto.ClientManagerDto;
+import com.youngit.office.api.client.dto.ClientSearchDto;
 import com.youngit.office.api.client.mapper.ClientMapper;
 import com.youngit.office.api.client.mapstruct.ClientMapstruct;
 import com.youngit.office.api.client.model.ClientManagerModel;
@@ -30,14 +31,14 @@ public class ClientService {
      * @param : clientUniqId
      * @return : List<ClientDto>, ClientDto
      */
-    public List<ClientDto> getListClient() {
-        List<ClientModel> resultModel = clientMapper.getListClient();
+    public List<ClientDto> getOrSearchListClient(ClientSearchDto clientSearchDto) {
+        List<ClientModel> resultModel = clientMapper.getOrSearchListClient(clientSearchDto);
         List<ClientDto> resultDto = resultModel.stream().map(clientMapstruct::toDto).toList();
         return resultDto;
     }
 
-    public int getCountListClient() {
-        return clientMapper.getCountListClient();
+    public int countGetOrSearchListClient(ClientSearchDto clientSearchDto) {
+        return clientMapper.countGetOrSearchListClient(clientSearchDto);
     }
 
     public ClientDto getOneClient(String clientUniqId) {
@@ -48,11 +49,6 @@ public class ClientService {
 
     }
 
-    public List<ClientDto> findClient()
-    {
-        return null;
-
-    }
     /**
      * 거래처 등록
      * @param clientDto
@@ -99,7 +95,6 @@ public class ClientService {
     }
 
     public int updateClient(ClientDto clientDto) {
-
         ClientModel clientModel = clientMapstruct.toModel(clientDto);
         int result = clientMapper.updateClient(clientModel);
         if(clientDto.getClientManagerDtoList() != null)

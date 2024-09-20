@@ -1,6 +1,7 @@
 package com.youngit.office.api.client.controller;
 
 import com.youngit.office.api.client.dto.ClientDto;
+import com.youngit.office.api.client.dto.ClientSearchDto;
 import com.youngit.office.api.client.service.ClientService;
 import com.youngit.office.api.http.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,12 +28,12 @@ public class ClientController {
     }
 
 
-    @Operation(summary = "거래처 리스트 조회")
+    @Operation(summary = "거래처 리스트 조회 및 검색")
     @GetMapping("/client")
-    public ApiResponse<List<ClientDto>> getListClient() {
-        logger.info("거래처 리스트 조회");
-        int count = clientService.getCountListClient();
-        List<ClientDto> result = clientService.getListClient();
+    public ApiResponse<List<ClientDto>> getOrSearchListClient(ClientSearchDto clientSearchDto) {
+        logger.info("거래처 리스트 조회 및 검색");
+        int count = clientService.countGetOrSearchListClient(clientSearchDto);
+        List<ClientDto> result = clientService.getOrSearchListClient(clientSearchDto);
 
         return new ApiResponse<>(result, 0, "거래처 리스트 조회 성공", count);
     }
@@ -45,13 +46,6 @@ public class ClientController {
         return new ApiResponse<>(result, 0, "거래처 개별 조회 성공");
     }
 
-    @Operation()
-    @GetMapping("/client/{clientName}")
-    public ApiResponse<List<ClientDto>> findClient(String clientName) {
-        logger.info("거래처 검색");
-        List<ClientDto> result = clientService.findClient();
-        return new ApiResponse<>(result);
-    }
 
     @Operation(summary = "거래처 등록", description = "필수입력: 거래처명, 구분코드, 대표자명,")
     @PostMapping("/client")

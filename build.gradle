@@ -67,6 +67,9 @@ dependencies {
 
     implementation group: 'org.apache.poi', name: 'poi', version: '5.2.2' // xls
     implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.2.2' // xlsx
+
+
+    implementation 'org.springframework.boot:spring-boot-starter-mail' //메일 발송 기능
 }
 
 tasks.named('test') {

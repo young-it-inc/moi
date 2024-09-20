@@ -3,14 +3,14 @@
 
 <mapper namespace="com.youngit.office.api.estimate.mapper.EstimateMapper">
 
-    <select id="getListEstimate" resultType="EstimateModel">
+    <select id="getOrSearchListEstimate" resultType="EstimateModel">
         SELECT *
         FROM o_estimate
         where is_used = 'Y'
         ORDER BY estimate_uniq_no DESC
     </select>
 
-    <select id="getCountListEstimate" resultType="int">
+    <select id="countGetOrSearchListEstimate" resultType="int">
         SELECT COUNT(*)
         FROM o_estimate
         where is_used = 'Y'
@@ -20,6 +20,13 @@
         SELECT *
         FROM o_estimate
         WHERE estimate_uniq_no = #{estimate_uniq_no}
+    </select>
+
+    <select id="getLastEstimateUniqNo" resultType="String">
+        SELECT MAX(estimate_uniq_no)
+        FROM o_estimate
+        where estimate_uniq_no like CONCAT(#{todayDate}, '%')
+
     </select>
 
     <insert id="registerEstimate" parameterType="EstimateModel">

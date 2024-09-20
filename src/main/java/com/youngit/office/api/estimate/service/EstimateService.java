@@ -1,6 +1,7 @@
 package com.youngit.office.api.estimate.service;
 
 import com.youngit.office.api.estimate.dto.EstimateDto;
+import com.youngit.office.api.estimate.dto.EstimateSearchDto;
 import com.youngit.office.api.estimate.mapper.EstimateMapper;
 import com.youngit.office.api.estimate.mapstruct.EstimateMapstruct;
 import com.youngit.office.api.estimate.model.EstimateModel;
@@ -28,13 +29,13 @@ public class EstimateService {
      *
      * @return
      */
-    public List<EstimateDto> getListEstimate() {
-        List<EstimateModel> resultModel= estimateMapper.getListEstimate();
+    public List<EstimateDto> getOrSearchListEstimate(EstimateSearchDto estimateSearchDto) {
+        List<EstimateModel> resultModel= estimateMapper.getOrSearchListEstimate(estimateSearchDto);
         return resultModel.stream().map(estimateMapstruct::toDto).toList();
     }
 
-    public int getCountListEstimate() {
-        return estimateMapper.getCountListEstimate();
+    public int countGetOrSearchListEstimate(EstimateSearchDto estimateSearchDto) {
+        return estimateMapper.countGetOrSearchListEstimate(estimateSearchDto);
     }
 
     public EstimateDto getOneEstimate(String estimateUniqNo) {
@@ -70,9 +71,11 @@ public class EstimateService {
 
     public int registerEstimate(EstimateDto estimateDto) {
         int result = 0;
-        String newEstimateUniqNo = getNewEstimateUniqNo();
-        estimateDto.setEstimateUniqNo(newEstimateUniqNo);
         EstimateModel estimateModel = estimateMapstruct.toModel(estimateDto);
+        for()
+        {
+            //productTotalPrice 계산
+        }
         result = estimateMapper.registerEstimate(estimateModel);
         result += estimateMapper.registerEstimateProductList(estimateModel.getEstimateProductModelList());
         return result;
@@ -121,9 +124,9 @@ public class EstimateService {
     /**
      * 견적서 계약 진행
      */
-    public String registerEstimateContract(EstimateDto estimateDto)
+    public int registerEstimateContract(EstimateDto estimateDto)
     {
         //계약번호 전달
-        return null;
+        return 0;
     }
 }

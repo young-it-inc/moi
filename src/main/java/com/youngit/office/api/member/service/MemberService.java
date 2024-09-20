@@ -1,6 +1,7 @@
 package com.youngit.office.api.member.service;
 
 import com.youngit.office.api.member.dto.MemberDto;
+import com.youngit.office.api.member.dto.MemberSearchDto;
 import com.youngit.office.api.member.mapper.MemberMapper;
 import com.youngit.office.api.member.mapstruct.MemberMapstruct;
 import com.youngit.office.api.member.model.MemberModel;
@@ -25,11 +26,14 @@ public class MemberService {
         this.memberMapstruct = memberMapstruct;
     }
 
-    public List<MemberDto> getListMember() {
-        List<MemberModel> result = memberMapper.getListMember();
+    public List<MemberDto> getOrSearchListMember(MemberSearchDto memberSearchDto) {
+        List<MemberModel> result = memberMapper.getOrSearchListMember(memberSearchDto);
         return result.stream().map(memberMapstruct::toDto).toList();
     }
 
+    public int countGetOrSearchListMember(MemberSearchDto memberSearchDto) {
+        return memberMapper.countGetOrSearchListMember(memberSearchDto);
+    }
     public MemberDto getOneMember(String memberId)
     {
         MemberModel result = memberMapper.getOneMember(memberId);

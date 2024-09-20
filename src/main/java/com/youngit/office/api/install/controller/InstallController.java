@@ -56,7 +56,7 @@ public class InstallController {
     @Operation(summary = "설치 수정")
     @PutMapping("/install")
     public ApiResponse<String> updateInstall(InstallDto installDto) {
-        int result = installService.updateInstall(installDto);
+        int result = installService.updateInstall(installDto); //설치수량, 잔여수량, 준공률 : 계약 db에도 반영돼야.
         if (result == 1) {
             return new ApiResponse<>("설치 수정 성공");
         } else {

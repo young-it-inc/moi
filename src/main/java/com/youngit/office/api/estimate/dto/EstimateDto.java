@@ -21,8 +21,6 @@ public class EstimateDto {
     int	estimateAmount; //견적금액
     String	estimateNote; //견적서특이사항
 
-
-
     String createdByUserId; //최초등록자ID
     String updatedByUserId; //최종수정자ID
 

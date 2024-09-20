@@ -4,6 +4,7 @@ import com.youngit.office.api.http.ApiResponse;
 import com.youngit.office.api.log.mapper.LogMapper;
 import com.youngit.office.api.log.model.LogModel;
 import com.youngit.office.api.member.dto.MemberDto;
+import com.youngit.office.api.member.dto.MemberSearchDto;
 import com.youngit.office.api.member.model.MemberModel;
 import com.youngit.office.api.member.service.MemberService;
 import com.youngit.office.api.token.mapper.TokenMapper;
@@ -49,11 +50,13 @@ public class MemberController {
 
     @Operation(summary = "회원 리스트 조회")
     @GetMapping("/api/member")
-    public ApiResponse<List<MemberDto>> getListMember() {
+    public ApiResponse<List<MemberDto>> getOrSearchListMember(MemberSearchDto memberSearchDto) {
         logger.info("회원 리스트 조회");
-        List<MemberDto> result = memberService.getListMember();
-        return new ApiResponse<>(result, 0, "회원 리스트 조회 완료", result.size());
+        int count = memberService.countGetOrSearchListMember(memberSearchDto);
+        List<MemberDto> result = memberService.getOrSearchListMember(memberSearchDto);
+        return new ApiResponse<>(result, 0, "회원 리스트 조회 완료", count);
     }
+
 
     @Operation(summary = "회원 개별 조회")
     @GetMapping("/api/member/{memberId}")

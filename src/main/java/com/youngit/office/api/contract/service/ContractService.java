@@ -1,6 +1,7 @@
 package com.youngit.office.api.contract.service;
 
 import com.youngit.office.api.contract.dto.ContractDto;
+import com.youngit.office.api.contract.dto.ContractSearchDto;
 import com.youngit.office.api.contract.mapper.ContractMapper;
 import com.youngit.office.api.contract.mapstruct.ContractMapstruct;
 import com.youngit.office.api.contract.model.ContractModel;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -29,31 +29,15 @@ public class ContractService {
      * @param contractType
      * @return
      */
-    public List<ContractDto> getListContract(String contractType) {
+    public List<ContractDto> getOrSearchListContract(ContractSearchDto contractSearchDto) {
         List<ContractModel> contractModelList;
-        switch (contractType) {
-            case "gov":
-                contractModelList = contractMapper.getListGovContract();
-                break;
-            case "general":
-                contractModelList = contractMapper.getListGeneralContract();
-                break;
-            default:
-                contractModelList = Collections.emptyList(); // null 대신 빈 리스트 반환(호출 측에서 null체크 안해도 돼서 안전)
-                break;
-        }
+        contractModelList = contractMapper.getOrSearchListContract(contractSearchDto);
         return contractModelList.stream().map(contractMapstruct::toDto).toList();
     }
 
-    public int getCountListContract(String contractType) {
-        switch (contractType) {
-            case "gov":
-                return contractMapper.getCountListGovContract();
-            case "general":
-                return contractMapper.getCountListGeneralContract();
-            default:
-                return 0;
-        }
+    public int countGetOrSearchListContract(ContractSearchDto contractSearchDto) {
+        return contractMapper.getCountListContract(contractSearchDto);
+
     }
 
     public ContractDto getOneContract(String contractUniqNo) {
@@ -96,24 +80,22 @@ public class ContractService {
     }
 
     /**
-     * 계약 수정
-     * @param contractDto
-     * @return
+     * 계약 수정 (detail, product는 삭제 후 다시 등록)
      */
     @Transactional
     public int updateContract(ContractDto contractDto) {
         int result = 0;
         ContractModel contractModel = contractMapstruct.toModel(contractDto);
         result = contractMapper.updateContract(contractModel);
-        result += contractMapper.updateContractDetail(contractModel.getContractDetailList());
-        result += contractMapper.updateContractProduct(contractModel.getContractProductList());
+        result += contractMapper.deleteContractDetail(contractModel.getContractUniqNo());
+        result += contractMapper.registerContractDetail(contractModel.getContractDetailList());
+        result += contractMapper.deleteContractProduct(contractModel.getContractUniqNo());
+        result += contractMapper.registerContractProduct(contractModel.getContractProductList());
         return result;
     }
 
     /**
-     * 계약 삭제
-     * @param contractUniqNo
-     * @return
+     * 계약 삭제 (o_contract 에서 is_used = 'N'으로 변경, detail, product는 삭제 X)
      */
     public int deleteContract(String contractUniqNo) {
         int result = contractMapper.deleteContract(contractUniqNo);

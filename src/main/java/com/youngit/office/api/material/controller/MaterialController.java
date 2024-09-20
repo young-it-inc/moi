@@ -2,6 +2,7 @@ package com.youngit.office.api.material.controller;
 
 import com.youngit.office.api.http.ApiResponse;
 import com.youngit.office.api.material.dto.MaterialDto;
+import com.youngit.office.api.material.dto.MaterialSearchDto;
 import com.youngit.office.api.material.service.MaterialService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,14 +27,17 @@ public class MaterialController {
         this.materialService = materialService;
     }
 
-    @Operation(summary = "자재 리스트 조회")
+    @Operation(summary = "자재 리스트 조회 및 검색")
     @GetMapping("/material")
-    public ApiResponse<List<MaterialDto>> getListMaterial() {
-        logger.info("자재 리스트 조회");
-        List<MaterialDto> result = materialService.getListMaterial();
-        return new ApiResponse<>(result, 0, "자재 목록 조회 완료", result.size());
+    public ApiResponse<List<MaterialDto>> getOrSearchListMaterial(MaterialSearchDto materialSearchDto) {
+        logger.info("자재 리스트 조회 및 검색");
+        int count = materialService.countGetOrSearchListMaterial(materialSearchDto);
+        List<MaterialDto> result = materialService.getOrSearchListMaterial(materialSearchDto);
+        return new ApiResponse<>(result, 0, "자재 목록 조회 완료", count);
     }
 
+    @Operation(summary = "자재 개별 조회")
+    @GetMapping("/material/{materialUniqId}")
     public ApiResponse<MaterialDto> getOneMaterial(String materialUniqId) {
         logger.info("자재 조회");
         MaterialDto result = materialService.getOneMaterial(materialUniqId);

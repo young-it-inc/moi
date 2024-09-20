@@ -12,13 +12,11 @@ public interface InstallMapper {
     int getCountListInstall(String installStateCode);
     InstallModel getOneInstall(String installUniqId);
 
-
     int registerInstall(InstallModel installModel);
 
     int updateInstall(InstallModel installModel);
 
     int deleteInstall(String installUniqId);
-
 
     String getLastInstallUniqId();
 }

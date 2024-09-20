@@ -1,5 +1,6 @@
 package com.youngit.office.api.estimate.mapper;
 
+import com.youngit.office.api.estimate.dto.EstimateSearchDto;
 import com.youngit.office.api.estimate.model.EstimateModel;
 import com.youngit.office.api.estimate.model.EstimateProductModel;
 import org.apache.ibatis.annotations.Mapper;
@@ -9,8 +10,8 @@ import java.util.List;
 @Mapper
 public interface EstimateMapper {
 
-    List<EstimateModel> getListEstimate();
-    int getCountListEstimate();
+    List<EstimateModel> getOrSearchListEstimate(EstimateSearchDto estimateSearchDto);
+    int countGetOrSearchListEstimate(EstimateSearchDto estimateSearchDto);
     EstimateModel getOneEstimate(String estimateUniqNo);
 
 

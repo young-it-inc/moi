@@ -9,6 +9,7 @@ import java.util.List;
 
 public class ContractDto { //조회시 보여져야하는 것들: 진행상태 / 사업팀 / 거래처명 / 계약분류 / 계약방법/ 계약번호/계약명/모델분류/계약수량/설치수량/잔여수량/계약일/완료예정일/검수요청일/계약금액/수정/삭제/청구서/청구여부/미청구금액/합계수량?
     //검색 필터: 팀별로 계약, 제품 조회, YIT관리자로 조회(본인관리지역만)
+    String contractType; //계약유형(지자체: gov/일반: gen)
     String	contractUniqNo; //고객계약고유번호(자동생성) 202407020001(12자리)
     String	clientUniqId; //거래처고유ID BCNC_000000000000000 (15자리)
     String	contractMain; //계약주체 : YOUNG / WICAP / MIR / ETC >> YOUNG-IT / YIT임시계약 (체크박스: 선처리/무상/기타-기타선택시 사유작성)

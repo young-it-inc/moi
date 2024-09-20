@@ -3,12 +3,12 @@
 
 <mapper namespace="com.youngit.office.api.material.mapper.MaterialMapper">
 
-    <select id="getListMaterial" resultType="MaterialModel">
+    <select id="getOrSearchListMaterial" parameterType="materialSearchDto" resultType="MaterialModel">
         SELECT *
         FROM o_material
         WHERE is_used = 'Y'
     </select>
-    <select id="getCountListMaterial" resultType="int">
+    <select id="countGetOrSearchListMaterial" parameterType="materialSearchDto" resultType="int">
         SELECT COUNT(*)
         FROM o_material
         WHERE is_used = 'Y'
@@ -21,20 +21,51 @@
     </select>
 
     <insert id="registerMaterial" parameterType="MaterialModel">
-        INSERT INTO o_material (asset_sort_code, product_sort_code, material_name, material_unit_price, created_at, created_by_member_uniq_id, updated_at, is_used)
-        VALUES(#{assetSortCode}, #{productSortCode}, #{materialName}, #{materialUnitPrice}, CURRENT_TIMESTAMP(3), #{createdByMemberUniqId}, CURRENT_TIMESTAMP(3), 'Y')
+        INSERT INTO o_material (material_uniq_id, asset_sort_code, product_sort_code, material_name, material_standard,
+                                material_unit, material_unit_price,
+                                created_at, created_by_member_uniq_id, updated_at, updated_by_member_uniq_id, is_used)
+        VALUES(#{materialUniqId}, #{assetSortCode}, #{productSortCode}, #{materialName}, #{materialStandard},
+               #{materialUnit}, #{materialUnitPrice},
+               CURRENT_TIMESTAMP(3), #{createdByMemberUniqId}, CURRENT_TIMESTAMP(3), #{updatedByMemberUniqId},'Y')
     </insert>
+
+    <select id="getLastMaterialUniqId" resultType="String">
+        SELECT MAX(material_uniq_id)
+        FROM o_material
+        -- where is_used = 'Y'
+    </select>
 
     <update id="updateMaterial" parameterType="MaterialModel">
         UPDATE o_material
         SET
-            <if test="assetSortCode != null">
-                asset_sort_code = #{assetSortCode}
+            <if test="assetSortCode != null and assetSortCode != ''" >
+                asset_sort_code = #{assetSortCode},
             </if>
+            <if test="productSortCode != null and productSortCode != ''" >
+                product_sort_code = #{productSortCode}
+            </if>
+            <if test="materialName != null and materialName != ''" >
+                material_name = #{materialName},
+            </if>
+            <if test="materialStandard != null and materialStandard != ''" >
+                material_standard = #{materialStandard},
+            </if>
+            <if test="materialUnit != null and materialUnit != ''" >
+                material_unit = #{materialUnit},
+            </if>
+            <if test="materialUnitPrice != null and materialUnitPrice != ''" >
+                material_unit_price = #{materialUnitPrice},
+            </if>
+            updated_at = CURRENT_TIMESTAMP(3),
+            updated_by_member_uniq_id = #{updatedByMemberUniqId}
     </update>
 
-    <delete id="deleteMaterial" parameterType="String">
+    <update id="deleteMaterial" parameterType="String"> --사실상 update
+        UPDATE o_material
+        SET is_used = 'N'
+        WHERE material_uniq_id = #{materialUniqId}
+    </update>
 
-    </delete>
+
 
 </mapper>

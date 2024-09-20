@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-@Schema()
+@Schema(description = "회원 정보 DTO")
 public class MemberDto {
 
     String	memberId; //* 회원ID

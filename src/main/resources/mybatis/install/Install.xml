@@ -23,7 +23,7 @@
     <select id="getLastInstallUniqId" resultType="InstallModel">
         SELECT MAX(install_uniq_id)
         FROM o_install
-        where is_used = 'Y' --우야지?
+       -- where is_used = 'Y'
     </select>
 
     <insert id="registerInstall" parameterType="InstallModel">

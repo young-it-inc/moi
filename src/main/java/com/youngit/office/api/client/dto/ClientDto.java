@@ -9,16 +9,6 @@ import java.util.List;
 @Schema(description = "거래처 정보 DTO")
 public class ClientDto {
 
-    String searchOption;
-    String searchData;
-    String sqlQuery;
-
-    public ClientDto() {
-        this.searchOption = "";
-        this.searchData = "";
-        this.sqlQuery = "";
-    }
-
 
     String clientUniqId; //auto 거래처고유ID: BCNC_000000000000000 (15자리) >>자동생성
 
@@ -45,8 +35,4 @@ public class ClientDto {
 
     String createdByMemberUniqId; //최초등록자ID >>웹상에 출력되게끔.
     String updatedByMemberUniqId; //최종수정자ID
-
-
-
-
 }

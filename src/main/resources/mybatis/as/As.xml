@@ -15,7 +15,10 @@
     <select id="getCountListAs" resultType="int">
     SELECT count(*)
     FROM o_as
-    where is_used = 'Y' and as_state_code = #{asStateCode}
+    where is_used = 'Y'
+        <if test = "asStateCode != null and asStateCode != ''">
+            and as_state_code = #{asStateCode}
+        </if>
     </select>
 
     <select id="getOneAs" resultType="AsModel">
