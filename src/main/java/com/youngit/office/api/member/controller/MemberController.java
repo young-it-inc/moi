@@ -5,7 +5,6 @@ import com.youngit.office.api.log.mapper.LogMapper;
 import com.youngit.office.api.log.model.LogModel;
 import com.youngit.office.api.member.dto.MemberDto;
 import com.youngit.office.api.member.dto.MemberSearchDto;
-import com.youngit.office.api.member.model.MemberModel;
 import com.youngit.office.api.member.service.MemberService;
 import com.youngit.office.api.token.mapper.TokenMapper;
 import com.youngit.office.api.token.model.TokenModel;
@@ -13,6 +12,8 @@ import com.youngit.office.configuration.jwt.JwtTokenProvider;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestAttributes;
@@ -21,7 +22,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Logger;
 
 @Tag(name = "회원 관리")
 @RestController
@@ -30,7 +30,7 @@ public class MemberController {
     //직원, 협력사원, 관리자: 조회, 검색, 등록, 수정, 탈퇴
     //탈퇴회원: 조회(회원유형, 아이디, 이름, 전화번호, 이메일, 거래처, 직책, 업무), 검색, 복구
 
-    private static final Logger logger = Logger.getLogger(MemberController.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -48,10 +48,10 @@ public class MemberController {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    @Operation(summary = "회원 리스트 조회")
+    @Operation(summary = "회원 리스트 조회 및 검색")
     @GetMapping("/api/member")
     public ApiResponse<List<MemberDto>> getOrSearchListMember(MemberSearchDto memberSearchDto) {
-        logger.info("회원 리스트 조회");
+        logger.info("회원 리스트 조회 및 검색");
         int count = memberService.countGetOrSearchListMember(memberSearchDto);
         List<MemberDto> result = memberService.getOrSearchListMember(memberSearchDto);
         return new ApiResponse<>(result, 0, "회원 리스트 조회 완료", count);
@@ -110,10 +110,10 @@ public class MemberController {
 
 
     @Operation(summary = "회원 삭제")
-    @DeleteMapping("/api/member")
-    public ApiResponse<String> deleteMember(@PathVariable String id) {
+    @DeleteMapping("/api/member/{memberId}")
+    public ApiResponse<String> deleteMember(@PathVariable String memberId) {
         logger.info("회원 삭제");
-        int result = memberService.deleteMember(id);
+        int result = memberService.deleteMember(memberId);
         return new ApiResponse<>("회원 삭제 성공");
     }
 
@@ -162,8 +162,8 @@ public class MemberController {
 
 
     @Operation(summary = "권한 설정")
-    @GetMapping("/api/authority")
-    public ApiResponse<String> authority(@RequestBody MemberModel memberModel) {
+    @GetMapping("/api/authority/{memberId}")
+    public ApiResponse<String> authority(@PathVariable String memberId) {
         logger.info("권한 설정");
 
         return new ApiResponse<>("권한설정 성공");

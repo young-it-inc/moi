@@ -3,10 +3,23 @@
 
 <mapper namespace="com.youngit.office.api.client.mapper.ClientMapper">
 
-    <select id="getListClient" resultType="ClientModel">
+    <select id="getOrSearchListClient" resultType="ClientModel">
         SELECT *
         FROM o_client
         where is_used = 'Y'
+        <if test="searchCode != null and searchCode !=''">
+            <choose>
+                <when test="searchCode == 'SC01'">
+                    and member_id = #{keyword}
+                </when>
+                <when test="searchCode == 'SC02'">
+                    and name = #{keyword}
+                </when>
+                <when test="searchCode == 'SC03'">
+                    and telephone = #{keyword}
+                </when>
+            </choose>
+        </if>
     </select>
 
     <select id="getCountListClient" resultType="int">

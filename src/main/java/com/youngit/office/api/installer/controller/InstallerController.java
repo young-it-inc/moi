@@ -5,17 +5,18 @@ import com.youngit.office.api.installer.dto.InstallerDto;
 import com.youngit.office.api.installer.service.InstallerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 @Tag(name = "설치팀 최초 계약 관리")
 @RestController
 public class InstallerController {
 
-    private static final Logger logger = Logger.getLogger(InstallerController.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(InstallerController.class);
 
     private final InstallerService installerService;
 

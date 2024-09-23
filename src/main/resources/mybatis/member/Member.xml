@@ -8,9 +8,23 @@
         select *
         from o_member
         where member_status = 'P'
+        <if test="searchCode != null and searchCode != ''">
+            <choose>
+                <when test="searchCode == 'SC01'">
+                    and member_id = #{keyword}
+                </when>
+                <when test="searchCode == 'SC02'">
+                    and name = #{keyword}
+                </when>
+                <when test="searchCode == 'SC03'">
+                    and telephone = #{keyword}
+                </when>
+            </choose>
+        </if>
+        <if test="department != null and department != ''">
+            and department_code = #{department}
+        </if>
     </select>
-
-
 
     <select id="countGetOrSearchListMember" resultType="int">
         select count(*)
@@ -37,10 +51,15 @@
 
     </select>
 
-
     <insert id="registerMember" parameterType="MemberModel">
-        INSERT INTO o_member (member_id, password, password_question, password_answer, member_name, member_email,member_phone_number, member_cellphone_number, member_status, member_type_code, group_id, authority_code, sign_up_at, member_uniq_id, position_code, department_code, task_code, cooperative_id)
-        values (#{memberId},#{password},#{passwordQuestion},#{passwordAnswer},#{memberName},#{memberEmail}, #{memberPhoneNumber}, #{memberCellphoneNumber}, #{memberStatus}, #{memberTypeCode}, #{groupId}, #{authorityCode}, #{signUpAt}, #{memberUniqId}, #{positionCode}, #{departmentCode}, #{taskCode}, #{cooperativeId})
+        INSERT INTO o_member (member_id, password, password_question, password_answer, member_name,
+                              member_email, member_phone_number, member_cellphone_number, member_status, member_type_code,
+                              group_id, authority_code, sign_up_at, member_uniq_id, position_code,
+                              department_code, task_code, cooperative_id)
+        values (#{memberId},#{password},#{passwordQuestion},#{passwordAnswer},#{memberName},
+                #{memberEmail}, #{memberPhoneNumber}, #{memberCellphoneNumber}, #{memberStatus}, #{memberTypeCode},
+                #{groupId}, #{authorityCode}, #{signUpAt}, #{memberUniqId}, #{positionCode}, 
+                #{departmentCode}, #{taskCode}, #{cooperativeId})
     </insert>
 
     <update id="updateMember" parameterType="MemberModel">

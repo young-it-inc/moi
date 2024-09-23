@@ -2,18 +2,18 @@ package com.youngit.office.api.code.controller;
 
 import com.youngit.office.api.code.service.CodeService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.logging.Logger;
 
 @Tag(name = "코드 관리")
 @RestController
 @RequestMapping("/api")
 public class CodeController {
 
-    private static final Logger logger = Logger.getLogger(CodeController.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(CodeController.class);
 
 
     private final CodeService codeService;

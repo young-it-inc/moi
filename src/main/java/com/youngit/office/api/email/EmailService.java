@@ -13,7 +13,7 @@ public class EmailService {
     private JavaMailSender emailSender;
 
     /**
-     * 견적서 발송 (엑셀)
+     * 견적서 메일 발송 (엑셀)
      */
     public int sendEmailEstimate(EstimateDto estimateDto) {
 

@@ -5,11 +5,12 @@ import com.youngit.office.api.product.dto.ProductDto;
 import com.youngit.office.api.product.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 @Tag(name="제품 관리")
 @RestController
@@ -17,7 +18,7 @@ import java.util.logging.Logger;
 public class ProductController {
     //제품 조회 (생산일/일련번호/설치협력업체/상태/품목분류/자재명/자재규격), 상태변경, 이력, 수정, 삭제, 검색, 제품등록, 선택삭제, 엑셀 다운로드
 
-    private static final Logger logger = Logger.getLogger(ProductController.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
     private final ProductService productService;
     @Autowired
     public ProductController(ProductService productService) {

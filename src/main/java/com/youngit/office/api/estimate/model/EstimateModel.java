@@ -22,7 +22,7 @@ public class EstimateModel {
     String	estimateMethod; //견적방법
     String	estimateCode; //견적분류코드 CCT01,03,05,06(물품(검침기), 용역, 공사, 무상, 물품(PDA), 소모품, 시범))
     int	estimateQuantity; //총견적수량
-    int	estimateAmount; //총견적금액
+    long	estimateAmount; //총견적금액
     String	estimateNote; //견적서특이사항
 
 

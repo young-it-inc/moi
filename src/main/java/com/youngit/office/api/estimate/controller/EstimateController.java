@@ -7,11 +7,17 @@ import com.youngit.office.api.estimate.service.EstimateService;
 import com.youngit.office.api.http.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.logging.Logger;
 
 @Tag(name ="일반계약 견적서 관리" )
 @RestController
@@ -23,7 +29,7 @@ public class EstimateController {
     // 택배송장번호입력시 자동문자발송기능,
     // 견적부터 종료까지 한번에 확인 가능하게(견적-세금계산서-입금확인-출고요청-출고-배송완료)
 
-    private static final Logger logger = Logger.getLogger(EstimateController.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(EstimateController.class);
     private final EstimateService estimateService;
     private final EmailService emailService;
     @Autowired
@@ -107,8 +113,8 @@ public class EstimateController {
             return new ApiResponse<>("계약 진행 실패");
     }
 
-    @Operation(summary = "견적서 이메일 발송 버튼")
-    @GetMapping("/estimate/email")
+    @Operation(summary = "견적서 엑셀파일 첨부 이메일 발송 버튼")
+    @PostMapping("/estimate/email")
     public ApiResponse<String> sendEmailEstimate(EstimateDto estimateDto) {
         logger.info("견적서 이메일 발송");
         int result = emailService.sendEmailEstimate(estimateDto);
@@ -116,6 +122,37 @@ public class EstimateController {
             return new ApiResponse<>("이메일 발송 완료", 0);
         else
             return new ApiResponse<>("이메일 발송 실패", 1);
+    }
+
+    @Operation(summary = "등록한 견적서 엑셀 파일 다운로드")
+    @GetMapping("/estimate/download/excel")
+    public ResponseEntity<Object> downloadEstimate(@RequestParam("estimateUniqNo") String estimateUniqNo) throws IOException {
+        System.out.println("estimateUniqNo: " + estimateUniqNo);
+
+        //엑셀파일 생성
+        byte[] excelFile = estimateService.generateEstimateExcel(estimateUniqNo);
+
+        //HTTP 헤더 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", "estimate.xlsx");
+
+        //ResponseEntity로 엑셀 파일 반환
+        return new ResponseEntity<>(excelFile, headers, HttpStatus.OK);
+    }
+
+    @Operation(summary = "견적서 리스트 엑셀 다운로드")
+    @GetMapping("/estimate/excel")
+    public ResponseEntity<Object> downloadExcelEstimateList(@RequestBody(required = false) List<EstimateDto> estimateDtoList) throws IOException {
+        logger.info("견적서 리스트 엑셀 다운로드");
+        //엑셀 파일 생성
+        byte[] excelFile = estimateService.generateExcelEstimateList(estimateDtoList);
+        // HTTP 헤더 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", "estimate_list.xlsx");
+
+        return new  ResponseEntity<>(excelFile, headers, HttpStatus.OK);
 
     }
 }

@@ -12,7 +12,9 @@ public interface EstimateMapper {
 
     List<EstimateModel> getOrSearchListEstimate(EstimateSearchDto estimateSearchDto);
     int countGetOrSearchListEstimate(EstimateSearchDto estimateSearchDto);
+
     EstimateModel getOneEstimate(String estimateUniqNo);
+    List<EstimateProductModel> getEstimateProductList(String estimateUniqNo);
 
 
     String getLastEstimateUniqNo(String todayDate);

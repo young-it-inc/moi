@@ -65,11 +65,13 @@ dependencies {
     implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1' //java.lang.NoClassDefFoundError: javax/xml/bind/DatatypeConverter 특정클래스 찾지 못하는 에러.로그인시 필요
 
 
-    implementation group: 'org.apache.poi', name: 'poi', version: '5.2.2' // xls
-    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.2.2' // xlsx
-
+    implementation group: 'org.apache.poi', name: 'poi', version: '5.2.2' //엑셀파일관리(xls)
+    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.2.3' //엑셀파일관리(xlsx)
+    implementation 'org.apache.pdfbox:pdfbox:2.0.24' //pdf파일관리
 
     implementation 'org.springframework.boot:spring-boot-starter-mail' //메일 발송 기능
+
+
 }
 
 tasks.named('test') {

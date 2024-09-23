@@ -6,11 +6,12 @@ import com.youngit.office.api.material.dto.MaterialSearchDto;
 import com.youngit.office.api.material.service.MaterialService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 @Tag(name="자재 관리")
 @RestController
@@ -19,7 +20,7 @@ public class MaterialController {
 
     //자재 조회, 검색, 등록, 수정, 삭제
 
-    private static final Logger logger = Logger.getLogger(MaterialController.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(MaterialController.class);
 
     private MaterialService materialService;
     @Autowired

@@ -6,11 +6,17 @@ import com.youngit.office.api.contract.service.ContractService;
 import com.youngit.office.api.http.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.logging.Logger;
 
 @Tag(name = "계약 관리")
 @RestController
@@ -21,7 +27,7 @@ public class ContractController {
     //계약완료일(납품기한일, 준공일) 60일 전부터 빨간불 표시
 
 
-    private static final Logger logger = Logger.getLogger(ContractController.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(ContractController.class);
     private final ContractService contractService;
     @Autowired
     public ContractController(ContractService contractService) {
@@ -87,5 +93,19 @@ public class ContractController {
         } else {
             return new ApiResponse<>("계약 삭제 실패");
         }
+    }
+
+    @Operation(summary = "계약 리스트 엑셀 다운로드")
+    @GetMapping("/contract/excel/download")
+    public ResponseEntity<Object> downloadExcelContractList(@RequestBody(required = false) List<ContractDto> contractDtoList) throws IOException {
+        logger.info("계약서 리스트 엑셀 다운로드");
+        //엑셀 파일 생성
+        byte[] excelFile = contractService.generateExcelEstimateList(contractDtoList);
+        // HTTP 헤더 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", "estimate_list.xlsx");
+
+        return new  ResponseEntity<>(excelFile, headers, HttpStatus.OK);
     }
 }

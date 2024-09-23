@@ -6,11 +6,17 @@ import com.youngit.office.api.client.service.ClientService;
 import com.youngit.office.api.http.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.logging.Logger;
 
 @Tag(name="거래처 관리")
 @RestController
@@ -18,7 +24,7 @@ import java.util.logging.Logger;
 public class ClientController {
 //거래처 조회, 검색, 등록, 수정, 삭제, 엑셀출력
 
-    private static final Logger logger = Logger.getLogger(ClientController.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(ClientController.class);
     @Autowired
     private final ClientService clientService;
 
@@ -92,10 +98,22 @@ public class ClientController {
             return new ApiResponse<>("거래처 삭제 실패");
     }
 
-    //엑셀
+
     @Operation(summary = "거래처 리스트 엑셀 다운로드")
-    public ApiResponse<String> excelDownloadClient() {
-        return new ApiResponse<>("엑셀 출력 성공");
+    @GetMapping("/client/excel")
+    public ResponseEntity<Object> downloadExcelClientList(@RequestBody(required = false) List<ClientDto> clientDtoList) throws IOException {
+        logger.info("거래처 리스트 엑셀 다운로드");
+        if(clientDtoList == null)
+            clientDtoList = clientService.getOrSearchListClient(new ClientSearchDto());
+
+        //엑셀 파일 생성
+        byte[] excelFile = clientService.generateExcelClientList(clientDtoList);
+        // HTTP 헤더 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", "client_list.xlsx");
+
+        return new  ResponseEntity<>(excelFile, headers, HttpStatus.OK);
     }
 
 

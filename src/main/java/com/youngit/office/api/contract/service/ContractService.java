@@ -5,10 +5,15 @@ import com.youngit.office.api.contract.dto.ContractSearchDto;
 import com.youngit.office.api.contract.mapper.ContractMapper;
 import com.youngit.office.api.contract.mapstruct.ContractMapstruct;
 import com.youngit.office.api.contract.model.ContractModel;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -26,8 +31,6 @@ public class ContractService {
 
     /**
      * 계약 조회
-     * @param contractType
-     * @return
      */
     public List<ContractDto> getOrSearchListContract(ContractSearchDto contractSearchDto) {
         List<ContractModel> contractModelList;
@@ -102,6 +105,78 @@ public class ContractService {
         return result;
     }
 
+    /**
+     * 계약 리스트 엑셀 다운로드
+     */
+    public byte[] generateExcelEstimateList(List<ContractDto> contractDtoList) throws IOException {
+
+        List<ContractModel> contractModelList = contractDtoList.stream().map(contractMapstruct::toModel).toList();
+
+        try(Workbook workbook = new XSSFWorkbook())
+        {
+            Sheet sheet = workbook.createSheet("계약 목록");
+            //타이틀 스타일 정의
+            CellStyle titleStyle = workbook.createCellStyle();
+            titleStyle.setFillForegroundColor(IndexedColors.GREY_40_PERCENT.getIndex());
+            titleStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+            titleStyle.setAlignment(HorizontalAlignment.CENTER);
+            titleStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+
+            //헤더 스타일 정의
+            CellStyle headerStyle = workbook.createCellStyle();
+            headerStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+            headerStyle.setAlignment(HorizontalAlignment.CENTER);
+            headerStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 
 
+            CellStyle centerStyle = workbook.createCellStyle();
+            centerStyle.setAlignment(HorizontalAlignment.CENTER);
+            centerStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+
+            // 첫 번째 행에 '거래처목록' 추가 및 셀 병합
+            Row titleRow = sheet.createRow(0);
+            Cell titleCell = titleRow.createCell(0);
+            titleCell.setCellValue("계약 목록");
+            titleCell.setCellStyle(titleStyle);
+            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 8)); // 0행 0열부터 0행 8열까지 병합
+
+            //헤더 행 생성
+            Row headerRow = sheet.createRow(1);
+            String[] headers = {"거래처명", "계약분류", "계약방법", "계약번호", "계약명", "계약일", "착수일", "완료예정일", "완료일", "계약금액"};
+            for (int i = 0; i < headers.length; i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(headers[i]);
+                cell.setCellStyle(centerStyle);
+                cell.setCellStyle(headerStyle);
+                sheet.setColumnWidth(i, 20 * 300); // 열 너비 설정
+            }
+
+            // 데이터 행 생성
+            for (int i = 0; i < contractModelList.size(); i++) {
+                ContractModel contractModel = contractModelList.get(i);
+                Row row = sheet.createRow(i + 2);
+
+                row.createCell(0).setCellValue(contractModel.getClientUniqId()); //거래처명
+                row.createCell(1).setCellValue(contractModel.getContractCode()); //계약분류
+                row.createCell(2).setCellValue(contractModel.getContractMethod()); //계약방법
+                row.createCell(3).setCellValue(contractModel.getContractUniqNo()); //계약번호
+                row.createCell(4).setCellValue(contractModel.getContractName()); //계약명
+                row.createCell(5).setCellValue(contractModel.getContractDate()); //계약일
+                row.createCell(6).setCellValue(contractModel.getOpeningDate()); //착수일
+                row.createCell(7).setCellValue(contractModel.getApproximateDate()); //완료예정일
+                row.createCell(8).setCellValue(contractModel.getDueDate()); //완료일
+                row.createCell(9).setCellValue(contractModel.getContractAmount()); //계약금액
+
+                // 데이터 행 가운데 정렬 스타일 적용
+                for (int j = 0; j < headers.length; j++) {
+                    row.getCell(j).setCellStyle(centerStyle);
+                }
+            }
+            // 엑셀 파일을 바이트 배열로 변환
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            workbook.write(outputStream);
+            return outputStream.toByteArray();
+        }
+    }
 }

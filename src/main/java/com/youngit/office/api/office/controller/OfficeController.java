@@ -5,17 +5,18 @@ import com.youngit.office.api.office.dto.OfficeDto;
 import com.youngit.office.api.office.service.OfficeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 @Tag(name = "사업소 관리")
 @RestController
 public class OfficeController {
 
-    private static final Logger logger = Logger.getLogger(OfficeController.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(OfficeController.class);
 
     private final OfficeService officeService;
 
@@ -35,13 +36,14 @@ public class OfficeController {
         }
     }
 
-    @Operation(summary ="사업소 조회")
+    @Operation(summary ="사업소 리스트 조회")
     @GetMapping("/api/office")
     public ApiResponse<List<OfficeDto>> getListOffice() {
         logger.info("사업소 조회");
         List<OfficeDto> result = officeService.getListOffice();
         return new ApiResponse<>(result);
     }
+
 
     @Operation(summary = "사업소 수정")
     @PutMapping("/api/office")
