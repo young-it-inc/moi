@@ -7,8 +7,8 @@ import java.util.List;
 
 @Mapper
 public interface BoardMapper {
-    List<BoardModel> getListBoard();
-    int getCountListBoard();
+    List<BoardModel> getOrSearchListBoard();
+    int countGetOrSearchListBoard();
     BoardModel getOneBoard(int boardId);
 
 }

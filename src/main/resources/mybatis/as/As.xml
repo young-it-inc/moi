@@ -3,7 +3,7 @@
 
 <mapper namespace="com.youngit.office.api.as.mapper.AsMapper">
 
-<select id="getListAs" resultType="AsModel">
+<select id="getOrSearchListAs" resultType="AsModel">
     SELECT *
     FROM o_as
     where is_used = 'Y'
@@ -12,7 +12,7 @@
       </if>
     </select>
 
-    <select id="getCountListAs" resultType="int">
+    <select id="countGetOrSearchListAs" resultType="int">
     SELECT count(*)
     FROM o_as
     where is_used = 'Y'

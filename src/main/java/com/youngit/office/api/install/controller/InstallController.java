@@ -2,6 +2,7 @@ package com.youngit.office.api.install.controller;
 
 import com.youngit.office.api.http.ApiResponse;
 import com.youngit.office.api.install.dto.InstallDto;
+import com.youngit.office.api.install.dto.InstallSearchDto;
 import com.youngit.office.api.install.service.InstallService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -35,10 +36,10 @@ public class InstallController {
 
     @Operation(summary = "설치 리스트 + 상태별 조회")
     @GetMapping("/install")
-    public ApiResponse<List<InstallDto>> getListInstall(@RequestParam(value = "installstateCode", required = false) String installStateCode) {
+    public ApiResponse<List<InstallDto>> getOrSearchListInstall(InstallSearchDto installsearchDto) {
         logger.info("설치 리스트 + 상태별 조회");
-        int count = installService.getCountListInstall(installStateCode);
-        List<InstallDto> result = installService.getListInstall(installStateCode);
+        int count = installService.countGetOrSearchListInstall(installsearchDto);
+        List<InstallDto> result = installService.getOrSearchListInstall(installsearchDto);
         return new ApiResponse<>(result, 0, "설치 리스트 조회", count);
     }
 

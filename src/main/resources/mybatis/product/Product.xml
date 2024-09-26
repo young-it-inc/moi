@@ -3,13 +3,13 @@
 
 <mapper namespace="com.youngit.office.api.product.mapper.ProductMapper">
 
-    <select id="getListProduct" resultType="ProductModel">
+    <select id="getOrSearchListProduct" resultType="ProductModel">
         select *
         from o_product
         where is_state_used = 'Y'
     </select>
 
-    <select id="getCountListProduct" resultType="int">
+    <select id="countGetOrSearchListProduct" resultType="int">
         select count(*)
         from o_product
         where is_state_used = 'Y'

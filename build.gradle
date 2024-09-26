@@ -70,6 +70,8 @@ dependencies {
     implementation 'org.apache.pdfbox:pdfbox:2.0.24' //pdf파일관리
 
     implementation 'org.springframework.boot:spring-boot-starter-mail' //메일 발송 기능
+    implementation 'javax.mail:javax.mail-api:1.6.2' // javaMail API
+    implementation 'com.sun.mail:javax.mail:1.6.2'  // javaMail 구현체
 
 
 }

@@ -39,7 +39,7 @@ public class ContractService {
     }
 
     public int countGetOrSearchListContract(ContractSearchDto contractSearchDto) {
-        return contractMapper.getCountListContract(contractSearchDto);
+        return contractMapper.countGetOrSearchListContract(contractSearchDto);
 
     }
 

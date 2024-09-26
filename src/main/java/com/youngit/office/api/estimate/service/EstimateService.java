@@ -1,11 +1,13 @@
 package com.youngit.office.api.estimate.service;
 
+import com.youngit.office.api.email.EmailService;
 import com.youngit.office.api.estimate.dto.EstimateDto;
 import com.youngit.office.api.estimate.dto.EstimateSearchDto;
 import com.youngit.office.api.estimate.mapper.EstimateMapper;
 import com.youngit.office.api.estimate.mapstruct.EstimateMapstruct;
 import com.youngit.office.api.estimate.model.EstimateModel;
 import com.youngit.office.api.estimate.model.EstimateProductModel;
+import com.youngit.office.api.file.service.FileService;
 import com.youngit.office.util.PriceToWords;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -15,6 +17,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,15 +32,19 @@ public class EstimateService {
 
     private final EstimateMapper estimateMapper;
     private final EstimateMapstruct estimateMapstruct;
+    private final EmailService emailService;
+
+    private final FileService fileService;
     @Autowired
-    public EstimateService(EstimateMapper estimateMapper, EstimateMapstruct estimateMapstruct) {
+    public EstimateService(EstimateMapper estimateMapper, EstimateMapstruct estimateMapstruct, EmailService emailService, FileService fileService) {
         this.estimateMapper = estimateMapper;
         this.estimateMapstruct = estimateMapstruct;
+        this.emailService = emailService;
+        this.fileService = fileService;
     }
 
-    /** 견적서 조회
+    /** 견적서 조회 및 검색
      *
-     * @return
      */
     public List<EstimateDto> getOrSearchListEstimate(EstimateSearchDto estimateSearchDto) {
         List<EstimateModel> resultModel= estimateMapper.getOrSearchListEstimate(estimateSearchDto);
@@ -55,7 +62,6 @@ public class EstimateService {
 
     /**
      * 견적 번호 생성
-     *
      */
     public String getNewEstimateUniqNo()
     {
@@ -119,7 +125,6 @@ public class EstimateService {
             Sheet sheet = workbook.getSheetAt(0);
 
             //조회한 견적서 정보 입력
-
             // 회사명: 3행 1열 (0-based index => 2행 0열)
             sheet.getRow(2).getCell(0).setCellValue(estimateModel.getClientName());
 
@@ -162,7 +167,6 @@ public class EstimateService {
                 row.createCell(10).setCellValue(product.getProductTotalPrice());
 
             }
-
             // 최종 합계 금액: 30행 K열 (0-based index => 29행 10열)
             sheet.getRow(29).getCell(10).setCellValue(estimateModel.getEstimateAmount());
 
@@ -275,5 +279,32 @@ public class EstimateService {
     {
         //계약번호 전달
         return 0;
+    }
+
+    /**
+     * 견적서 메일 발송(엑셀)
+     */
+    public int sendEmailEstimate(EstimateDto estimateDto) {
+
+        String from = "";
+        String to = estimateDto.getEmail();
+        String subject = estimateDto.getEstimateNote();
+        String text = estimateDto.getClientName();
+        try {
+            byte[] byteFile = generateEstimateExcel(estimateDto.getEstimateUniqNo());
+            File file = fileService.convertByteArrayToFile(byteFile);
+            int result = emailService.sendEmailEstimateWithAttachment(from, to, subject, text, estimateDto, file);
+            return result; //성공 시 0 반환
+        } catch (IOException e) {
+            e.printStackTrace();
+            return -1; //예외 발생 시 -1 반환
+        } catch (MessagingException e)
+        {
+            e.printStackTrace();
+            return -2; //메일 전송 오류 시 -2 반환
+        } catch (jakarta.mail.MessagingException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

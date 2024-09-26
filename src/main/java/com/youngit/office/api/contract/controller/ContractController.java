@@ -26,14 +26,12 @@ public class ContractController {
     //매출 관리 메뉴 생성: 영업팀별 매출 목표/실적/달성률 사업매출 관리 기능
     //계약완료일(납품기한일, 준공일) 60일 전부터 빨간불 표시
 
-
     private static final Logger logger = LoggerFactory.getLogger(ContractController.class);
     private final ContractService contractService;
     @Autowired
     public ContractController(ContractService contractService) {
         this.contractService = contractService;
     }
-
 
     @Operation(summary = "계약 리스트 조회 및 검색")
     @GetMapping("/contract")
@@ -107,5 +105,12 @@ public class ContractController {
         headers.setContentDispositionFormData("attachment", "estimate_list.xlsx");
 
         return new  ResponseEntity<>(excelFile, headers, HttpStatus.OK);
+    }
+
+    @Operation(summary = "송장번호 문자 발송")
+    @GetMapping("/contract/sms")
+    public ResponseEntity<String> sendSms()
+    {
+        return new ResponseEntity<>("송장번호 문자 발송 완료", HttpStatus.OK);
     }
 }

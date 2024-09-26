@@ -3,18 +3,21 @@
 
 <mapper namespace="com.youngit.office.api.bill.mapper.BillMapper">
 
-    <select id="getListBill" resultType="BillModel">
+    <select id="getOrSearchListBill" parameterType="BillSearchDto" resultType="BillModel">
         SELECT * FROM o_bill
     </select>
 
-    <select id="getCountListBill" resultType="int">
+    <select id="countGetOrSearchListBill" parameterType="BillSearchDto" resultType="int">
         SELECT count(*) FROM o_bill
     </select>
 
     <select id="getOneBill" resultType="BillModel">
-        SELECT * FROM o_bill WHERE bill_uniq_id = #{billUniqId}
+        SELECT * FROM o_bill WHERE bill_uniq_no = #{billUniqNo}
     </select>
 
+    <select id="getBillDetailModelList" resultType="BillDetailModel">
+        SELECT * FROM o_bill_detail WHERE bill_uniq_no= #{billUniqNo}
+    </select>
 
     <select id="getBillById" resultType="BillModel">
         --SELECT * FROM o_bill WHERE id = #{id}
@@ -24,6 +27,12 @@
         INSERT INTO o_bill ()
         VALUES ()
     </insert>
+
+    <insert id="registerBillDetail" parameterType="BillDetailModel">
+        INSERT INTO o_bill_detail ()
+        VALUES ()
+    </insert>
+
     <update id="updateBill" parameterType="BillModel">
 
     </update>

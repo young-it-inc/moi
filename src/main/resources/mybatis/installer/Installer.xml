@@ -3,13 +3,13 @@
 
 <mapper namespace="com.youngit.office.api.installer.mapper.InstallerMapper">
 
-    <select id="getListInstaller" resultType="InstallerModel">
+    <select id="getOrSearchListInstaller" resultType="InstallerModel">
         select *
         from o_installer
 
     </select>
 
-    <select id="getCountListInstaller" resultType="int">
+    <select id="countGetOrSearchListInstaller" resultType="int">
     </select>
 
     <select id="getOneInstaller" resultType="InstallerModel">

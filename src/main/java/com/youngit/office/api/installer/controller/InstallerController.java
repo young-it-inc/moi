@@ -29,7 +29,7 @@ public class InstallerController {
     @GetMapping("/api/installer")
     public ApiResponse<List<InstallerDto>> getListInstaller() {
         logger.info("설치팀 최초 계약 리스트 조회");
-        int count = installerService.getCountListInstaller();
+        int count = installerService.countGetOrSearchListInstaller();
         List<InstallerDto> result = installerService.getListInstaller();
         return new ApiResponse<>(result, 0, "설치팀 최초 계약 리스트 조회 완료", count);
     }

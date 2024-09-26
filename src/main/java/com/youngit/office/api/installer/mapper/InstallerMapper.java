@@ -10,8 +10,8 @@ public interface InstallerMapper {
 
 
     //설치팀계약 리스트 조회
-    List<InstallerModel> getListInstaller();
-    int getCountListInstaller();
+    List<InstallerModel> getOrSearchListInstaller();
+    int countGetOrSearchListInstaller();
     InstallerModel getOneInstaller(String installerUniqNo);
 
     int registerInstaller(InstallerModel installerModel);

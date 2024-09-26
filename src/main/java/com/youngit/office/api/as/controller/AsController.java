@@ -1,6 +1,7 @@
 package com.youngit.office.api.as.controller;
 
 import com.youngit.office.api.as.dto.AsDto;
+import com.youngit.office.api.as.dto.AsSearchDto;
 import com.youngit.office.api.as.service.AsService;
 import com.youngit.office.api.http.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,10 +42,10 @@ public class AsController {
 
     @Operation(summary = "AS 리스트 + 상태별 조회")
     @GetMapping("/as")
-    public ApiResponse<List<AsDto>> getListAs(@RequestParam(value = "asStateCode", required = false) String asStateCode) {
+    public ApiResponse<List<AsDto>> getOrSearchListAs(AsSearchDto asSearchDto) {
         logger.info("AS 리스트 + 상태별 조회");
-        int count = asService.getCountListAs(asStateCode);
-        List<AsDto> result = asService.getListAs(asStateCode);
+        int count = asService.countGetOrSearchListAs(asSearchDto);
+        List<AsDto> result = asService.getOrSearchListAs(asSearchDto);
         return new ApiResponse<>(result, 0, "as 리스트 조회 완료", count);
     }
 

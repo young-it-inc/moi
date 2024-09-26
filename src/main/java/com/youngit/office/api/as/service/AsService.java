@@ -1,6 +1,7 @@
 package com.youngit.office.api.as.service;
 
 import com.youngit.office.api.as.dto.AsDto;
+import com.youngit.office.api.as.dto.AsSearchDto;
 import com.youngit.office.api.as.mapper.AsMapper;
 import com.youngit.office.api.as.mapstruct.AsMapstruct;
 import com.youngit.office.api.as.model.AsModel;
@@ -33,12 +34,12 @@ public class AsService {
     /**
      * AS 조회
      */
-    public List<AsDto> getListAs(String asStateCode) {
-        List<AsModel> asModelList = asMapper.getListAs(asStateCode);
+    public List<AsDto> getOrSearchListAs(AsSearchDto asSearchDto) {
+        List<AsModel> asModelList = asMapper.getOrSearchListAs(asSearchDto);
         return asModelList.stream().map(asMapstruct::toDto).toList();
     }
-    public int getCountListAs(String asStateCode) {
-        return asMapper.getCountListAs(asStateCode);
+    public int countGetOrSearchListAs(AsSearchDto asSearchDto) {
+        return asMapper.countGetOrSearchListAs(asSearchDto);
     }
     public AsDto getOneAs(String asUniqId) {
         AsModel asModel = asMapper.getOneAs(asUniqId);

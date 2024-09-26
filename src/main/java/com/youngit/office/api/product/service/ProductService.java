@@ -1,6 +1,7 @@
 package com.youngit.office.api.product.service;
 
 import com.youngit.office.api.product.dto.ProductDto;
+import com.youngit.office.api.product.dto.ProductSearchDto;
 import com.youngit.office.api.product.mapper.ProductMapper;
 import com.youngit.office.api.product.mapstruct.ProductMapstruct;
 import com.youngit.office.api.product.model.ProductModel;
@@ -24,13 +25,13 @@ public class ProductService {
     }
 
 
-    public List<ProductDto> getListProduct() {
-        List<ProductModel> productModelList = productMapper.getListProduct();
+    public List<ProductDto> getOrSearchListProduct(ProductSearchDto productSearchDto) {
+        List<ProductModel> productModelList = productMapper.getOrSearchListProduct(productSearchDto);
         return productModelList.stream().map(productMapstruct::toDto).toList();
     }
-    public int getCountListProduct()
+    public int countGetOrSearchListProduct(ProductSearchDto productSearchDto)
     {
-        return productMapper.getCountListProduct();
+        return productMapper.countGetOrSearchListProduct(productSearchDto);
     }
 
     public ProductDto getOneProduct(String productSerialNumber) {

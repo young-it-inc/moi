@@ -1,6 +1,7 @@
 package com.youngit.office.api.office.service;
 
 import com.youngit.office.api.office.dto.OfficeDto;
+import com.youngit.office.api.office.dto.OfficeSearchDto;
 import com.youngit.office.api.office.mapper.OfficeMapper;
 import com.youngit.office.api.office.mapstruct.OfficeMapstruct;
 import com.youngit.office.api.office.model.OfficeModel;
@@ -21,8 +22,8 @@ public class OfficeService {
         this.officeMapstruct = officeMapstruct;
     }
 
-    public List<OfficeDto> getListOffice() {
-        List<OfficeModel> officeModelList = officeMapper.getListOffice();
+    public List<OfficeDto> getOrSearchListOffice(OfficeSearchDto officeSearchDto) {
+        List<OfficeModel> officeModelList = officeMapper.getOrSearchListOffice(officeSearchDto);
         return officeModelList.stream().map(officeMapstruct::toDto).toList();
     }
     public int registerOffice(OfficeDto officeDto) {

@@ -3,12 +3,46 @@
 
 <mapper namespace="com.youngit.office.api.install.mapper.InstallMapper">
 
-    <select id="getListInstall" resultType="InstallModel">
+    <select id="getOrSearchListInstall" parameterType="InstallSearchDto" resultType="InstallModel">
         SELECT *
         FROM o_install
         WHERE is_used = 'Y'
+        <if test="searchCode != null and searchCode != ''">
+            <choose>
+                <when test="searchCode == 'SC01'">
+                    and customer_number = #{keyword}
+                </when>
+                <when test="searchCode == 'SC02'">
+                    and customer_name = #{keyword}
+                </when>
+                <when test="searchCode == 'SC03'">
+                    and customer_address = #{keyword}
+                </when>
+                <when test="searchCode == 'SC04'">
+                    and customer_phone_number = #{keyword}
+                </when>
+                <when test="searchCode == 'SC05'">
+                    and meter_number = #{keyword}
+                </when>
+                <when test="searchCode == 'SC06'">
+                    and meter_reading_serial_number = #{keyword}
+                </when>
+                <when test="searchCode == 'SC07'">
+                    and terminal_box_serial_number = #{keyword}
+                </when>
+                <when test="searchCode == 'SC08'">
+                    and worker_name = #{keyword}
+                </when>
+                <when test="searchCode == 'SC09'">
+                    and meterman_name = #{keyword}
+                </when>
+                <when test="searchCode == 'SC10'">
+                    and install_agree_date = #{keyword}
+                </when>
+            </choose>
+        </if>
     </select>
-    <select id="getCountListInstall" resultType="int">
+    <select id="countGetOrSearchListInstall" parameterType="InstallSearchDto" resultType="int">
         SELECT count(*)
         FROM o_install
         WHERE is_used = 'Y'

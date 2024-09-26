@@ -7,7 +7,7 @@ import lombok.Data;
 import java.sql.Timestamp;
 
 @Data
-@Schema
+@Schema(description = "설치 정보 DTO")
 public class InstallDto {
 
     String	installUniqId; //설치고유ID : INSTL_00000000000000 14자리

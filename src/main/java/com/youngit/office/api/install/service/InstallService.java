@@ -1,6 +1,7 @@
 package com.youngit.office.api.install.service;
 
 import com.youngit.office.api.install.dto.InstallDto;
+import com.youngit.office.api.install.dto.InstallSearchDto;
 import com.youngit.office.api.install.mapper.InstallMapper;
 import com.youngit.office.api.install.mapstruct.InstallMapstruct;
 import com.youngit.office.api.install.model.InstallModel;
@@ -32,12 +33,12 @@ public class InstallService {
     /**
      * 설치 조회
      */
-    public List<InstallDto> getListInstall(String installStateCode) {
-        List<InstallModel> resultModelList = installMapper.getListInstall(installStateCode);
+    public List<InstallDto> getOrSearchListInstall(InstallSearchDto installSearchDto) {
+        List<InstallModel> resultModelList = installMapper.getOrSearchListInstall(installSearchDto);
         return resultModelList.stream().map(installMapstruct::toDto).toList();
     }
-    public int getCountListInstall(String installStateCode) {
-        return installMapper.getCountListInstall(installStateCode);
+    public int countGetOrSearchListInstall(InstallSearchDto installSearchDto) {
+        return installMapper.countGetOrSearchListInstall(installSearchDto);
     }
     public InstallDto getOneInstall(String installUniqId) {
         InstallModel resultModel = installMapper.getOneInstall(installUniqId);
@@ -70,7 +71,7 @@ public class InstallService {
      */
     public int registerBatchInstall(String id, MultipartFile file) throws Exception {
 
-       try(InputStream inputStream = file.getInputStream();
+       try (InputStream inputStream = file.getInputStream();
        Workbook workbook = WorkbookFactory.create(inputStream))
        {
            Sheet sheet= workbook.getSheetAt(0); //첫번째 시트

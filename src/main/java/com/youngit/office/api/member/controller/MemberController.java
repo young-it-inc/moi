@@ -162,7 +162,7 @@ public class MemberController {
 
 
     @Operation(summary = "권한 설정")
-    @GetMapping("/api/authority/{memberId}")
+    @PostMapping("/api/authority/{memberId}")
     public ApiResponse<String> authority(@PathVariable String memberId) {
         logger.info("권한 설정");
 

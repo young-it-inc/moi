@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-@Schema(description = "내역서 정보 DTO")
+@Schema(description = "설치팀 내역서 정보 DTO")
 public class BillDto {
 
     String	clientUniqId; //거래처고유ID :팀명: 가월설비

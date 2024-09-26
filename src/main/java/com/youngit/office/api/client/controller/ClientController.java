@@ -65,7 +65,7 @@ public class ClientController {
     }
 
     @Operation(summary = "사업자등록번호 중복 체크", description = "필수입력: 사업자등록번호")
-    @PostMapping("/client/biznumber")
+    @GetMapping("/client/biznumber")
     public ApiResponse<String> checkBizNumber(String bizNumber)
     {
         logger.info("사업자등록번호 중복 체크");

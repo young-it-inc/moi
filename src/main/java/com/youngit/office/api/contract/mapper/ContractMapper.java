@@ -15,7 +15,7 @@ public interface ContractMapper {
      * 계약 조회 및 검색
      */
     List<ContractModel> getOrSearchListContract(ContractSearchDto contractSearchDto);
-    int getCountListContract(ContractSearchDto contractSearchDto);
+    int countGetOrSearchListContract(ContractSearchDto contractSearchDto);
     ContractModel getOneContract(String contractUniqNo);
 
 

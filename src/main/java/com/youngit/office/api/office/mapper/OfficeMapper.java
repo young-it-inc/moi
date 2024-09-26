@@ -1,5 +1,6 @@
 package com.youngit.office.api.office.mapper;
 
+import com.youngit.office.api.office.dto.OfficeSearchDto;
 import com.youngit.office.api.office.model.OfficeModel;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,5 +15,5 @@ public interface OfficeMapper {
     boolean isExistOfficeId(String officeId);
     int deleteOffice(String officeId);
 
-    List<OfficeModel> getListOffice();
+    List<OfficeModel> getOrSearchListOffice(OfficeSearchDto officeSearchDto);
 }

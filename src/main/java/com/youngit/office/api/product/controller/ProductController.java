@@ -2,6 +2,7 @@ package com.youngit.office.api.product.controller;
 
 import com.youngit.office.api.http.ApiResponse;
 import com.youngit.office.api.product.dto.ProductDto;
+import com.youngit.office.api.product.dto.ProductSearchDto;
 import com.youngit.office.api.product.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,10 +29,10 @@ public class ProductController {
 
     @Operation(summary = "제품 리스트 조회")
     @GetMapping("/product")
-    public ApiResponse<List<ProductDto>> getListProduct() {
+    public ApiResponse<List<ProductDto>> getListProduct(ProductSearchDto productSearchDto) {
         logger.info("제품 리스트 조회");
-        List<ProductDto> result = productService.getListProduct();
-        int count = productService.getCountListProduct();
+        List<ProductDto> result = productService.getOrSearchListProduct(productSearchDto);
+        int count = productService.countGetOrSearchListProduct(productSearchDto);
         return new ApiResponse<>(result, 0, "제품 리스트 조회 성공", count);
     }
 

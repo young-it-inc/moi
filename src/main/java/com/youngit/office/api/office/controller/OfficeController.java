@@ -2,6 +2,7 @@ package com.youngit.office.api.office.controller;
 
 import com.youngit.office.api.http.ApiResponse;
 import com.youngit.office.api.office.dto.OfficeDto;
+import com.youngit.office.api.office.dto.OfficeSearchDto;
 import com.youngit.office.api.office.service.OfficeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,6 +25,17 @@ public class OfficeController {
     public OfficeController(OfficeService officeService) {
         this.officeService = officeService;
     }
+
+
+    @Operation(summary ="사업소 리스트 조회")
+    @GetMapping("/api/office")
+    public ApiResponse<List<OfficeDto>> getOrSearchListOffice(OfficeSearchDto officeSearchDto) {
+        logger.info("사업소 조회");
+        List<OfficeDto> result = officeService.getOrSearchListOffice(officeSearchDto);
+        return new ApiResponse<>(result);
+    }
+
+
     @Operation(summary = "사업소 등록")
     @PostMapping("/api/office")
     public ApiResponse<String> registerOffice(@RequestBody OfficeDto officeDto) {
@@ -36,13 +48,6 @@ public class OfficeController {
         }
     }
 
-    @Operation(summary ="사업소 리스트 조회")
-    @GetMapping("/api/office")
-    public ApiResponse<List<OfficeDto>> getListOffice() {
-        logger.info("사업소 조회");
-        List<OfficeDto> result = officeService.getListOffice();
-        return new ApiResponse<>(result);
-    }
 
 
     @Operation(summary = "사업소 수정")

@@ -26,12 +26,12 @@ public class InstallerService {
 
 
     public List<InstallerDto> getListInstaller() {
-        List<InstallerModel> resultModelList = installerMapper.getListInstaller();
+        List<InstallerModel> resultModelList = installerMapper.getOrSearchListInstaller();
         return resultModelList.stream().map(installerMapstruct::toDto).toList();
     }
 
-    public int getCountListInstaller() {
-        return installerMapper.getCountListInstaller();
+    public int countGetOrSearchListInstaller() {
+        return installerMapper.countGetOrSearchListInstaller();
     }
     public int registerInstaller(InstallerDto installerDto) {
         InstallerModel installerModel = installerMapstruct.toModel(installerDto);

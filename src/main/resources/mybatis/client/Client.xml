@@ -22,7 +22,7 @@
         </if>
     </select>
 
-    <select id="getCountListClient" resultType="int">
+    <select id="countGetOrSearchListClient" resultType="int">
         SELECT COUNT(*)
         FROM o_client
         where is_used = 'Y'
