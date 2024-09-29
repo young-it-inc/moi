@@ -17,11 +17,11 @@ public class MemberModel {
     //String password_question; //비밀번호질문
     //String password_answer; //비밀번호답변
 
-    String	name; //* 회원명
-    String	email; //회원이메일주소
-    String	phoneNumber; //회원전화번호
+    String	memberName; //* 회원명
+    String	memberEmail; //회원이메일주소
+    String	memberPhoneNumber; //회원전화번호
 
-    String	status; //회원상태 : A(회원신청)/D(탈퇴)/P(승인)
+    String	memberStatus; //회원상태 : A(회원신청)/D(탈퇴)/P(승인)
     String	authorityCode; //권한코드 : ROLE_USER/ROLE_EMPLOYEE/ROLE_ADMIN +installer
     String	positionCode; //직책코드 : POS01/02/03/04/05/06/07/08/09 (대표이사/부사장/이사/팀장/과장/대리/주임/사원/수습)
     String	departmentCode; //부서코드 : PAT01/02/03/04(마케팅/연구개발/재무관리/P&QC팀)

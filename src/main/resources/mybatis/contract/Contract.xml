@@ -3,31 +3,35 @@
 
 <mapper namespace="com.youngit.office.api.contract.mapper.ContractMapper">
 
+    <!-- 계약 리스트 조회 및 검색 -->
     <select id="getOrSearchListContract" parameterType="ContractSearchDto" resultType="ContractModel">
         SELECT *
         FROM o_contract
         where contract_type = #{contractType}
     </select>
 
+    <!-- 계약 리스트 조회 및 검색 카운트 -->
     <select id="countGetOrSearchListContract" parameterType="ContractSearchDto" resultType="int">
         SELECT count(*)
         FROM o_contract
         where contract_type = #{contractType}
     </select>
 
+    <!-- 계약 상세 조회 -->
     <select id="getOneContract" resultType="ContractModel">
         SELECT *
         FROM o_contract
         where contract_uniq_no = #{contractUniqNo}
     </select>
 
-
+    <!-- 최근 계약 고유번호 조회 -->
     <select id="getLastContractUniqNo" resultType="String">
         SELECT MAX(contract_uniq_no)
         FROM o_contract
         where contract_uniq_no like CONCAT(#{todayDate}, '%')
-
     </select>
+
+    <!-- 계약 등록 -->
     <insert id="registerContract" parameterType="ContractModel">
         INSERT INTO o_contract (contract_uniq_no, client_uniq_id, contract_main, ordering_contract_no, contract_name,
                                 contract_method, contract_code, contract_quantity, contract_date, opening_date,
@@ -51,17 +55,19 @@
                 #{etc}, #{contractType})
     </insert>
 
+    <!-- 계약 상세 등록 -->
     <insert id="registerContractDetail" parameterType="ContractDetailModel">
         INSERT INTO o_contract_detail (contract_uniq_no, client_uniq_id, contract_detail_code_order, contract_detail_code, contract_detail_quantity)
         values (#{contractUniqNo}, #{clientUniqId}, #{contractDetailCodeOrder}, #{contractDetailCode}, #{contractDetailQuantity})
     </insert>
 
+    <!-- 계약 품목 등록 -->
     <insert id="registerContractProduct" parameterType="ContractProductModel">
         INSERT INTO o_contract_product (product_uniq_idx, contract_uniq_no, delivery_code, office_id, client_uniq_id, material_uniq_id, product_quantity, product_unit_price )
         values (#{productUniqIdx}, #{contractUniqNo}, #{deliveryCode}, #{officeId}, #{clientUniqId}, #{materialUniqId}, #{productQuantity}, #{productUnitPrice})
     </insert>
 
-
+    <!-- 계약 수정 -->
     <update id="updateGeneralContract" parameterType="ContractModel">
         UPDATE o_contract
         <trim prefix="SET" suffixOverrides=",">
@@ -195,17 +201,20 @@
         where contract_uniq_no = #{contractUniqNo}
     </update>
 
+    <!-- 계약 삭제 (실제 수정) -->
     <update id="deleteContract" parameterType="String">
         UPDATE o_contract
         SET is_used = 'N'
         WHERE contract_uniq_no = #{contractUniqNo}
     </update>
 
+    <!-- 계약 상세 삭제 (실제 삭제) -->
     <delete id="deleteContractDetail" parameterType="String">
         DELETE FROM o_contract_detail
         WHERE contract_uniq_no = #{contractUniqNo}
     </delete>
 
+    <!-- 계약 품목 삭제 (실제 삭제) -->
     <delete id="deleteContractProduct" parameterType="String">
         DELETE FROM o_contract_product
         WHERE contract_uniq_no = #{contractUniqNo}

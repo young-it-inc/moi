@@ -29,7 +29,7 @@ public class JwtTokenProvider {
                 .setIssuedAt(Date.from(now))
                 .setExpiration(Date.from(expriyDate))
                 .claim("id", memberDto.getMemberId())
-                .claim("email", memberDto.getEmail())
+                .claim("email", memberDto.getMemberEmail())
                 .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretkey())
                 .compact();
 

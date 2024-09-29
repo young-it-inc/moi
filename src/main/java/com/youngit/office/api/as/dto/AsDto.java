@@ -50,8 +50,8 @@ public class AsDto {
     String	beforeExternalIndicatorSerialNumber; //이전외부표시기 일련번호
     String	cableLength; //통신선설치길이
     String	asEtc; //A/S비고
-    Boolean	isExternalIndicatorInstalled; //외부표시기설치여부 (Y/N)
-    Boolean	isEnclosureInstalled; //외함설치여부 (Y/N)
+    String	isExternalIndicatorInstalled; //외부표시기설치여부 (Y/N)
+    String	isEnclosureInstalled; //외함설치여부 (Y/N)
     String	asSignaturePath; //A/S서명이미지경로
     String	asBeforePath; //A/S전_지침사진경로
     String	asAfterPath; //A/S후_지침사진경로
@@ -67,7 +67,7 @@ public class AsDto {
     int	correctCount; //시정횟수
     String	metermanName; //검침원성명
     String	metermanPhoneNumber; //검침원전화번호
-    Boolean	isDeducted; //공제여부 (Y/N)
+    String	isDeducted; //공제여부 (Y/N)
     String	deductionId; //공제대상자ID (주로 설치팀ID, 단, 위의 a/s직원고유id와 같을수도,다를수도 있음.)  //???
     String	deductionReason; //공제사유
     String payApplyDate; //결제반영일? //???

@@ -14,7 +14,7 @@ public class InstallSearchDto {
     String startDate; //검색시작일
     String endDate; //검색종료일
 
-
     String contractNo; //계약번호
-    String keyword; //검색구분 검색어
+    String searchKey; //검색구분
+    String searchValue; //검색어
 }

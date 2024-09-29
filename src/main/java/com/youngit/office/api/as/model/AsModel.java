@@ -12,7 +12,7 @@ public class AsModel {
     String	asUniqId; //A/S고유ID : AS_00000000000000000(17자리)
     String	installUniqId; //설치고유ID : INSTL_00000000000000(14자리)
     String	clientBuilderId; //시공사고유ID : BCNC_000000000000000(15자리)
-    int	assignNumber; //배정고유번호 : counting되는 숫자
+    String	assignNumber; //배정고유번호 : counting되는 숫자
     String	officeId; //지역고유ID (필수)
     String	customerNumber; //수용가번호(필수, 조회)
     String	customerName; //수용가성명(필수)
@@ -55,8 +55,8 @@ public class AsModel {
     String	beforeExternalIndicatorSerialNumber; //이전외부표시기 일련번호
     String	cableLength; //통신선설치길이
     String	asEtc; //A/S비고
-    Boolean	isExternalIndicatorInstalled; //외부표시기설치여부 (Y/N)
-    Boolean	isEnclosureInstalled; //외함설치여부 (Y/N)
+    String	isExternalIndicatorInstalled; //외부표시기설치여부 (Y/N)
+    String	isEnclosureInstalled; //외함설치여부 (Y/N)
     String	asSignaturePath; //A/S서명이미지경로
     String	asBeforePath; //A/S전_지침사진경로
     String	asAfterPath; //A/S후_지침사진경로
@@ -72,7 +72,7 @@ public class AsModel {
     int	correctCount; //시정횟수
     String	metermanName; //검침원성명
     String	metermanPhoneNumber; //검침원전화번호
-    Boolean	isDeducted; //공제여부 (Y/N)
+    String	isDeducted; //공제여부 (Y/N)
     String	deductionId; //공제대상자ID (주로 설치팀ID, 단, 위의 a/s직원고유id와 같을수도,다를수도 있음.)  //???
     String	deductionReason; //공제사유
     String payApplyDate; //결제반영일? //???
@@ -86,11 +86,12 @@ public class AsModel {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS", timezone = "Asia/Seoul")
     Timestamp inspectionDate; //검수일
 
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS", timezone = "Asia/Seoul")
     Timestamp createAt; //최초등록시점
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS", timezone = "Asia/Seoul")
     Timestamp updateAt; //최종수정시점
     String createdByMemberUniqId; //최초등록자ID
     String updatedByMemberUniqId; //최종수정자ID
-    String isUsed; //사용여부
+    String isUsed; //사용여부 (Y/N)
 }

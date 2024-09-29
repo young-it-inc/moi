@@ -11,13 +11,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Tag(name = "AS 관리")
@@ -48,7 +46,6 @@ public class AsController {
         List<AsDto> result = asService.getOrSearchListAs(asSearchDto);
         return new ApiResponse<>(result, 0, "as 리스트 조회 완료", count);
     }
-
 
     @Operation(summary = "AS 개별 조회")
     @GetMapping("/as/{asUniqId}")
@@ -89,7 +86,7 @@ public class AsController {
     }
 
     @Operation(summary = "AS 일괄 등록 엑셀 업로드 : 1개라도 조건 불충족 수용가 있을 시 전체 등록 안됨.(예시줄 삭제해야)")
-    @PostMapping("/as/excel")
+    @PostMapping("/as/uploadexcel")
     public ApiResponse<String> registerBatchAs(@RequestParam("id") String id, @RequestParam("file") MultipartFile file) throws Exception
     {
         int result = 0; asService.registerBatchAs(id, file);
@@ -99,8 +96,6 @@ public class AsController {
             return new ApiResponse<>("AS 일괄 등록 실패");
         }
     }
-
-
 
     @Operation(summary = "AS 수정")
     @PutMapping("/as")
@@ -121,5 +116,29 @@ public class AsController {
         else
             return new ApiResponse<>("as 삭제 실패");
     }
+
+    @Operation(summary = "PDF 파일 다운로드")
+    @GetMapping("/as/pdf")
+    public ResponseEntity<byte[]>generatePDF() {
+        //
+        return null;
+    }
+
+    @Operation(summary = "AS 리스트 엑셀 다운로드")
+    @GetMapping("/as/downloadexcel")
+    public ResponseEntity<Object> downloadExcelInstallList(@RequestBody(required = false) List<AsDto> asDtoList) throws IOException {
+        logger.info("AS 리스트 엑셀 다운로드");
+        //엑셀 파일 생성
+        byte[] excelFile = asService.generateExcelAsList(asDtoList);
+        // HTTP 헤더 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", "as_list.xlsx");
+
+        return new  ResponseEntity<>(excelFile, headers, HttpStatus.OK);
+    }
+
+
+
 
 }

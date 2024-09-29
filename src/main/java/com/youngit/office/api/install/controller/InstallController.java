@@ -11,13 +11,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -40,7 +38,7 @@ public class InstallController {
         logger.info("설치 리스트 + 상태별 조회");
         int count = installService.countGetOrSearchListInstall(installsearchDto);
         List<InstallDto> result = installService.getOrSearchListInstall(installsearchDto);
-        return new ApiResponse<>(result, 0, "설치 리스트 조회", count);
+        return new ApiResponse<>(result, 0, "설치 리스트 조회 및 검색 완료", count);
     }
 
     @Operation(summary = "설치 개별 조회")
@@ -53,7 +51,7 @@ public class InstallController {
 
     @Operation(summary = "신규설치 등록")
     @PostMapping("/install")
-    public ApiResponse<String> registerInstall(InstallDto installDto) {
+    public ApiResponse<String> registerInstall(@RequestParam() InstallDto installDto) {
         int result = installService.registerInstall(installDto);
         if (result == 1) {
             return new ApiResponse<>("설치 등록 성공");
@@ -63,7 +61,7 @@ public class InstallController {
     }
 
     @Operation(summary = "신규설치 일괄 등록 엑셀 양식 다운로드")
-    @GetMapping("/install/excel")
+    @GetMapping("/install/downloadexcel")
     public ResponseEntity<Object> registerBatchInstall()
     {
         String fileName = "install_upload_form.xlsx";
@@ -82,7 +80,7 @@ public class InstallController {
     }
 
     @Operation(summary = "신규설치 일괄 등록 엑셀 업로드 : 1개라도 조건 불충족 수용가 있을 시 전체 등록 안됨.(예시줄 삭제해야)")
-    @PostMapping("/install/excel")
+    @PostMapping("/install/uploadexcel")
     public ApiResponse<String> registerBatchInstall(@RequestParam("id") String id, @RequestParam("file") MultipartFile file) throws Exception
     {
         int count = installService.registerBatchInstall(id, file);
@@ -90,19 +88,40 @@ public class InstallController {
         return new ApiResponse<>("설치 일괄 등록 성공", count);
     }
 
-    @Operation(summary = "설치 수정")
+    @Operation(summary = "신규설치 수정")
     @PutMapping("/install")
     public ApiResponse<String> updateInstall(InstallDto installDto) {
         int result = installService.updateInstall(installDto); //설치수량, 잔여수량, 준공률 : 계약 db에도 반영돼야.
         if (result == 1) {
-            return new ApiResponse<>("설치 수정 성공");
+            return new ApiResponse<>("신규설치 수정 성공");
         } else {
-            return new ApiResponse<>("설치 수정 실패");
+            return new ApiResponse<>("신규설치 수정 실패");
+        }
+    }
+    @Operation(summary = "이전설치 등록")
+    @PostMapping("/reloactedinstall")
+    public ApiResponse<String> registerRelocateInstall(InstallDto installDto) {
+        int result = installService.registerInstall(installDto);
+        if (result == 1) {
+            return new ApiResponse<>("이전설치 등록 성공");
+        } else {
+            return new ApiResponse<>("이전설치 등록 실패");
+        }
+    }
+
+    @Operation(summary = "경과재설치 등록")
+    @PostMapping("/elapseinstall")
+    public ApiResponse<String> registerElapseInstall(InstallDto installDto) {
+        int result = installService.registerInstall(installDto);
+        if (result == 1) {
+            return new ApiResponse<>("경과재설치 등록 성공");
+        } else {
+            return new ApiResponse<>("경과재설치 등록 실패");
         }
     }
 
     @Operation(summary = "설치 삭제")
-    @DeleteMapping("/install")
+    @DeleteMapping("install")
     public ApiResponse<String> deleteInstall(String installUniqId)
     {
         int result = installService.deleteInstall(installUniqId);
@@ -113,11 +132,45 @@ public class InstallController {
         }
     }
 
-    @Operation(summary = "PDF 파일 다운로드")
-    @GetMapping("/install/pdf")
-    public ResponseEntity<byte[]>generatePDF() {
-        //
+    @Operation(summary = "설치 리스트 PDF 파일 다운로드")
+    @GetMapping("install/pdf")
+    public ResponseEntity<byte[]>generatePDF(List<InstallDto> installDtoList) {
+        byte[] pdfFile = installService.generatePdfInstallList(installDtoList);
         return null;
     }
+
+    @Operation(summary = "설치 리스트 엑셀 다운로드")
+    @GetMapping("/install/listexcel")
+    public ResponseEntity<Object> downloadExcelInstallList(@RequestBody(required = false) List<InstallDto> installDtoList) throws IOException {
+        logger.info("설치 리스트 엑셀 다운로드");
+        //엑셀 파일 생성
+        byte[] excelFile = installService.generateExcelInstallList(installDtoList);
+        // HTTP 헤더 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", "install_list.xlsx");
+
+        return new  ResponseEntity<>(excelFile, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("install-test")
+    public Install test(@RequestParam("name") String name) {
+        Install install = new Install();
+        install.setName(name);
+        return install;
+    }
+
+     class Install {
+        String name;
+    public String getName() { //자바빈규약
+                return name;
+            }
+
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+
 
 }

@@ -1,12 +1,11 @@
-package com.youngit.office.api.office.dto;
+package com.youngit.office.api.installer.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-@Schema(description = "사업소 검색 DTO")
-public class OfficeSearchDto {
-
+@Schema(description = "")
+public class InstallerSearchDto {
     String searchKey;
     String searchValue;
 }

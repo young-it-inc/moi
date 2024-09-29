@@ -7,37 +7,37 @@
         SELECT *
         FROM o_install
         WHERE is_used = 'Y'
-        <if test="searchCode != null and searchCode != ''">
+        <if test="searchKey != null and searchKey != ''">
             <choose>
-                <when test="searchCode == 'SC01'">
-                    and customer_number = #{keyword}
+                <when test="searchKey == 'SK01'">
+                    and customer_number = #{searchValue}
                 </when>
-                <when test="searchCode == 'SC02'">
-                    and customer_name = #{keyword}
+                <when test="searchKey == 'SK02'">
+                    and customer_name = #{searchValue}
                 </when>
-                <when test="searchCode == 'SC03'">
-                    and customer_address = #{keyword}
+                <when test="searchKey == 'SK03'">
+                    and customer_address = #{searchValue}
                 </when>
-                <when test="searchCode == 'SC04'">
-                    and customer_phone_number = #{keyword}
+                <when test="searchKey == 'SK04'">
+                    and customer_phone_number = #{searchValue}
                 </when>
-                <when test="searchCode == 'SC05'">
-                    and meter_number = #{keyword}
+                <when test="searchKey == 'SK05'">
+                    and meter_number = #{searchValue}
                 </when>
-                <when test="searchCode == 'SC06'">
-                    and meter_reading_serial_number = #{keyword}
+                <when test="searchKey == 'SK06'">
+                    and meter_reading_serial_number = #{searchValue}
                 </when>
-                <when test="searchCode == 'SC07'">
-                    and terminal_box_serial_number = #{keyword}
+                <when test="searchKey == 'SK07'">
+                    and terminal_box_serial_number = #{searchValue}
                 </when>
-                <when test="searchCode == 'SC08'">
-                    and worker_name = #{keyword}
+                <when test="searchKey == 'SK08'">
+                    and worker_name = #{searchValue}
                 </when>
-                <when test="searchCode == 'SC09'">
-                    and meterman_name = #{keyword}
+                <when test="searchKey == 'SK09'">
+                    and meterman_name = #{searchValue}
                 </when>
-                <when test="searchCode == 'SC10'">
-                    and install_agree_date = #{keyword}
+                <when test="searchKey == 'SK10'">
+                    and install_agree_date = #{searchValue}
                 </when>
             </choose>
         </if>
@@ -46,6 +46,40 @@
         SELECT count(*)
         FROM o_install
         WHERE is_used = 'Y'
+        <if test="searchKey != null and searchKey != ''">
+            <choose>
+                <when test="searchKey == 'SK01'">
+                    and customer_number = #{searchValue}
+                </when>
+                <when test="searchKey == 'SK02'">
+                    and customer_name = #{searchValue}
+                </when>
+                <when test="searchKey == 'SK03'">
+                    and customer_address = #{searchValue}
+                </when>
+                <when test="searchKey == 'SK04'">
+                    and customer_phone_number = #{searchValue}
+                </when>
+                <when test="searchKey == 'SK05'">
+                    and meter_number = #{searchValue}
+                </when>
+                <when test="searchKey == 'SK06'">
+                    and meter_reading_serial_number = #{searchValue}
+                </when>
+                <when test="searchKey == 'SK07'">
+                    and terminal_box_serial_number = #{searchValue}
+                </when>
+                <when test="searchKey == 'SK08'">
+                    and worker_name = #{searchValue}
+                </when>
+                <when test="searchKey == 'SK09'">
+                    and meterman_name = #{searchValue}
+                </when>
+                <when test="searchKey == 'SK10'">
+                    and install_agree_date = #{searchValue}
+                </when>
+            </choose>
+        </if>
     </select>
 
     <select id="getOneInstall" resultType="InstallModel">
@@ -93,9 +127,46 @@
     <update id="updateInstall" parameterType="InstallModel">
         UPDATE o_install
         SET
-        contract_uniq_no = #{contractUniqNo}
-
+        <if test="name != null and name !=''">
+            name = #{name},
+        </if>
+        <if test="email != null and email !=''">
+            email = #{email},
+        </if>
+        <if test="password != null and password !=''">
+            password = #{password},
+        </if>
+        <if test="phoneNumber != null and phoneNumber !=''">
+            phone_number = #{phoneNumber},
+        </if>
+        <if test="status != null and status !=''">
+            status = #{status},
+        </if>
+        <if test="authorityCode != null and authorityCode !=''">
+            authority_code = #{authorityCode},
+        </if>
+        <if test="positionCode != null and positionCode !=''">
+            position_code = #{positionCode},
+        </if>
+        <if test="departmentCode != null and departmentCode !=''">
+            department_code = #{departmentCode},
+        </if>
+        <if test="taskCode != null and taskCode !=''">
+            task_code = #{taskCode},
+        </if>
+        <if test="typeCode != null and typeCode !=''">
+            type_code = #{typeCode},
+        </if>
+        <if test="memberUniqId != null and memberUniqId !=''">
+            member_uniq_id = #{memberUniqId},
+        </if>
+        update_at = CURRENT_TIMESTAMP(3)
+        where contract_uniq_no = #{contractUniqNo}
     </update>
 
+    <update id="deleteInstall" parameterType="String">
+        UPDATE o_install
+        SET is_used = 'N'
+    </update>
 
 </mapper>

@@ -3,54 +3,53 @@
 
 <mapper namespace="com.youngit.office.api.member.mapper.MemberMapper">
 
-
-    <select id="getOrSearchListMember" parameterType="MemberSearchDto" resultType="MemberModel">
-        select *
-        from o_member
-        where member_status = 'P'
-        <if test="searchCode != null and searchCode != ''">
+    <!-- 검색 조건 -->
+    <sql id="searchMember">
+        <if test="searchKey != null and searchKey != ''">
             <choose>
-                <when test="searchCode == 'SC01'">
-                    and member_id = #{keyword}
+                <when test="searchKey == 'member_id'">
+                    and member_id LIKE CONCAT('%', #{searchValue}, '%')
                 </when>
-                <when test="searchCode == 'SC02'">
-                    and name = #{keyword}
+                <when test="searchKey == 'member_name'">
+                    and member_name LIKE CONCAT('%', #{searchValue}, '%')
                 </when>
-                <when test="searchCode == 'SC03'">
-                    and telephone = #{keyword}
+                <when test="searchKey == 'member_phone_number'">
+                    and member_phone_number LIKE CONCAT('%', #{searchValue}, '%')
                 </when>
             </choose>
         </if>
         <if test="department != null and department != ''">
             and department_code = #{department}
         </if>
+    </sql>
+
+    <!-- 회원 리스트 조회 및 검색 -->
+    <select id="getOrSearchListMember" parameterType="MemberSearchDto" resultType="MemberModel">
+        select *
+        from o_member
+        where
+        member_status = 'P'
+        <include refid="searchMember"/>
     </select>
 
+    <!-- 회원 리스트 조회 및 검색 카운트 -->
     <select id="countGetOrSearchListMember" resultType="int">
         select count(*)
         from o_member
-        where member_status = 'P'
+        <where>
+            member_status = 'P'
+            <include refid="searchMember"/>
+        </where>
     </select>
 
+    <!-- 회원 개별 조회 -->
     <select id="getOneMember" resultType="MemberModel">
     select *
     from o_member
-   where 1=1
-        <if test ="memberId != null and memberId !=''">
-            and member_id = #{memberId}
-        </if>
-        <if test ="name != null and name !=''">
-            and name = #{name}
-    </if>
-    <if test ="email != null and email !=''">
-        and email = #{email}
-    </if>
-    <if test ="phoneNumber != null and phoneNumber !=''">
-        and phone_number = #{phoneNumber}
-    </if>
-
+    where member_id = #{memberId}
     </select>
 
+    <!-- 회원 등록 -->
     <insert id="registerMember" parameterType="MemberModel">
         INSERT INTO o_member (member_id, password, password_question, password_answer, member_name,
                               member_email, member_phone_number, member_cellphone_number, member_status, member_type_code,
@@ -62,9 +61,10 @@
                 #{departmentCode}, #{taskCode}, #{cooperativeId})
     </insert>
 
+    <!-- 회원 수정 -->
     <update id="updateMember" parameterType="MemberModel">
         UPDATE o_member
-        set
+        SET
         <if test="name != null and name !=''">
             name = #{name},
         </if>
@@ -102,6 +102,7 @@
         where member_id = #{memberId}
     </update>
 
+    <!-- 비밀번호 변경 -->
     <update id="updatePassword" parameterType="MemberModel">
         UPDATE o_member
         set
@@ -109,26 +110,28 @@
         where member_id = #{memberId}
     </update>
 
+    <!-- 회원 삭제 -->
     <delete id="deleteMember" parameterType="String">
         DELETE FROM o_member where member_id = #{memberId}
     </delete>
 
-
+    <!-- 회원 아이디 중복 체크 -->
     <select id="findExistMemberId" parameterType="String" resultType="boolean">
         select count(*) > 0
         from o_member
         where member_id = #{memberId}
     </select>
 
-
+    <!-- 로그인 -->
     <select id="login" parameterType="MemberModel" resultType="MemberModel">
         select *
         from o_member
         where member_id = #{memberId} and password = #{password}
     </select>
 
+    <!-- 최근 회원 고유ID 조회 -->
     <select id="getLastMemberUniqId" resultType="String">
-        SELECT MAX(member_id)
+        SELECT MAX(member_uniq_id)
         FROM o_member
     </select>
 

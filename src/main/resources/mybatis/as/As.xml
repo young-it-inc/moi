@@ -3,30 +3,97 @@
 
 <mapper namespace="com.youngit.office.api.as.mapper.AsMapper">
 
-<select id="getOrSearchListAs" resultType="AsModel">
+    <sql id=""> </sql>
+    <!-- AS 리스트 + 상태별 조회 및 검색 -->
+    <select id="getOrSearchListAs" parameterType="AsSearchDto" resultType="AsModel">
     SELECT *
     FROM o_as
     where is_used = 'Y'
-      <if test = "asStateCode != null and asStateCode != ''">
-              and as_state_code = #{asStateCode}
-      </if>
+        <if test="searchKey != null and searchKey != ''">
+            <choose>
+                <when test="searchKey == 'SK01'">
+                    and customer_number = #{searchValue}
+                </when>
+                <when test="searchKey == 'SK02'">
+                    and customer_name = #{searchValue}
+                </when>
+                <when test="searchKey == 'SK03'">
+                    and customer_address = #{searchValue}
+                </when>
+                <when test="searchKey == 'SK04'">
+                    and customer_phone_number = #{searchValue}
+                </when>
+                <when test="searchKey == 'SK05'">
+                    and meter_number = #{searchValue}
+                </when>
+                <when test="searchKey == 'SK06'">
+                    and meter_reading_serial_number = #{searchValue}
+                </when>
+                <when test="searchKey == 'SK07'">
+                    and terminal_box_serial_number = #{searchValue}
+                </when>
+                <when test="searchKey == 'SK08'">
+                    and worker_name = #{searchValue}
+                </when>
+                <when test="searchKey == 'SK09'">
+                    and meterman_name = #{searchValue}
+                </when>
+                <when test="searchKey == 'SK10'">
+                    and install_agree_date = #{searchValue}
+                </when>
+            </choose>
+        </if>
     </select>
 
+    <!-- AS 리스트 + 상태별 조회 및 검색 카운트 -->
     <select id="countGetOrSearchListAs" resultType="int">
     SELECT count(*)
     FROM o_as
     where is_used = 'Y'
-        <if test = "asStateCode != null and asStateCode != ''">
-            and as_state_code = #{asStateCode}
+        <if test="searchKey != null and searchKey != ''">
+            <choose>
+                <when test="searchKey == 'SK01'">
+                    and customer_number = #{searchValue}
+                </when>
+                <when test="searchKey == 'SK02'">
+                    and customer_name = #{searchValue}
+                </when>
+                <when test="searchKey == 'SK03'">
+                    and customer_address = #{searchValue}
+                </when>
+                <when test="searchKey == 'SK04'">
+                    and customer_phone_number = #{searchValue}
+                </when>
+                <when test="searchKey == 'SK05'">
+                    and meter_number = #{searchValue}
+                </when>
+                <when test="searchKey == 'SK06'">
+                    and meter_reading_serial_number = #{searchValue}
+                </when>
+                <when test="searchKey == 'SK07'">
+                    and terminal_box_serial_number = #{searchValue}
+                </when>
+                <when test="searchKey == 'SK08'">
+                    and worker_name = #{searchValue}
+                </when>
+                <when test="searchKey == 'SK09'">
+                    and meterman_name = #{searchValue}
+                </when>
+                <when test="searchKey == 'SK10'">
+                    and install_agree_date = #{searchValue}
+                </when>
+            </choose>
         </if>
     </select>
 
+    <!-- AS 고객 상세 조회 -->
     <select id="getOneAs" resultType="AsModel">
     SELECT *
     FROM o_as
     where as_uniq_id = #{asUniqId}
     </select>
 
+    <!-- AS 등록 -->
     <insert id="registerAs" parameterType="AsModel">
     INSERT INTO o_as (as_uniq_id, install_uniq_id, client_builder_id, assign_idx, office_id,
                       customer_number, customer_name, customer_address, customer_phone_number, as_year_month,
@@ -60,19 +127,51 @@
             #{deductionAmount}, #{beforeInstallUniqId}, #{inspectionDate})
     </insert>
 
+    <!-- AS 수정 -->
     <update id="updateAs" parameterType="AsModel">
     UPDATE o_as
     SET
-    <if test="asTypeCode != null and asTypeCode !=''">
-    as_type_code = #{asTypeCode},
-    </if>
-
+        <if test="name != null and name !=''">
+            name = #{name},
+        </if>
+        <if test="email != null and email !=''">
+            email = #{email},
+        </if>
+        <if test="password != null and password !=''">
+            password = #{password},
+        </if>
+        <if test="phoneNumber != null and phoneNumber !=''">
+            phone_number = #{phoneNumber},
+        </if>
+        <if test="status != null and status !=''">
+            status = #{status},
+        </if>
+        <if test="authorityCode != null and authorityCode !=''">
+            authority_code = #{authorityCode},
+        </if>
+        <if test="positionCode != null and positionCode !=''">
+            position_code = #{positionCode},
+        </if>
+        <if test="departmentCode != null and departmentCode !=''">
+            department_code = #{departmentCode},
+        </if>
+        <if test="taskCode != null and taskCode !=''">
+            task_code = #{taskCode},
+        </if>
+        <if test="typeCode != null and typeCode !=''">
+            type_code = #{typeCode},
+        </if>
+        <if test="memberUniqId != null and memberUniqId !=''">
+            member_uniq_id = #{memberUniqId},
+        </if>
+        update_at = CURRENT_TIMESTAMP(3)
     where as_uniq_id = #{asUniqId}
     </update>
 
-    <delete id ="deleteAs" parameterType="String">
-
-    </delete>
-
+    <!-- AS 삭제 -->
+    <update id="deleteAs" parameterType="String">
+        UPDATE o_as
+        SET is_used = 'N'
+    </update>
 
 </mapper>

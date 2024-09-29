@@ -79,15 +79,8 @@ public class MemberController {
     @GetMapping("api/member/idCheck/{id}")
     public ApiResponse<String> checkMemberId(@PathVariable String id) {
         logger.info("아이디 중복 체크");
-        boolean isExist = memberService.checkMemberId(id);
-        if (isExist)
-        {
-            return new ApiResponse<>("이미 사용 중인 id입니다. ");
-        }
-        else
-        {
-            return new ApiResponse<>("사용 가능한 id입니다. ");
-        }
+        String message = memberService.checkDuplicateMemberId(id);
+        return new ApiResponse<>(message);
     }
 
 
@@ -101,10 +94,11 @@ public class MemberController {
 
     @Operation(summary = "비밀번호 변경")
     @PutMapping("/api/member/changepassword")
-    public ApiResponse<String> changePassword()
+    public ApiResponse<String> changePassword(MemberDto memberDto)
     {
         logger.info("비밀번호 변경");
-        return new ApiResponse<>("비밀번호 변경 성공");
+        String result = memberService.changePassword(memberDto);
+        return new ApiResponse<>(result);
     }
 
 
@@ -138,18 +132,14 @@ public class MemberController {
 
             TokenModel tokenModel = new TokenModel();
             tokenModel.setId(result.getMemberId());
-            tokenModel.setEmail(result.getEmail());
+            tokenModel.setEmail(result.getMemberEmail());
             tokenModel.setToken(token);
             tokenModel.setExpiredAtToken(result.getExpriredAtToken());
             System.out.println("tokenModel : " + tokenModel);
             if(tokenMapper.isTokenExist(memberDto.getMemberId()))
-            {
                 tokenMapper.updateToken(tokenModel);
-            }
             else
-            {
                 tokenMapper.insertToken(tokenModel);
-            }
             return new ApiResponse<>(result, 0, "로그인 성공");
         }
         else
@@ -165,8 +155,7 @@ public class MemberController {
     @PostMapping("/api/authority/{memberId}")
     public ApiResponse<String> authority(@PathVariable String memberId) {
         logger.info("권한 설정");
-
-        return new ApiResponse<>("권한설정 성공");
+        return new ApiResponse<>("권한 설정 성공");
     }
 
 }

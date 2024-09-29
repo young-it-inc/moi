@@ -96,11 +96,11 @@ public class EstimateService {
         return result;
     }
 
-    private int calculateEstimateAmount(EstimateModel estimateModel) {
+    public int calculateEstimateAmount(EstimateModel estimateModel) {
         int estimateAmount = 0;
         List<EstimateProductModel> estimateProductModelList = estimateModel.getEstimateProductModelList();
-        for (int i = 0; i < estimateProductModelList.size(); i++) {
-            estimateAmount += estimateProductModelList.get(i).getProductUnitPrice();
+        for (EstimateProductModel estimateProductModel : estimateProductModelList) {
+            estimateAmount += estimateProductModel.getProductUnitPrice() * estimateProductModel.getProductQuantity();
         }
         return estimateAmount;
     }

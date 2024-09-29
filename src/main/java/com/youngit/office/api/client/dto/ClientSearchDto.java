@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @Schema(description = "거래처 검색 DTO")
 public class ClientSearchDto {
-    String searchCode; //거래처명 or 대표자명
-    String searchKeyword; //검색어
+    String searchKey; //거래처명 or 대표자명
+    String searchValue; //검색어
 }

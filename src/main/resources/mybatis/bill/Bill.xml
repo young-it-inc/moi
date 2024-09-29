@@ -3,36 +3,66 @@
 
 <mapper namespace="com.youngit.office.api.bill.mapper.BillMapper">
 
+    <sql id="searchBill">
+        <if test="searchKey != null and searchKey !=''">
+        <choose>
+            <when test="searchKey == 'SK01'">
+                and member_id LIKE CONCAT('%', #{searchValue}, '%')
+            </when>
+            <when test="searchKey == 'SK02'">
+                and name LIKE CONCAT('%', #{searchValue}, '%')
+            </when>
+            <when test="searchKey == 'SK03'">
+                and telephone LIKE CONCAT('%', #{searchValue}, '%')
+            </when>
+        </choose>
+        </if>
+    </sql>
+
+    <!-- 설치팀 내역서 리스트 조회 및 검색 -->
     <select id="getOrSearchListBill" parameterType="BillSearchDto" resultType="BillModel">
-        SELECT * FROM o_bill
+        SELECT *
+        FROM o_bill
+        where 1=1
+        <include refid="searchBill"/>
     </select>
 
+    <!-- 설치팀 내역서 리스트 조회 및 검색 카운트 -->
     <select id="countGetOrSearchListBill" parameterType="BillSearchDto" resultType="int">
-        SELECT count(*) FROM o_bill
+        SELECT count(*)
+        FROM o_bill
+        where 1=1
+        <include refid="searchBill"/>
     </select>
 
+    <!-- 설치팀 내역서 개별 조회 -->
     <select id="getOneBill" resultType="BillModel">
-        SELECT * FROM o_bill WHERE bill_uniq_no = #{billUniqNo}
+        SELECT *
+        FROM o_bill
+        WHERE bill_uniq_no = #{billUniqNo}
     </select>
 
+    <!-- 설치팀 내역서 상세 개별 조회 -->
     <select id="getBillDetailModelList" resultType="BillDetailModel">
-        SELECT * FROM o_bill_detail WHERE bill_uniq_no= #{billUniqNo}
+        SELECT *
+        FROM o_bill_detail
+        WHERE bill_uniq_no= #{billUniqNo}
     </select>
 
-    <select id="getBillById" resultType="BillModel">
-        --SELECT * FROM o_bill WHERE id = #{id}
-    </select>
 
+    <!-- 설치팀 내역서 등록 -->
     <insert id="registerBill" parameterType="BillModel">
         INSERT INTO o_bill ()
         VALUES ()
     </insert>
 
+    <!-- 설치팀 내역서 상세 등록 -->
     <insert id="registerBillDetail" parameterType="BillDetailModel">
         INSERT INTO o_bill_detail ()
         VALUES ()
     </insert>
 
+    <!-- 설치팀 내역서 수정 -->
     <update id="updateBill" parameterType="BillModel">
 
     </update>

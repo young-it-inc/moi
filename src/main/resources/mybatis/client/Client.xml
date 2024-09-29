@@ -3,45 +3,55 @@
 
 <mapper namespace="com.youngit.office.api.client.mapper.ClientMapper">
 
+    <!-- 검색 조건 -->
+    <sql id="searchClient">
+        <if test="searchKey != null and searchKey !=''">
+            <choose>
+                <when test="searchKey == 'SK01'">
+                    and member_id LIKE CONCAT('%', #{searchValue}, '%')
+                </when>
+                <when test="searchKey == 'SK02'">
+                    and name LIKE CONCAT('%', #{searchValue}, '%')
+                </when>
+                <when test="searchKey == 'SK03'">
+                    and telephone LIKE CONCAT('%', #{searchValue}, '%')
+                </when>
+            </choose>
+        </if>
+
+    </sql>
+
+    <!-- 거래처 리스트 조회 및 검색 -->
     <select id="getOrSearchListClient" resultType="ClientModel">
         SELECT *
         FROM o_client
         where is_used = 'Y'
-        <if test="searchCode != null and searchCode !=''">
-            <choose>
-                <when test="searchCode == 'SC01'">
-                    and member_id = #{keyword}
-                </when>
-                <when test="searchCode == 'SC02'">
-                    and name = #{keyword}
-                </when>
-                <when test="searchCode == 'SC03'">
-                    and telephone = #{keyword}
-                </when>
-            </choose>
-        </if>
+        <include refid="searchClient"/>
     </select>
 
+    <!-- 거래처 리스트 조회 및 검색 카운트 -->
     <select id="countGetOrSearchListClient" resultType="int">
         SELECT COUNT(*)
         FROM o_client
         where is_used = 'Y'
+        <include refid="searchClient"/>
     </select>
 
+    <!-- 거래처 개별 조회 -->
     <select id="getOneClient" resultType="ClientModel">
         SELECT *
         FROM o_client
-        where client_uniq_id = #{clientUniqId} and is_used = 'Y'
+        where is_used = 'Y' and client_uniq_id = #{clientUniqId}
     </select>
 
+    <!-- 거래처 매니저 개별 조회 -->
     <select id="getListClientManager" resultType="ClientManagerModel">
         SELECT *
         FROM o_client_manager
         where client_uniq_id = #{clientUniqId}
     </select>
 
-
-
+    <!-- 거래처 등록 -->
     <insert id="registerClient" parameterType="ClientModel">
         INSERT INTO o_client (client_uniq_id, client_type_code, business_registration_number, client_name, representative_name,
                               address, business_type, business_category, phone_number, fax_number,
@@ -55,7 +65,7 @@
                 #{updatedByMemberUniqId}, 'Y')
     </insert>
 
-
+    <!-- 거래처 수정 -->
     <update id="updateClient" parameterType="ClientModel">
         UPDATE o_client
         <set>
@@ -112,56 +122,38 @@
             </if>
             updated_at = CURRENT_TIMESTAMP(3)
         </set>
+        where is_used = 'Y' and client_uniq_id = #{clientUniqId}
     </update>
 
+    <!-- 거래처 매니저 등록 -->
     <insert id="registerClientManager" parameterType="ClientManagerModel">
         INSERT INTO o_client_manager (client_uniq_id, manager_order, manager_name, manager_department, manager_position, manager_phone_number, manager_email)
         VALUES (#{clientUniqId}, #{managerOrder}, #{managerName}, #{managerDepartment}, #{managerPosition}, #{managerPhoneNumber}, #{managerEmail})
     </insert>
 
+    <!-- 거래처 매니저 삭제 -->
+    <delete id="deleteClientManager" parameterType="String"> -- 수정시 삭제 후 재등록 (정작 삭제시엔 삭제x)
+        DELETE FROM o_client_manager
+        WHERE client_uniq_id = #{clientUniqId}
+    </delete>
 
-    <update id="updateClientManager" parameterType="ClientManagerModel">
-        UPDATE o_client_manager
-        SET
-        <if test="managerName != null and managerName !=''">
-            manager_name = #{managerName}
-        </if>
-        <if test="managerDepartment != null and managerDepartment !=''">
-            manager_department = #{managerDepartment}
-        </if>
-        <if test="managerPosition != null and managerPosition !=''">
-            manager_position = #{managerPosition}
-        </if>
-        <if test="managerPhoneNumber != null and managerPhoneNumber !=''">
-            manager_phone_number = #{managerPhoneNumber}
-        </if>
-        <if test="managerEmail != null and managerEmail !=''">
-            manager_email = #{managerEmail}
-        </if>
-        WHERE client_uniq_id = #{clientUniqId} and is_used = 'Y'
-    </update>
-
+    <!-- 거래처 삭제 -->
     <update id="deleteClient" parameterType="String"> --delete지만 실제로 삭제는 x, is_used를 N으로 변경
     UPDATE o_client
     set is_used = 'N'
     WHERE client_uniq_id = #{clientUniqId}
     </update>
 
-
+    <!-- 최근 거래처 고유ID 조회 -->
     <select id="getLastClientUniqId" resultType="String">
         SELECT MAX(client_uniq_id)
         FROM o_client
     </select>
 
+    <!-- 사업자번호 중복 체크 -->
     <select id="checkBizNumber" parameterType="String" resultType="boolean">
         select count(*)>0
         from o_client
-        where business_registration_number = #{businessRegistrationNumber} and is_used = 'Y'
-    </select>
-
-    <select id="findClient" parameterType="String" resultType="ClientModel">
-        SELECT *
-        FROM o_client
         where business_registration_number = #{businessRegistrationNumber} and is_used = 'Y'
     </select>
 

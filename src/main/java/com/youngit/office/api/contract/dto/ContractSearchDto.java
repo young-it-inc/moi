@@ -2,7 +2,8 @@ package com.youngit.office.api.contract.dto;
 
 public class ContractSearchDto {
 
-    String keyword; //검색어
+    String searchKey; //검색조건
+    String searchValue; //검색어
     String contractType; //계약유형(지자체: gov/일반: gen)
 
     //팀별 조회
