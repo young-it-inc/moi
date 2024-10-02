@@ -26,24 +26,31 @@ public class MemberModel {
     String	positionCode; //직책코드 : POS01/02/03/04/05/06/07/08/09 (대표이사/부사장/이사/팀장/과장/대리/주임/사원/수습)
     String	departmentCode; //부서코드 : PAT01/02/03/04(마케팅/연구개발/재무관리/P&QC팀)
     String	taskCode; //업무코드: TSK01/02/03/04/05/06/07/08(as설치/sw개발/hw개발/영업관리/생산관리/경영기획/생산조립/영업지원)
-    String	typeCode; //회원유형코드: USR01(일반회원)/02(기업회원)/03(업무담당자)/99(관리자)
+
+    //String	typeCode; //회원유형코드: USR01(일반회원)/02(기업회원)/03(업무담당자)/99(관리자)
 
     //사용x
     //String group_id; //그룹ID : GROUP_00000000000000(14자리)
 
-    String	memberUniqId; //auto 사용자고유ID : USRCNFRM_00000000000(11자리) (자동부여)
+    String	cooperativeId; //협력업체ID: BCNC_000000000000000(15자리) ? 아니면 사업소코드? officeId
+    String token; //토큰
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS", timezone = "Asia/Seoul")
+    Date expriredAtToken; //토큰기한
+
+
+    /**
+     * dto에는 x
+     */
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS", timezone = "Asia/Seoul")
     Timestamp createdAt; //가입일시
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS", timezone = "Asia/Seoul")
     Timestamp updatedAt;
 
-    String	cooperativeId; //협력업체ID: BCNC_000000000000000(15자리) ? 아니면 사업소코드? officeId
 
 
-    String token; //토큰
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS", timezone = "Asia/Seoul")
-    Date expriredAtToken; //토큰기한
+
+
 
 
 

@@ -31,7 +31,6 @@ public class MaterialController {
     @Operation(summary = "자재 리스트 조회 및 검색")
     @GetMapping("/material")
     public ApiResponse<List<MaterialDto>> getOrSearchListMaterial(MaterialSearchDto materialSearchDto) {
-        logger.info("자재 리스트 조회 및 검색");
         int count = materialService.countGetOrSearchListMaterial(materialSearchDto);
         List<MaterialDto> result = materialService.getOrSearchListMaterial(materialSearchDto);
         return new ApiResponse<>(result, 0, "자재 목록 조회 완료", count);
@@ -40,7 +39,6 @@ public class MaterialController {
     @Operation(summary = "자재 개별 조회")
     @GetMapping("/material/{materialUniqId}")
     public ApiResponse<MaterialDto> getOneMaterial(String materialUniqId) {
-        logger.info("자재 조회");
         MaterialDto result = materialService.getOneMaterial(materialUniqId);
 
         return new ApiResponse<>(result, 0, "자재 조회 완료");
@@ -49,7 +47,6 @@ public class MaterialController {
     @Operation(summary = "자재 등록", description = "필수입력: ")
     @PostMapping("/material")
     public ApiResponse<String> postMaterial(@RequestBody MaterialDto materialDto) {
-        logger.info("자재 등록");
         int result = materialService.registerMaterial(materialDto);
         if (result == 1)
         {
@@ -64,7 +61,6 @@ public class MaterialController {
     @Operation(summary = "자재 수정")
     @PutMapping("/material")
     public ApiResponse<String> updateMaterial(@RequestBody MaterialDto materialDto) {
-        logger.info("자재 수정");
         int result = materialService.updateMaterial(materialDto);
         if (result == 1)
         {
@@ -79,7 +75,6 @@ public class MaterialController {
     @Operation(summary = "자재 삭제")
     @DeleteMapping("/material")
     public void deleteMaterial(@RequestBody String materialId) {
-        logger.info("자재 삭제");
         materialService.deleteMaterial(materialId);
     }
 }

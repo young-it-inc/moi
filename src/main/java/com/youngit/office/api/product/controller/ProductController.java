@@ -30,7 +30,6 @@ public class ProductController {
     @Operation(summary = "제품 리스트 조회")
     @GetMapping("/product")
     public ApiResponse<List<ProductDto>> getListProduct(ProductSearchDto productSearchDto) {
-        logger.info("제품 리스트 조회");
         List<ProductDto> result = productService.getOrSearchListProduct(productSearchDto);
         int count = productService.countGetOrSearchListProduct(productSearchDto);
         return new ApiResponse<>(result, 0, "제품 리스트 조회 성공", count);
@@ -39,7 +38,6 @@ public class ProductController {
     @Operation(summary = "제품 개별 조회")
     @GetMapping("/product/{productSerialNumber}")
     public ApiResponse<ProductDto> getOneProduct(@RequestParam String productSerialNumber) {
-        logger.info("제품 개별 조회");
         ProductDto result = productService.getOneProduct(productSerialNumber);
         return new ApiResponse<>(result, 0, "제품 개별 조회 성공", 1);
     }
@@ -47,33 +45,33 @@ public class ProductController {
     @Operation(summary = "제품 등록", description = "필수입력: ")
     @PostMapping("/product")
     public ApiResponse<String> registerProduct(@RequestBody ProductDto productDto) {
-        logger.info("제품 등록");
         int result = productService.registerProduct(productDto);
-        if(result == 1) {
+        if(result == 1)
             return new ApiResponse<>("제품 등록 성공");
-        }
-        else {
+        else
             return new ApiResponse<>("제품 등록 실패");
-        }
+
     }
 
     @Operation(summary = "제품 수정", description = "필수입력: ")
     @PutMapping("/product")
     public ApiResponse<String> updateProduct(@RequestBody ProductDto productDto) {
-        logger.info("제품 수정");
         int result = productService.updateProduct(productDto);
-        return new ApiResponse<>("제품 수정 성공");
+        if(result == 1)
+            return new ApiResponse<>("제품 수정 성공");
+        else
+            return new ApiResponse<>("제품 수정 실패");
+
     }
 
     @Operation(summary = "제품 삭제")
     @DeleteMapping("/product")
     public ApiResponse<String> deleteProduct(@RequestBody String productSerialNumber) {
-        logger.info("제품 삭제");
         int result = productService.deleteProduct(productSerialNumber);
-        if(result == 1) {
+        if(result == 1)
             return new ApiResponse<>("제품 삭제 성공");
-        } else {
+         else
             return new ApiResponse<>("제품 삭제 실패");
-        }
+
     }
 }

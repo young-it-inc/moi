@@ -3,26 +3,33 @@
 
 <mapper namespace="com.youngit.office.api.product.mapper.ProductMapper">
 
+    <!-- 검색 조건 -->
+    <sql id="searchProduct">
+
+    </sql>
+
+    <!-- 제품 리스트 조회 및 검색 -->
     <select id="getOrSearchListProduct" resultType="ProductModel">
         select *
         from o_product
         where is_state_used = 'Y'
     </select>
 
+    <!-- 제품 리스트 조회 및 검색 카운트 -->
     <select id="countGetOrSearchListProduct" resultType="int">
         select count(*)
         from o_product
         where is_state_used = 'Y'
     </select>
 
-
+    <!-- 제품 개별 조회 -->
     <select id="getOneProduct" resultType="ProductModel">
         select *
         from o_product
         where product_serial_number = #{productSerialNumber} and is_state_used = 'Y'
     </select>
 
-
+    <!-- 제품 등록 -->
     <insert id="registerProduct" parameterType="ProductModel">
         INSERT INTO o_product
             (product_serial_number, product_date, material_uniq_id, product_state_code, delivery_unit_price,
@@ -33,7 +40,7 @@
                 #{asUniqId})
     </insert>
 
-
+    <!-- 제품 수정 -->
     <update id="updateProduct" parameterType="ProductModel">
         UPDATE o_product
         SET
@@ -70,6 +77,7 @@
          WHERE product_serial_number = #{productSerialNumber}
     </update>
 
+    <!-- 제품 삭제(사실상 수정) -->
     <update id="deleteProduct" parameterType="String">
         UPDATE o_product
         SET is_state_used = 'N'

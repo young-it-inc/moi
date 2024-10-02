@@ -3,7 +3,6 @@ package com.youngit.office.api.bill.controller;
 import com.youngit.office.api.bill.dto.BillDto;
 import com.youngit.office.api.bill.dto.BillSearchDto;
 import com.youngit.office.api.bill.service.BillService;
-import com.youngit.office.api.estimate.dto.EstimateDto;
 import com.youngit.office.api.http.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,10 +33,9 @@ public class BillController {
         this.billService = billService;
     }
 
-    @Operation(summary = "설치팀 내역서 목록 조회")
+    @Operation(summary = "설치팀 내역서 리스트 조회")
     @GetMapping("/bill")
     public ApiResponse<List<BillDto>> getOrSearchListBill(BillSearchDto billSearchDto) {
-        logger.info("설치팀 내역서 조회");
         int count = billService.countGetOrSearchListBill(billSearchDto);
         List<BillDto> result = billService.getOrSearchListBill(billSearchDto);
         return new ApiResponse<> (result, 0, "설치팀 내역서 목록 조회 완료", count);
@@ -46,7 +44,6 @@ public class BillController {
     @Operation(summary = "설치팀 내역서 등록", description = "필수입력: ")
     @PostMapping("/bill")
     public ApiResponse<String> registerBill(@RequestBody BillDto billDto) {
-        logger.info("설치팀 내역서 등록");
         int result = billService.registerBill(billDto);
         if(result == 0)
             return new ApiResponse<>("내역서 등록 완료", 0);
@@ -57,7 +54,6 @@ public class BillController {
     @Operation(summary = "설치팀 내역서 수정")
     @PutMapping("/bill")
     public ApiResponse<String> updateBill(@RequestBody BillDto billDto) {
-        logger.info("설치팀 내역서 수정");
         int result = billService.updateBill(billDto);
         if(result == 1)
             return new ApiResponse<>("내역서 수정 완료", 0);
@@ -68,7 +64,6 @@ public class BillController {
     @Operation(summary = "설치팀 내역서 삭제")
     @DeleteMapping("/bill")
     public ApiResponse<String> deleteBill(@RequestBody String billUniqNo) {
-        logger.info("설치팀 내역서 삭제");
         int result = billService.deleteBill(billUniqNo);
         if(result == 1)
             return new ApiResponse<>("내역서 삭제 완료", 0);
@@ -95,7 +90,6 @@ public class BillController {
     @Operation(summary = "설치팀 내역서 엑셀 파일 첨부 이메일 발송 버튼") //업로드 된 내역서 있다면 업로드 파일 우선 발송, 없다면 등록된 내역서 발송
     @GetMapping("/bill/email")
     public ApiResponse<String> sendEmailBill(BillDto billDto) {
-        logger.info("설치팀 내역서 이메일 발송");
         int result = billService.sendEmailBill(billDto);
         if(result == 1)
             return new ApiResponse<>("이메일 발송 완료", 0);

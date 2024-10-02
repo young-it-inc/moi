@@ -37,7 +37,6 @@ public class ClientController {
     @Operation(summary = "거래처 리스트 조회 및 검색")
     @GetMapping("/client")
     public ApiResponse<List<ClientDto>> getOrSearchListClient(ClientSearchDto clientSearchDto) {
-        logger.info("거래처 리스트 조회 및 검색");
         int count = clientService.countGetOrSearchListClient(clientSearchDto);
         List<ClientDto> result = clientService.getOrSearchListClient(clientSearchDto);
 
@@ -47,7 +46,6 @@ public class ClientController {
     @Operation(summary = "거래처 개별 조회")
     @GetMapping("/client/{clientUniqId}")
     public ApiResponse<ClientDto> getOneClient(@PathVariable String clientUniqId) {
-        logger.info("거래처 개별 조회");
         ClientDto result = clientService.getOneClient(clientUniqId);
         return new ApiResponse<>(result, 0, "거래처 개별 조회 성공");
     }
@@ -56,7 +54,6 @@ public class ClientController {
     @Operation(summary = "거래처 등록", description = "필수입력: 거래처명, 구분코드, 대표자명,")
     @PostMapping("/client")
     public ApiResponse<String> registerClient(@RequestBody ClientDto clientDto) {
-        logger.info("거래처 등록");
         int result = clientService.registerClient(clientDto);
         if(result == 1)
             return new ApiResponse<>("거래처 등록 성공");
@@ -68,7 +65,6 @@ public class ClientController {
     @GetMapping("/client/biznumber")
     public ApiResponse<String> checkBizNumber(String bizNumber)
     {
-        logger.info("사업자등록번호 중복 체크");
         boolean isExist = clientService.checkBizNumber(bizNumber);
         if (isExist)
             return new ApiResponse<>("사업자등록번호 중복");
@@ -79,7 +75,6 @@ public class ClientController {
     @Operation(summary = "거래처 확인 및 수정", description = "필수입력: 거래처명, 구분코드, 대표자명. / 수정시 담당자 추가/삭제도 확인 필요")
     @PutMapping("/client")
     public ApiResponse<String> updateClient(@RequestBody ClientDto clientDto) {
-        logger.info("거래처 수정");
         int result = clientService.updateClient(clientDto);
         if(result == 1)
             return new ApiResponse<>("거래처 수정 성공");
@@ -90,7 +85,6 @@ public class ClientController {
     @Operation(summary = "거래처 삭제", description = "삭제해도 db에는 남아있고 is_used = 'N'으로 변경됨.")
     @DeleteMapping("/client")
     public ApiResponse<String> deleteClient(@RequestBody String clientUniqId) {
-        logger.info("거래처 삭제");
         int result = clientService.deleteClient(clientUniqId);
         if(result == 1)
             return new ApiResponse<>("거래처 삭제 성공");
@@ -102,7 +96,6 @@ public class ClientController {
     @Operation(summary = "거래처 리스트 엑셀 다운로드")
     @GetMapping("/client/excel")
     public ResponseEntity<Object> downloadExcelClientList(@RequestBody(required = false) List<ClientDto> clientDtoList) throws IOException {
-        logger.info("거래처 리스트 엑셀 다운로드");
         if(clientDtoList == null)
             clientDtoList = clientService.getOrSearchListClient(new ClientSearchDto());
 

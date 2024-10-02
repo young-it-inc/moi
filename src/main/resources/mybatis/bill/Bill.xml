@@ -3,6 +3,7 @@
 
 <mapper namespace="com.youngit.office.api.bill.mapper.BillMapper">
 
+    <!-- 검색 조건 -->
     <sql id="searchBill">
         <if test="searchKey != null and searchKey !=''">
         <choose>

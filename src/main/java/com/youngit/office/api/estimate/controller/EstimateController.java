@@ -41,16 +41,20 @@ public class EstimateController {
     @Operation(summary = "견적서 리스트 조회 및 검색")
     @GetMapping("/estimate")
     public ApiResponse<List<EstimateDto>> getOrSearchListEstimate(EstimateSearchDto estimateSearchDto) {
-        logger.info("견적서 리스트 조회 및 검색");
-        int count = estimateService.countGetOrSearchListEstimate(estimateSearchDto);
-        List<EstimateDto> result = estimateService.getOrSearchListEstimate(estimateSearchDto);
-        return new ApiResponse<>(result, 0, "견적서 리스트 조회 및 검색 완료", count);
+        long start = System.currentTimeMillis();
+        try {
+            int count = estimateService.countGetOrSearchListEstimate(estimateSearchDto);
+            List<EstimateDto> result = estimateService.getOrSearchListEstimate(estimateSearchDto);
+            return new ApiResponse<>(result, 0, "견적서 리스트 조회 및 검색 완료", count);
+        } finally {
+            long end = System.currentTimeMillis();
+            logger.info("견적서 리스트 조회 및 검색 소요시간: " + (end - start) + "ms");
+        }
     }
 
     @Operation(summary = "견적서 개별 조회")
     @GetMapping("/estimate/{estimateUniqNo}")
     public ApiResponse<EstimateDto> getListEstimate(String estimateUniqNo) {
-        logger.info("견적서 개별 조회");
         EstimateDto result = estimateService.getOneEstimate(estimateUniqNo);
         return new ApiResponse<>(result, 0, "견적서 개별 조회 완료");
     }
@@ -65,7 +69,6 @@ public class EstimateController {
     @Operation(summary = "견적서 등록 완료: 일반, 지자체")
     @PostMapping("/estimate/register")
     public ApiResponse<String> registerEstimate(EstimateDto estimateDto) {
-        logger.info("견적서 등록 완료");
         int result = estimateService.registerEstimate(estimateDto);
         if(result == 1)
             return new ApiResponse<>("견적서 등록 성공");
@@ -76,7 +79,6 @@ public class EstimateController {
     @Operation(summary = "견적서 수정")
     @PutMapping("/estimate")
     public ApiResponse<String> updateEstimate(EstimateDto estimateDto) {
-        logger.info("견적서 수정");
         int result = estimateService.updateEstimate(estimateDto);
         if (result == 2) //? list가 null이라면?
             return new ApiResponse<>("견적서 수정 성공");
@@ -87,7 +89,6 @@ public class EstimateController {
     @Operation(summary = "견적서 삭제")
     @DeleteMapping("/estimate")
     public ApiResponse<String> deleteEstimate(String estimateUniqNo) {
-        logger.info("견적서 삭제");
         int result = estimateService.deleteEstimate(estimateUniqNo);
         if(result == 1)
             return new ApiResponse<>("견적서 삭제 성공");
@@ -95,10 +96,9 @@ public class EstimateController {
             return new ApiResponse<>("견적서 삭제 실패");
     }
 
-    @Operation(summary = "견적서 계약 진행 버튼")
+    @Operation(summary = "견적서 계약 진행 버튼(계약서 미완성 상태)")
     @GetMapping("/estimate/contract")
     public ApiResponse<String> registerEstimateContract(EstimateDto estimateDto) {
-        logger.info("견적서 계약 진행 (계약서 미완성 상태)");
         int result = estimateService.registerEstimateContract(estimateDto); //계약번호 전달
         if(result == 1)
             return new ApiResponse<>("계약 진행 성공");
@@ -145,10 +145,9 @@ public class EstimateController {
 
 
 
-    @Operation(summary = "견적서 엑셀파일 첨부 이메일 발송 버튼") //업로드 된 견적서 있다면 업로드 파일 우선 발송, 없다면 등록된 견적서 발송
+    @Operation(summary = "견적서 이메일 발송 버튼: 엑셀파일 첨부") //업로드 된 견적서 있다면 업로드 파일 우선 발송, 없다면 등록된 견적서 발송
     @PostMapping("/estimate/email")
     public ApiResponse<String> sendEmailEstimate(EstimateDto estimateDto) {
-        logger.info("견적서 이메일 발송");
         int result = estimateService.sendEmailEstimate(estimateDto);
         if(result == 1)
             return new ApiResponse<>("이메일 발송 완료", 0);
@@ -160,7 +159,6 @@ public class EstimateController {
     @Operation(summary = "견적서 리스트 엑셀 다운로드")
     @GetMapping("/estimate/excel")
     public ResponseEntity<Object> downloadExcelEstimateList(@RequestBody(required = false) List<EstimateDto> estimateDtoList) throws IOException {
-        logger.info("견적서 리스트 엑셀 다운로드");
         //엑셀 파일 생성
         byte[] excelFile = estimateService.generateExcelEstimateList(estimateDtoList);
         // HTTP 헤더 설정

@@ -3,7 +3,9 @@
 
 <mapper namespace="com.youngit.office.api.as.mapper.AsMapper">
 
-    <sql id=""> </sql>
+    <!-- 검색 조건 -->
+    <sql id=""></sql>
+
     <!-- AS 리스트 + 상태별 조회 및 검색 -->
     <select id="getOrSearchListAs" parameterType="AsSearchDto" resultType="AsModel">
     SELECT *
@@ -86,7 +88,7 @@
         </if>
     </select>
 
-    <!-- AS 고객 상세 조회 -->
+    <!-- AS 개별 조회 -->
     <select id="getOneAs" resultType="AsModel">
     SELECT *
     FROM o_as

@@ -12,8 +12,6 @@ import com.youngit.office.configuration.jwt.JwtTokenProvider;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestAttributes;
@@ -30,7 +28,7 @@ public class MemberController {
     //직원, 협력사원, 관리자: 조회, 검색, 등록, 수정, 탈퇴
     //탈퇴회원: 조회(회원유형, 아이디, 이름, 전화번호, 이메일, 거래처, 직책, 업무), 검색, 복구
 
-    private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
+
 
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -51,7 +49,6 @@ public class MemberController {
     @Operation(summary = "회원 리스트 조회 및 검색")
     @GetMapping("/api/member")
     public ApiResponse<List<MemberDto>> getOrSearchListMember(MemberSearchDto memberSearchDto) {
-        logger.info("회원 리스트 조회 및 검색");
         int count = memberService.countGetOrSearchListMember(memberSearchDto);
         List<MemberDto> result = memberService.getOrSearchListMember(memberSearchDto);
         return new ApiResponse<>(result, 0, "회원 리스트 조회 완료", count);
@@ -62,7 +59,6 @@ public class MemberController {
     @GetMapping("/api/member/{memberId}")
     public ApiResponse<MemberDto> getOneMember(@PathVariable String memberId)
     {
-        logger.info("회원 개별 조회");
         MemberDto result = memberService.getOneMember(memberId);
         return new ApiResponse<>(result, 0, "회원 개별 조회 완료");
     }
@@ -70,7 +66,6 @@ public class MemberController {
     @Operation(summary = "회원 등록")
     @PostMapping("/api/member")
     public ApiResponse<String> registerMember(@RequestBody MemberDto memberDto) {
-        logger.info("회원 등록");
         int result = memberService.registerMember(memberDto);
         return new ApiResponse<>("회원 생성 성공");
     }
@@ -78,7 +73,6 @@ public class MemberController {
     @Operation(summary = "아이디 중복 체크", description = "")
     @GetMapping("api/member/idCheck/{id}")
     public ApiResponse<String> checkMemberId(@PathVariable String id) {
-        logger.info("아이디 중복 체크");
         String message = memberService.checkDuplicateMemberId(id);
         return new ApiResponse<>(message);
     }
@@ -87,7 +81,6 @@ public class MemberController {
     @Operation(summary = "회원정보 수정")
     @PutMapping("/api/member")
     public ApiResponse<String> updateMember(@RequestBody MemberDto memberDto) {
-        logger.info("회원정보 수정");
         int result = memberService.updateMember(memberDto);
         return new ApiResponse<>("회원정보 수정 성공");
     }
@@ -96,7 +89,6 @@ public class MemberController {
     @PutMapping("/api/member/changepassword")
     public ApiResponse<String> changePassword(MemberDto memberDto)
     {
-        logger.info("비밀번호 변경");
         String result = memberService.changePassword(memberDto);
         return new ApiResponse<>(result);
     }
@@ -106,7 +98,6 @@ public class MemberController {
     @Operation(summary = "회원 삭제")
     @DeleteMapping("/api/member/{memberId}")
     public ApiResponse<String> deleteMember(@PathVariable String memberId) {
-        logger.info("회원 삭제");
         int result = memberService.deleteMember(memberId);
         return new ApiResponse<>("회원 삭제 성공");
     }
@@ -114,7 +105,6 @@ public class MemberController {
     @Operation(summary = "로그인")
     @PostMapping("/api/login")
     public ApiResponse<MemberDto> login(@RequestBody MemberDto memberDto) {
-        logger.info("로그인");
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         String clientIp = (String) Objects.requireNonNull(attributes).getAttribute("clientIp", RequestAttributes.SCOPE_REQUEST);
         MemberDto result = memberService.login(memberDto);
@@ -154,7 +144,6 @@ public class MemberController {
     @Operation(summary = "권한 설정")
     @PostMapping("/api/authority/{memberId}")
     public ApiResponse<String> authority(@PathVariable String memberId) {
-        logger.info("권한 설정");
         return new ApiResponse<>("권한 설정 성공");
     }
 

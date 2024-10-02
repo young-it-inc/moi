@@ -3,28 +3,39 @@
 
 <mapper namespace="com.youngit.office.api.installer.mapper.InstallerMapper">
 
+    <!-- 설치팀 최초계약 리스트 조회 및 검색 -->
     <select id="getOrSearchListInstaller" resultType="InstallerModel">
         select *
         from o_installer
 
     </select>
 
+    <!-- 설치팀 최초계약 리스트 조회 및 검색 카운트 -->
     <select id="countGetOrSearchListInstaller" resultType="int">
     </select>
 
+    <!-- 설치팀 최초계약 개별 조회 -->
     <select id="getOneInstaller" resultType="InstallerModel">
     </select>
 
 
+    <!-- 설치팀 최초계약 등록 -->
     <insert id="registerInstaller" parameterType="InstallerModel">
         INSERT INTO o_installer()
         VALUES()
     </insert>
 
+    <!-- 설치팀 최초계약 수정 -->
     <update id="updateInstaller" parameterType="InstallerModel">
         UPDATE o_installer
         SET
 
+    </update>
+
+    <!-- 설치팀 최초계약 삭제(사실상 수정) -->
+    <update id="deleteInstaller" parameterType="String">
+        UPDATE o_installer
+        SET
     </update>
 
 

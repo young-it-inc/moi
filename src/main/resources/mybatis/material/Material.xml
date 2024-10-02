@@ -3,23 +3,33 @@
 
 <mapper namespace="com.youngit.office.api.material.mapper.MaterialMapper">
 
+    <!-- 검색 조건 -->
+    <sql id="searchMaterial">
+
+    </sql>
+
+    <!-- 자재 리스트 조회 및 검색 -->
     <select id="getOrSearchListMaterial" parameterType="materialSearchDto" resultType="MaterialModel">
         SELECT *
         FROM o_material
         WHERE is_used = 'Y'
     </select>
+
+    <!-- 자재 리스트 조회 및 검색 카운트 -->
     <select id="countGetOrSearchListMaterial" parameterType="materialSearchDto" resultType="int">
         SELECT COUNT(*)
         FROM o_material
         WHERE is_used = 'Y'
     </select>
 
+    <!-- 자재 개별 조회 -->
     <select id="getOneMaterial" resultType="MaterialModel">
         SELECT *
         FROM o_material
         WHERE material_uniq_id = #{materialUniqId}
     </select>
 
+    <!-- 자재 등록 -->
     <insert id="registerMaterial" parameterType="MaterialModel">
         INSERT INTO o_material (material_uniq_id, asset_sort_code, product_sort_code, material_name, material_standard,
                                 material_unit, material_unit_price,
@@ -29,12 +39,14 @@
                CURRENT_TIMESTAMP(3), #{createdByMemberUniqId}, CURRENT_TIMESTAMP(3), #{updatedByMemberUniqId},'Y')
     </insert>
 
+    <!-- 최근 자재 고유ID 조회 -->
     <select id="getLastMaterialUniqId" resultType="String">
         SELECT MAX(material_uniq_id)
         FROM o_material
         -- where is_used = 'Y'
     </select>
 
+    <!-- 자재 수정 -->
     <update id="updateMaterial" parameterType="MaterialModel">
         UPDATE o_material
         SET
@@ -60,6 +72,7 @@
             updated_by_member_uniq_id = #{updatedByMemberUniqId}
     </update>
 
+    <!-- 자재 삭제 -->
     <update id="deleteMaterial" parameterType="String"> --사실상 update
         UPDATE o_material
         SET is_used = 'N'

@@ -3,6 +3,28 @@
 
 <mapper namespace="com.youngit.office.api.log.mapper.LogMapper">
 
+    <!-- 로그 검색 조건 -->
+    <sql id="searchLog">
+
+    </sql>
+
+    <!-- 로그 조회 및 검색 -->
+    <select id="getLogList" resultType="LogModel">
+        SELECT
+            log_type,
+            method,
+            url,
+            client_id,
+            client_ip,
+            info,
+            created_at
+        FROM
+            o_log
+        ORDER BY
+            created_at DESC
+    </select>
+
+    <!-- 로그 등록 -->
     <insert id="insertLog" parameterType="LogModel">
         INSERT INTO o_log(
             log_type,

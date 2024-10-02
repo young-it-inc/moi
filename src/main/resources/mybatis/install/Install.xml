@@ -3,6 +3,12 @@
 
 <mapper namespace="com.youngit.office.api.install.mapper.InstallMapper">
 
+    <!-- 검색 조건 -->
+    <sql id="searchInstall">
+
+    </sql>
+
+    <!-- 설치 리스트 + 상태별 조회 및 검색 -->
     <select id="getOrSearchListInstall" parameterType="InstallSearchDto" resultType="InstallModel">
         SELECT *
         FROM o_install
@@ -42,6 +48,8 @@
             </choose>
         </if>
     </select>
+
+    <!-- 설치 리스트 + 상태별 조회 및 검색 카운트 -->
     <select id="countGetOrSearchListInstall" parameterType="InstallSearchDto" resultType="int">
         SELECT count(*)
         FROM o_install
@@ -82,18 +90,21 @@
         </if>
     </select>
 
+    <!-- 설치 개별 조회 -->
     <select id="getOneInstall" resultType="InstallModel">
         SELECT *
         FROM o_install
         WHERE install_uniq_id = #{installUniqId}
     </select>
 
+    <!-- 최근 설치 고유ID 조회 -->
     <select id="getLastInstallUniqId" resultType="InstallModel">
         SELECT MAX(install_uniq_id)
         FROM o_install
        -- where is_used = 'Y'
     </select>
 
+    <!-- 설치 등록 -->
     <insert id="registerInstall" parameterType="InstallModel">
         INSERT INTO o_install(install_uniq_id, contract_uniq_no, client_uniq_id, sub_client_uniq_id, install_contract_idx,
                               client_builder_id, office_id, customer_number, customer_name, customer_address,
@@ -124,6 +135,7 @@
                 #{deductionYearMonth}, #{deductionAmount}, #{dedctionReason}, #{inspectionDate}, #{isUsed})
     </insert>
 
+    <!-- 설치 수정 -->
     <update id="updateInstall" parameterType="InstallModel">
         UPDATE o_install
         SET
@@ -164,6 +176,7 @@
         where contract_uniq_no = #{contractUniqNo}
     </update>
 
+    <!-- 설치 삭제(사실상 수정) -->
     <update id="deleteInstall" parameterType="String">
         UPDATE o_install
         SET is_used = 'N'

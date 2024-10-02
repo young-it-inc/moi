@@ -3,18 +3,21 @@
 
 <mapper namespace="com.youngit.office.api.file.mapper.FileMapper">
 
+    <!-- 파일 등록 -->
     <insert id="insertFile" parameterType="FileModel">
     INSERT INTO o_file (file_uniq_id, file_name, file_path, file_size, create_at, update_at)
     VALUES (#{fileUniqId}, #{fileName}, #{filePath},  #{fileSize}, CURRENT_TIMESTAMP(3), CURRENT_TIMESTAMP(3))
 </insert>
 
+    <!-- 파일 수정 -->
     <update id="updateFile" parameterType="FileModel">
 
     </update>
 
-<delete id="deleteFile" parameterType="String">
+    <!-- 파일 삭제 -->
+    <delete id="deleteFile" parameterType="String">
     DELETE FROM o_file
     WHERE file_uniq_id = #{fileUniqId}
-</delete>
+    </delete>
 
 </mapper>

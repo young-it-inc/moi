@@ -1,6 +1,7 @@
 package com.youngit.office.api.contract.controller;
 
 import com.youngit.office.api.contract.dto.ContractDto;
+import com.youngit.office.api.contract.dto.ContractProductDto;
 import com.youngit.office.api.contract.dto.ContractSearchDto;
 import com.youngit.office.api.contract.service.ContractService;
 import com.youngit.office.api.http.ApiResponse;
@@ -35,8 +36,7 @@ public class ContractController {
 
     @Operation(summary = "계약 리스트 조회 및 검색")
     @GetMapping("/contract")
-    public ApiResponse<List<ContractDto>> getOrSearchListGeneralContract(ContractSearchDto contractSearchDto) {
-        logger.info("계약 리스트 조회 및 검색");
+    public ApiResponse<List<ContractDto>> getOrSearchListContract(ContractSearchDto contractSearchDto) {
         int count = contractService.countGetOrSearchListContract(contractSearchDto);
         List<ContractDto> result = contractService.getOrSearchListContract(contractSearchDto);
         return new ApiResponse<>(result, 0, "계약 리스트 조회 및 검색 완료", count);
@@ -44,10 +44,16 @@ public class ContractController {
 
     @Operation(summary = "계약 개별 조회")
     @GetMapping("/contract/{contractUniqNo}")
-    public ApiResponse<ContractDto> getOneGeneralContract(@PathVariable String contractUniqNo) {
-        logger.info("계약 개별 조회");
+    public ApiResponse<ContractDto> getOneContract(@PathVariable String contractUniqNo) {
         ContractDto result = contractService.getOneContract(contractUniqNo);
         return new ApiResponse<>(result, 0, "계약 개별 조회 완료");
+    }
+
+    @Operation(summary = "계약 개별 품목 조회")
+    @GetMapping("/contract/product/{contractUniqNo}")
+    public ApiResponse<List<ContractProductDto>> getOneContractProduct(@PathVariable String contractUniqNo) {
+        List<ContractProductDto> result = contractService.getOneContractProductList(contractUniqNo);
+        return new ApiResponse<>(result, 0, "계약 개별 품목 조회 완료");
     }
 
 
@@ -61,7 +67,6 @@ public class ContractController {
     @Operation(summary = "계약 등록 완료 버튼", description = "필수입력: 계약주체, 계약번호(자동입력), 계약명, 계약분류, 거래처")
     @PostMapping("/contract")
     public ApiResponse<String> registerGeneralContract(@RequestBody ContractDto contractDto) {
-        logger.info("계약 등록 완료");
         int result = contractService.registerContract(contractDto);
         if (result == 3)
             return new ApiResponse<>("계약 등록 성공");
@@ -73,7 +78,6 @@ public class ContractController {
     @Operation(summary = "계약 수정")
     @PutMapping("/contract")
     public ApiResponse<String> updateGeneralContract(ContractDto contractDto) {
-        logger.info("계약 수정");
         int result = contractService.updateContract(contractDto);
         if (result == 3) //? list가 null이라면?
             return new ApiResponse<>("계약 수정 성공");
@@ -84,7 +88,6 @@ public class ContractController {
     @Operation(summary = "계약 삭제")
     @DeleteMapping("/contract")
     public ApiResponse<String> deleteGeneralContract(String contractUniqNo) {
-        logger.info("계약 삭제");
         int result = contractService.deleteContract(contractUniqNo);
         if (result == 1) {
             return new ApiResponse<>("계약 삭제 성공");
@@ -96,7 +99,6 @@ public class ContractController {
     @Operation(summary = "계약 리스트 엑셀 다운로드")
     @GetMapping("/contract/excel/download")
     public ResponseEntity<Object> downloadExcelContractList(@RequestBody(required = false) List<ContractDto> contractDtoList) throws IOException {
-        logger.info("계약서 리스트 엑셀 다운로드");
         //엑셀 파일 생성
         byte[] excelFile = contractService.generateExcelEstimateList(contractDtoList);
         // HTTP 헤더 설정
@@ -111,6 +113,7 @@ public class ContractController {
     @GetMapping("/contract/sms")
     public ResponseEntity<String> sendSms()
     {
+        //tarckingNo 있다면 문자 발송 가능
         return new ResponseEntity<>("송장번호 문자 발송 완료", HttpStatus.OK);
     }
 }

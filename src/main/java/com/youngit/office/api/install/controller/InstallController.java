@@ -35,7 +35,6 @@ public class InstallController {
     @Operation(summary = "설치 리스트 + 상태별 조회")
     @GetMapping("/install")
     public ApiResponse<List<InstallDto>> getOrSearchListInstall(InstallSearchDto installsearchDto) {
-        logger.info("설치 리스트 + 상태별 조회");
         int count = installService.countGetOrSearchListInstall(installsearchDto);
         List<InstallDto> result = installService.getOrSearchListInstall(installsearchDto);
         return new ApiResponse<>(result, 0, "설치 리스트 조회 및 검색 완료", count);
@@ -44,7 +43,6 @@ public class InstallController {
     @Operation(summary = "설치 개별 조회")
     @GetMapping("/install/{installUniqId}")
     public ApiResponse<InstallDto> getOneInstall(String installUniqId) {
-        logger.info("설치 개별 조회");
         InstallDto result = installService.getOneInstall(installUniqId);
         return new ApiResponse<>(result, 0, "설치 개별 조회 완료");
     }
@@ -142,7 +140,6 @@ public class InstallController {
     @Operation(summary = "설치 리스트 엑셀 다운로드")
     @GetMapping("/install/listexcel")
     public ResponseEntity<Object> downloadExcelInstallList(@RequestBody(required = false) List<InstallDto> installDtoList) throws IOException {
-        logger.info("설치 리스트 엑셀 다운로드");
         //엑셀 파일 생성
         byte[] excelFile = installService.generateExcelInstallList(installDtoList);
         // HTTP 헤더 설정

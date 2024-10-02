@@ -38,6 +38,7 @@ dependencies {
     implementation 'org.springframework.session:spring-session-jdbc'
 
 
+    implementation 'org.springframework.boot:spring-boot-starter-aop' //aop
 
     //lombok
     compileOnly 'org.projectlombok:lombok'
@@ -73,7 +74,10 @@ dependencies {
     implementation 'javax.mail:javax.mail-api:1.6.2' // javaMail API
     implementation 'com.sun.mail:javax.mail:1.6.2'  // javaMail 구현체
 
+}
 
+configurations.all { //시작시 충돌방지 : Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+    exclude group: 'commons-logging', module: 'commons-logging'
 }
 
 tasks.named('test') {

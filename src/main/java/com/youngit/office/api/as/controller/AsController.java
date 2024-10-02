@@ -41,7 +41,6 @@ public class AsController {
     @Operation(summary = "AS 리스트 + 상태별 조회")
     @GetMapping("/as")
     public ApiResponse<List<AsDto>> getOrSearchListAs(AsSearchDto asSearchDto) {
-        logger.info("AS 리스트 + 상태별 조회");
         int count = asService.countGetOrSearchListAs(asSearchDto);
         List<AsDto> result = asService.getOrSearchListAs(asSearchDto);
         return new ApiResponse<>(result, 0, "as 리스트 조회 완료", count);
@@ -50,7 +49,6 @@ public class AsController {
     @Operation(summary = "AS 개별 조회")
     @GetMapping("/as/{asUniqId}")
     public ApiResponse<AsDto> getOneAs(String asUniqId) {
-        logger.info("AS 개별 조회");
         AsDto result = asService.getOneAs(asUniqId);
         return new ApiResponse<>(result, 0, "as 개별 조회 완료");
     }
@@ -127,7 +125,6 @@ public class AsController {
     @Operation(summary = "AS 리스트 엑셀 다운로드")
     @GetMapping("/as/downloadexcel")
     public ResponseEntity<Object> downloadExcelInstallList(@RequestBody(required = false) List<AsDto> asDtoList) throws IOException {
-        logger.info("AS 리스트 엑셀 다운로드");
         //엑셀 파일 생성
         byte[] excelFile = asService.generateExcelAsList(asDtoList);
         // HTTP 헤더 설정

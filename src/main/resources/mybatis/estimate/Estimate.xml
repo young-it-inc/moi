@@ -3,6 +3,11 @@
 
 <mapper namespace="com.youngit.office.api.estimate.mapper.EstimateMapper">
 
+    <!-- 검색 조건 -->
+    <sql id="searchEstimate">
+    </sql>
+
+    <!-- 견적서 리스트 조회 및 검색 -->
     <select id="getOrSearchListEstimate" resultType="EstimateModel">
         SELECT *
         FROM o_estimate
@@ -10,32 +15,35 @@
         ORDER BY estimate_uniq_no DESC
     </select>
 
+    <!-- 견적서 리스트 조회 및 검색 카운트 -->
     <select id="countGetOrSearchListEstimate" resultType="int">
         SELECT COUNT(*)
         FROM o_estimate
         where is_used = 'Y'
     </select>
 
+    <!-- 견적서 개별 조회 -->
     <select id="getOneEstimate" resultType="EstimateModel">
         SELECT *
         FROM o_estimate
         WHERE estimate_uniq_no = #{estimate_uniq_no}
     </select>
 
+    <!-- 견적 제품 리스트 조회 -->
     <select id="getEstimateProductList" resultType="EstimateProductModel">
         SELECT *
         FROM o_estimate_product
         WHERE estimate_uniq_no = #{estimateUniqNo}
     </select>
 
-
+    <!-- 최근 견적 고유번호 조회 -->
     <select id="getLastEstimateUniqNo" resultType="String">
         SELECT MAX(estimate_uniq_no)
         FROM o_estimate
         where estimate_uniq_no like CONCAT(#{todayDate}, '%')
-
     </select>
 
+    <!-- 견적서 등록 -->
     <insert id="registerEstimate" parameterType="EstimateModel">
 insert into o_estimate (estimate_uniq_no, client_name, estimate_main,
                         estimate_main_etc, estimate_name, estimate_method, estimate_code, estimate_quantity,
@@ -47,6 +55,7 @@ values (#{estimateUniqNo}, #{clientName}, #{estimateMain},
         #{createdByUserId}, CURRENT_TIMESTAMP(3), #{updatedByUserId}, 'Y')
     </insert>
 
+    <!-- 견적서 수정 -->
     <update id="updateEstimate" parameterType="EstimateModel">
         UPDATE o_estimate
         SET
@@ -63,17 +72,15 @@ values (#{estimateUniqNo}, #{clientName}, #{estimateMain},
             estimate_name = #{estimateName}
         </if>
 
-
     WHERE
         estimate_uniq_no = #{estimateUniqNo}
     </update>
 
+    <!-- 견적서 삭제 (사실상 수정) -->
     <delete id="deleteEstimate" parameterType="String">
         UPDATE o_estimate
         SET is_used = 'N'
         WHERE estimate_uniq_no = #{estimateUniqNo}
     </delete>
-
-
 
 </mapper>
